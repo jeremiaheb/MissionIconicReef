@@ -1,0 +1,115 @@
+---
+title: "Mission: Iconic Reef"
+author: "[Jeremiah Blondeau](https://github.com/jeremiaheb)"
+date: "`r format(Sys.time(), '%d %B %Y')`"
+mail: "jeremiah.blondeau@noaa.gov"
+github: "jeremiaheb"
+logo: "noaa_logo.png"
+output:
+  ProjectTemplates::Personal:
+    toc: TRUE
+    number_sections: FALSE
+    code_folding: "hide"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(warning = FALSE, message = FALSE)
+# Needed Libraries
+library(rvc)
+library(tidyverse)
+library(DT)
+library(here)
+
+# Source Plotting Functions
+setwd(here())
+source('docs/code/labeler.R')
+source('docs/code/QL_binned_LengthFreq.R')
+source('docs/code/theme_publication.R')
+source('docs/code/WrapperFunctions.R')
+source('docs/code/MIR_Plot_functions.R')
+
+# Read in MIR data set
+MIR_2022 <- readRDS("data/MIR_Dataset.rds")
+```
+
+## The Data
+
+This data set represents 400 sample locations in the Florida Keys subjurisdiction. Only those strata types found within the MIR areas were considered (table 1).
+
+```{r echo=FALSE}
+table <-  MIR_2022$sample_data %>%
+            group_by(PROT, STRAT) %>%
+            summarise(n = length(unique(PRIMARY_SAMPLE_UNIT))) %>%
+            mutate(description = case_when(
+              STRAT == "S03" ~ "mid-channel patch reefs, all depths",
+              STRAT == "S05" ~ "offshore patch and forereef, low rugosity, <12m",
+              STRAT == "S06" ~ "offshore patch and forereef, high rugosity, <12m"
+            )) %>%
+            mutate(PROT = case_when(
+              PROT == 0 ~ "Outside",
+              PROT == 1 ~ "Inside"
+            )) %>% 
+            select(PROT, STRAT, description, n) %>%
+            ungroup()
+
+datatable(table, 
+          class = "cell-border stripe", 
+          rownames = FALSE,
+          colnames = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
+          caption = "Table 1. Number of sites sampled.",
+          options = list(
+            columnDefs = list(list(className = 'dt-center', targets = "_all")),
+            info = FALSE,
+            paging = FALSE,
+            searching = FALSE
+          ))
+
+```
+
+## Fish Species
+
+```{r echo=FALSE}
+spp_list <- tribble(
+  ~SPECIES_CD, ~CommonName, ~SciName,
+  "HAE FLAV", "French grunt", "Haemulon flavolineatum",
+  "SPA VIRI", "Stoplight parrotfish", "Sparisoma viride",
+  "SCA GUAC", "Rainbow parrotfish", "Scarus guacamaia", 
+  "STE PLAN", "3-spot damselfish", "Stegastes planifrons",
+  "CAL CALA", "Porgy", "Calamus calamus",
+  "CAL NODO", "Porgy", "Calamus nodosus"
+) %>%
+as.data.frame()
+
+datatable(spp_list,
+          class = "cell-border stripe",
+          rownames = FALSE,
+          colnames = c("Species Code", "Common Name", "Scientific Name"),
+          caption = "Table 2. Fish species.  For analysis, both porgy species were combined ",
+          options = list(
+            columnDefs = list(list(className = 'dt-center', targets = "_all")),
+            info = FALSE,
+            paging = FALSE,
+            searching = FALSE
+          )) %>%
+          formatStyle(columns = "SciName", fontStyle = "italic" )
+```
+
+## Density
+```{r echo=FALSE}
+MIR_domain_dens_barplot(MIR_2022, species = spp_list)
+```
+
+## Occurrence
+```{r echo=FALSE}
+MIR_domain_occ_barplot(MIR_2022, species = spp_list)
+```
+
+## Length Frequency
+```{r, fig.show="hold", out.width="50%", echo=FALSE}
+MIR_LF(df = MIR_2022, spp = "hae flav", bin_size = 5, spp_name = "French grunt")
+MIR_LF(df = MIR_2022, spp = "spa viri", bin_size = 5, spp_name = "Stoplight parrotfish")
+MIR_LF(df = MIR_2022, spp = "sca guac", bin_size = 5, spp_name = "Rainbow parrotfish")
+MIR_LF(df = MIR_2022, spp = "ste plan", bin_size = 2, spp_name = "3-spot damselfish")
+```
+
+
