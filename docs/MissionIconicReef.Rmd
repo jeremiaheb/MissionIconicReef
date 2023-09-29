@@ -3,7 +3,7 @@ title: "Mission: Iconic Reef"
 author: "[Jeremiah Blondeau](https://github.com/jeremiaheb)"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "jeremiah.blondeau@noaa.gov"
-github: "jeremiaheb"
+github: "jeremiaheb/MissionIconicReef"
 logo: "noaa_logo.png"
 output:
   ProjectTemplates::Personal:
