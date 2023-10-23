@@ -18,23 +18,21 @@ knitr::opts_chunk$set(warning = FALSE, message = FALSE)
 library(rvc)
 library(tidyverse)
 library(DT)
-library(here)
 
 # Source Plotting Functions
-setwd(here())
-source('docs/code/labeler.R')
-source('docs/code/QL_binned_LengthFreq.R')
-source('docs/code/theme_publication.R')
-source('docs/code/WrapperFunctions.R')
-source('docs/code/MIR_Plot_functions.R')
+source('code/labeler.R', local = knitr::knit_global())
+source('code/QL_binned_LengthFreq.R', local = knitr::knit_global())
+source('code/theme_publication.R', local = knitr::knit_global())
+source('code/WrapperFunctions.R', local = knitr::knit_global())
+source('code/MIR_Plot_functions.R', local = knitr::knit_global())
 
 # Read in MIR data set
-MIR_2022 <- readRDS("data/MIR_Dataset.rds")
+MIR_2022 <- readRDS("../data/MIR_Dataset.rds")
 ```
 
 ## The Data
 
-This data set represents 400 sample locations in the Florida Keys subjurisdiction. Only those strata types found within the MIR areas were considered (table 1).
+This data set represents 400 sample locations in the Florida Keys sub-jurisdiction. Only those strata types found within the MIR areas were considered (table 1).
 
 ```{r echo=FALSE}
 table <-  MIR_2022$sample_data %>%
@@ -95,21 +93,22 @@ datatable(spp_list,
 ```
 
 ## Density
+
 ```{r echo=FALSE}
 MIR_domain_dens_barplot(MIR_2022, species = spp_list)
 ```
 
 ## Occurrence
+
 ```{r echo=FALSE}
 MIR_domain_occ_barplot(MIR_2022, species = spp_list)
 ```
 
 ## Length Frequency
+
 ```{r, fig.show="hold", out.width="50%", echo=FALSE}
 MIR_LF(df = MIR_2022, spp = "hae flav", bin_size = 5, spp_name = "French grunt")
 MIR_LF(df = MIR_2022, spp = "spa viri", bin_size = 5, spp_name = "Stoplight parrotfish")
 MIR_LF(df = MIR_2022, spp = "sca guac", bin_size = 5, spp_name = "Rainbow parrotfish")
 MIR_LF(df = MIR_2022, spp = "ste plan", bin_size = 2, spp_name = "3-spot damselfish")
 ```
-
-
