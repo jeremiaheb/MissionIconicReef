@@ -92,21 +92,22 @@ datatable(spp_list,
           formatStyle(columns = "SciName", fontStyle = "italic" )
 ```
 
+
 ## Density
 
-```{r echo=FALSE}
+```{r}
 MIR_domain_dens_barplot(MIR_2022, species = spp_list)
 ```
 
 ## Occurrence
 
-```{r echo=FALSE}
+```{r}
 MIR_domain_occ_barplot(MIR_2022, species = spp_list)
 ```
 
 ## Length Frequency
 
-```{r, fig.show="hold", out.width="50%", echo=FALSE}
+```{r, fig.show="hold", out.width="50%"}
 MIR_LF(df = MIR_2022, spp = "hae flav", bin_size = 5, spp_name = "French grunt")
 MIR_LF(df = MIR_2022, spp = "spa viri", bin_size = 5, spp_name = "Stoplight parrotfish")
 MIR_LF(df = MIR_2022, spp = "sca guac", bin_size = 5, spp_name = "Rainbow parrotfish")
