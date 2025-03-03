@@ -1,12 +1,12 @@
-MIR_domain_dens_barplot <- function(dataset, species, length = NULL, title = NULL) {
+MIR_domain_dens_barplot <- function(dataset, species, year = NULL, length = NULL, title = NULL) {
 
-  inside <-  getDomainDensity(dataset, species$SPECIES_CD, group = species, status = 1, length_bins = length) %>%
+  inside <-  getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
     mutate( SE   = sqrt(var),
             YEAR = as_factor(YEAR),
             protection = "M:IR") %>%
     filter(if(!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  out <-  getDomainDensity(dataset, species$SPECIES_CD, group = species, status = 0, length_bins = length) %>%
+  out <-  getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
     mutate( SE   = sqrt(var),
             YEAR = as_factor(YEAR),
             protection = "Outside") %>%
@@ -34,20 +34,20 @@ MIR_domain_dens_barplot <- function(dataset, species, length = NULL, title = NUL
     scale_x_discrete(labels = function(x) { sub("\\s","\n", x) }) +
     scale_y_continuous(expand = c(0,0), limits = c(0,yupper + yupper*.01)) +
     scale_fill_manual(values=c('springgreen3','deepskyblue4','gold1')) +
-    ylab("density ind/177m2")
+    ylab("Density ind/177m2")
 
   return(p)
 }
 
-MIR_domain_occ_barplot <- function(dataset, species, length = NULL, title = NULL) {
+MIR_domain_occ_barplot <- function(dataset, species, year = NULL, length = NULL, title = NULL) {
 
-  inside <-  getDomainOccurrence(dataset, species$SPECIES_CD, group = species, status = 1, length_bins = length) %>%
+  inside <-  getDomainOccurrence(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
     mutate( SE   = sqrt(var),
             YEAR = as_factor(YEAR),
             protection = "M:IR") %>%
     filter(if(!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  out <-  getDomainOccurrence(dataset, species$SPECIES_CD, group = species, status = 0, length_bins = length) %>%
+  out <-  getDomainOccurrence(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
     mutate( SE   = sqrt(var),
             YEAR = as_factor(YEAR),
             protection = "Outside") %>%
@@ -87,14 +87,30 @@ reorder_where <- function (x, by, where, fun = mean, ...) {
 
 MIR_LF <- function(df, spp, bin_size, yrs = NULL, spp_name) {
 
-  inside <- binned_LenFreq(d = df, spp = spp, bin_size = bin_size, st = 1, colName = "M:IR")
-  outside <- binned_LenFreq(d = df, spp = spp, bin_size = bin_size, st = 0, colName = "Outside")
+    x <- getDomainLengthFrequency(df, species = spp, merge_protected = F) %>%
+    group_by(YEAR, SPECIES_CD, protected_status) %>%
+    nest() %>%
+    mutate(Lf = map(data, ~ .x %>%
+                      data.frame() %>%
+                      full_join(., data.frame(length_class = seq(1,max(.$length_class),0.5))) %>%
+                      select(length_class, frequency) %>%
+                      replace(., is.na(.), 0) %>%
+                      mutate(bin= as.numeric(cut(length_class, seq(0,max(length_class) + 5,bin_size)))) %>%
+                      arrange(length_class) %>%
+                      group_by(bin) %>%
+                      summarise(freq = sum(frequency)))) %>%
+    unnest(Lf) %>%
+    select(YEAR, SPECIES_CD, protected_status, bin , freq) %>%
+    ungroup() %>%
+    mutate(value = freq, variable = if_else(protected_status == 1, "M:IR","open"))
 
-  l <- full_join(inside, outside) %>%
-    replace(., is.na(.), 0) %>%
-    pivot_longer(cols = -bin, names_to = "variable", values_to = "value") %>%
-    plot_bins(ttle = spp_name, bin_size = bin_size)
+    y <- x %>%
+      filter(YEAR == yrs) %>%
+      select(YEAR, SPECIES_CD, variable, bin, value) %>%
+      pivot_wider(names_from = bin, values_from = value, values_fill = 0) %>%
+      pivot_longer(!c(YEAR, SPECIES_CD, variable), names_to = "bin", values_to = "value") %>%
+      mutate(bin = as.numeric(bin))
 
-  return(l)
+    plot_bins(x = y, ttle = paste0(spp_name, " ", yrs), bin_size = bin_size)
 
 }

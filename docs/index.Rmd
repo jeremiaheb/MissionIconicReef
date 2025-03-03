@@ -27,21 +27,23 @@ source('code/WrapperFunctions.R', local = knitr::knit_global())
 source('code/MIR_Plot_functions.R', local = knitr::knit_global())
 
 # Read in MIR data set
-MIR_2022 <- readRDS("../data/MIR_Dataset.rds")
+MIR_data <- readRDS("../data/MIR_Dataset.rds")
 ```
 
 ## The Data
 
-This data set represents 400 sample locations in the Florida Keys sub-jurisdiction. Only those strata types found within the MIR areas were considered (table 1).
+This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).
 
 ```{r echo=FALSE}
-table <-  MIR_2022$sample_data %>%
+table <-  MIR_data$sample_data %>%
             group_by(PROT, STRAT) %>%
             summarise(n = length(unique(PRIMARY_SAMPLE_UNIT))) %>%
             mutate(description = case_when(
-              STRAT == "S03" ~ "mid-channel patch reefs, all depths",
-              STRAT == "S05" ~ "offshore patch and forereef, low rugosity, <12m",
-              STRAT == "S06" ~ "offshore patch and forereef, high rugosity, <12m"
+              STRAT == "FK01" ~ "inshore reefs, all depths",
+              STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
+              STRAT == "FK03" ~ "offshore patch, all depths",
+              STRAT == "FK04" ~ "forereef, low rugosity, <12m",
+              STRAT == "FK05" ~ "forereef, high rugosity, <12m"
             )) %>%
             mutate(PROT = case_when(
               PROT == 0 ~ "Outside",
@@ -96,20 +98,20 @@ datatable(spp_list,
 ## Density
 
 ```{r}
-MIR_domain_dens_barplot(MIR_2022, species = spp_list)
+MIR_domain_dens_barplot(MIR_data, year = 2022, species = spp_list)
 ```
 
 ## Occurrence
 
 ```{r}
-MIR_domain_occ_barplot(MIR_2022, species = spp_list)
+MIR_domain_occ_barplot(MIR_data, year = 2022, species = spp_list)
 ```
 
 ## Length Frequency
 
 ```{r, fig.show="hold", out.width="50%"}
-MIR_LF(df = MIR_2022, spp = "hae flav", bin_size = 5, spp_name = "French grunt")
-MIR_LF(df = MIR_2022, spp = "spa viri", bin_size = 5, spp_name = "Stoplight parrotfish")
-MIR_LF(df = MIR_2022, spp = "sca guac", bin_size = 5, spp_name = "Rainbow parrotfish")
-MIR_LF(df = MIR_2022, spp = "ste plan", bin_size = 2, spp_name = "3-spot damselfish")
+MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2022, spp_name = "French grunt")
+MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2022, spp_name = "Stoplight parrotfish")
+MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2022, spp_name = "Rainbow parrotfish")
+MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2022, spp_name = "3-spot damselfish")
 ```
