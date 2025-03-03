@@ -1,6 +1,6 @@
 ---
 title: "Mission: Iconic Reef"
-author: "[Jeremiah Blondeau](https://github.com/jeremiaheb)"
+author: "[Jeremiah Blondeau](https://github.com/jeremiaheb) + Rob Harper"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "jeremiah.blondeau@noaa.gov"
 github: "jeremiaheb/MissionIconicReef"
