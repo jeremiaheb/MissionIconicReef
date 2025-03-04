@@ -1,12 +1,12 @@
 MIR_domain_dens_barplot <- function(dataset, species, year = NULL, length = NULL, title = NULL) {
 
-  inside <-  getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
+  inside <-  getDomainDensity(dataset, species, years = year, status = 1, length_bins = length) %>%
     mutate( SE   = sqrt(var),
             YEAR = as_factor(YEAR),
             protection = "M:IR") %>%
     filter(if(!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  out <-  getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
+  out <-  getDomainDensity(dataset, species, years = year, status = 0, length_bins = length) %>%
     mutate( SE   = sqrt(var),
             YEAR = as_factor(YEAR),
             protection = "Outside") %>%
@@ -16,7 +16,7 @@ MIR_domain_dens_barplot <- function(dataset, species, year = NULL, length = NULL
 
   yupper <- max(a$density + a$SE)
 
-  p <- ggplot(a, aes(x=reorder_where(GROUP, -density, protection == "M:IR"), y=density, fill = protection)) +
+  p <- ggplot(a, aes(x = protection, y = density, fill = protection)) +
     geom_col(position = position_dodge(0.9),
              width = .8,
              color="black",
@@ -25,16 +25,17 @@ MIR_domain_dens_barplot <- function(dataset, species, year = NULL, length = NULL
                   position = position_dodge(0.9),
                   width = 0.15,
                   size = 0.5) +
-    ggtitle(title) +
-    theme_Publication(base_size = 20) +
+    ggtitle(species) +
+    theme_base(base_size = 15) +
     scale_color_Publication() +
     theme(legend.title = element_blank(),
           axis.title.x = element_blank(),
-          axis.text.x = element_text(size = 10)) +
+          axis.text.x = element_text(size = 10, angle = 45, hjust = 1)) +
     scale_x_discrete(labels = function(x) { sub("\\s","\n", x) }) +
     scale_y_continuous(expand = c(0,0), limits = c(0,yupper + yupper*.01)) +
     scale_fill_manual(values=c('springgreen3','deepskyblue4','gold1')) +
-    ylab("Density ind/177m2")
+    ylab("Density ind/177m2") +
+    facet_wrap(~YEAR, scales = "free_y")
 
   return(p)
 }
