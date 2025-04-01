@@ -1,6 +1,6 @@
 
 
-theme_Publication <- function(base_size=14, base_family="Calibri") {
+theme_Publication <- function(base_size=14, base_family="Arial") {
   library(grid)
   library(ggthemes)
   library(extrafont)
