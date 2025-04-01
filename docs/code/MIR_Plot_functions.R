@@ -36,51 +36,43 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
 }
 
 
-MIR_domain_occ_barplot <- function(dataset, species, year = NULL, length = NULL, title = NULL) {
+MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL, print_dataframe = FALSE) {
 
-  inside <-  getDomainOccurrence(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
-    mutate( SE   = sqrt(var),
-            YEAR = as_factor(YEAR),
-            protection = "M:IR") %>%
-    filter(if(!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
+  if (is.data.frame(species)) {
+    species <- species$SPECIES_CD
+  }
 
-  out <-  getDomainOccurrence(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
-    mutate( SE   = sqrt(var),
-            YEAR = as_factor(YEAR),
-            protection = "Outside") %>%
-    filter(if(!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
+  inside <- getDomainOccurrence(dataset, species, years = year, status = 1, length_bins = length) %>%
+    mutate(SE = sqrt(var),
+           YEAR = as_factor(YEAR),
+           protection = "M:IR") %>%
+    filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  a <- rbind(inside,out)
+  out <- getDomainOccurrence(dataset, species, years = year, status = 0, length_bins = length) %>%
+    mutate(SE = sqrt(var),
+           YEAR = as_factor(YEAR),
+           protection = "Outside") %>%
+    filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  p <- ggplot(a, aes(x=reorder_where(GROUP, -occurrence, protection == "M:IR"), y=occurrence, fill = protection)) +
-    geom_col(position = position_dodge(0.9),
-             width = .8,
-             color="black",
-             size=.5) +
+  a <- rbind(inside, out)
+
+  p <- ggplot(a, aes(x = YEAR, y = occurrence, color = protection, group = protection)) +
+    geom_line(size = 1) +
+    geom_point(size = 2) +
     geom_errorbar(aes(ymin = occurrence - SE, ymax = occurrence + SE),
-                  position = position_dodge(0.9),
-                  width = 0.15,
-                  size = 0.5) +
+                  width = 0.25, size = 0.5) +
     ggtitle(title) +
-    theme_Publication(base_size = 20) +
-    scale_color_Publication() +
-    theme(legend.title = element_blank(),
-          axis.title.x = element_blank(),
-          axis.text.x = element_text(size = 10)) +
-    scale_x_discrete(labels = function(x) { sub("\\s","\n", x) }) +
-    scale_y_continuous(expand = c(0,0), limits = c(0,1)) +
-    scale_fill_manual(values=c('springgreen3','deepskyblue4','gold1')) +
-    ylab("Relative Occurrence")
+    theme_Publication(base_size = 15) +
+    scale_color_manual(name = "Protection Status",
+                       values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
+    theme(legend.text = element_text(size = 12)) +
+    xlab("Year") +
+    ylab("Relative Occurrence") +
+    facet_wrap(~ SPECIES_CD, scales = "free_y")
 
-  return(p)
+  if (print_dataframe) { print(list(a, p)) } else { print(p) }
 }
 
-reorder_where <- function (x, by, where, fun = mean, ...) {
-  xx <- x[where]
-  byby <- by[where]
-  byby <- tapply(byby, xx, FUN = fun, ...)[x]
-  reorder(x, byby)
-}
 
 MIR_LF <- function(df, spp, bin_size, yrs = NULL, spp_name) {
 
