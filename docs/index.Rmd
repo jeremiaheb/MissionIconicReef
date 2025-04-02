@@ -98,20 +98,39 @@ datatable(spp_list,
 ## Density
 
 ```{r}
-MIR_domain_dens_barplot(MIR_data, year = 2022, species = spp_list)
+
+MIR_domain_dens_by_year(MIR_data, spp_list)
+
 ```
 
 ## Occurrence
 
 ```{r}
-MIR_domain_occ_barplot(MIR_data, year = 2022, species = spp_list)
+MIR_domain_occ_by_year(MIR_data, spp_list)
 ```
 
-## Length Frequency
+## Length Frequency {.tabset}
 
-```{r, fig.show="hold", out.width="50%"}
+### French Grunt
+```{r, fig.show="hold", out.width="50%"} 
 MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2022, spp_name = "French grunt")
+MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2024, spp_name = "French grunt")
+```
+
+### Stoplight Parrotfish
+```{r, fig.show="hold", out.width="50%"} 
 MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2022, spp_name = "Stoplight parrotfish")
+MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2024, spp_name = "Stoplight parrotfish")
+```
+
+### Rainbow Parrotfish
+```{r, fig.show="hold", out.width="50%"} 
 MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2022, spp_name = "Rainbow parrotfish")
+MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2024, spp_name = "Rainbow parrotfish")
+```
+
+### 3-Spot Damselfish
+```{r, fig.show="hold", out.width="50%"} 
 MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2022, spp_name = "3-spot damselfish")
+MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2024, spp_name = "3-spot damselfish")
 ```
