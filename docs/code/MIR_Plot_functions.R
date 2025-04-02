@@ -1,43 +1,40 @@
-MIR_domain_dens_barplot <- function(dataset, species, year = NULL, length = NULL, title = NULL) {
+MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL, print_dataframe = FALSE) {
 
-  inside <-  getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
-    mutate( SE   = sqrt(var),
-            YEAR = as_factor(YEAR),
-            protection = "M:IR") %>%
-    filter(if(!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
+  if (is.data.frame(species)) {
+    species <- species$SPECIES_CD
+  }
+  inside <- getDomainDensity(dataset, species, years = year, status = 1, length_bins = length) %>%
+    mutate(SE = sqrt(var),
+           YEAR = as_factor(YEAR),
+           protection = "M:IR") %>%
+    filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  out <-  getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
-    mutate( SE   = sqrt(var),
-            YEAR = as_factor(YEAR),
-            protection = "Outside") %>%
-    filter(if(!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
+  out <- getDomainDensity(dataset, species, years = year, status = 0, length_bins = length) %>%
+    mutate(SE = sqrt(var),
+           YEAR = as_factor(YEAR),
+           protection = "Outside") %>%
+    filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  a <- rbind(inside,out)
+  a <- rbind(inside, out)
 
-  yupper <- max(a$density + a$SE)
-
-  p <- ggplot(a, aes(x=reorder_where(GROUP, -density, protection == "M:IR"), y=density, fill = protection)) +
-    geom_col(position = position_dodge(0.9),
-             width = .8,
-             color="black",
-             size=.5) +
+  p <- ggplot(a, aes(x = YEAR, y = density, color = protection, group = protection)) +
+    geom_line(size = 1) +
+    geom_point(size = 2) +
     geom_errorbar(aes(ymin = density - SE, ymax = density + SE),
-                  position = position_dodge(0.9),
-                  width = 0.15,
-                  size = 0.5) +
+                  width = 0.25, size = 0.5) +
     ggtitle(title) +
-    theme_Publication(base_size = 20) +
-    scale_color_Publication() +
-    theme(legend.title = element_blank(),
-          axis.title.x = element_blank(),
-          axis.text.x = element_text(size = 10)) +
-    scale_x_discrete(labels = function(x) { sub("\\s","\n", x) }) +
-    scale_y_continuous(expand = c(0,0), limits = c(0,yupper + yupper*.01)) +
-    scale_fill_manual(values=c('springgreen3','deepskyblue4','gold1')) +
-    ylab("Density ind/177m2")
+    theme_Publication(base_size = 15) +
+    scale_color_manual(name = "Protection Status",
+                       values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
+    theme(legend.text = element_text(size = 12)) +
+    xlab("Year") +
+    ylab("Density ind/177m2") +
+    facet_wrap(~ SPECIES_CD, scales = "free_y")
 
-  return(p)
+
+  if (print_dataframe) { print(list(a, p)) } else {print(p)}
 }
+
 
 MIR_domain_occ_barplot <- function(dataset, species, year = NULL, length = NULL, title = NULL) {
 

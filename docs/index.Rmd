@@ -98,7 +98,7 @@ datatable(spp_list,
 ## Density
 
 ```{r}
-MIR_domain_dens_barplot(MIR_data, year = 2022, species = spp_list)
+MIR_domain_dens_by_year(MIR_data, spp_list)
 ```
 
 ## Occurrence
