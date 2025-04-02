@@ -1,15 +1,12 @@
-MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL, print_dataframe = FALSE) {
+MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
 
-  if (is.data.frame(species)) {
-    species <- species$SPECIES_CD
-  }
-  inside <- getDomainDensity(dataset, species, years = year, status = 1, length_bins = length) %>%
+  inside <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
     mutate(SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "M:IR") %>%
     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  out <- getDomainDensity(dataset, species, years = year, status = 0, length_bins = length) %>%
+  out <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
     mutate(SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "Outside") %>%
@@ -29,26 +26,21 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
     ylab("Density ind/177m2") +
-    facet_wrap(~ SPECIES_CD, scales = "free_y")
+    facet_wrap(~ GROUP, scales = "free_y")
 
-
-  if (print_dataframe) { print(list(a, p)) } else {print(p)}
+  return(p)
 }
 
 
-MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL, print_dataframe = FALSE) {
+MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
 
-  if (is.data.frame(species)) {
-    species <- species$SPECIES_CD
-  }
-
-  inside <- getDomainOccurrence(dataset, species, years = year, status = 1, length_bins = length) %>%
+  inside <- getDomainOccurrence(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
     mutate(SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "M:IR") %>%
     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  out <- getDomainOccurrence(dataset, species, years = year, status = 0, length_bins = length) %>%
+  out <- getDomainOccurrence(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
     mutate(SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "Outside") %>%
@@ -68,9 +60,9 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
     ylab("Relative Occurrence") +
-    facet_wrap(~ SPECIES_CD, scales = "free_y")
+    facet_wrap(~ GROUP, scales = "free_y")
 
-  if (print_dataframe) { print(list(a, p)) } else { print(p) }
+  return(p)
 }
 
 
