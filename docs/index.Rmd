@@ -104,13 +104,13 @@ MIR_domain_dens_by_year(MIR_data, spp_list)
 ```
 
 ## Occurrence
-Survey occurrence within MIR sites and sites in the Florida Keys. 
+Survey occurrence within MIR sites and outside. 
 ```{r}
 MIR_domain_occ_by_year(MIR_data, spp_list)
 ```
 
 ## Length Frequency {.tabset}
-Number of individuals counted within size bins for surveys within MIR sites and outside. 
+Relative length frequency of species within MIR sites and outside. 
 
 ### French Grunt
 ```{r, fig.show="hold", out.width="50%"} 
