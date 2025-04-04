@@ -32,7 +32,7 @@ MIR_data <- readRDS("../data/MIR_Dataset.rds")
 
 ## The Data
 
-This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).
+The RVC, stationary-point-count method is modified from Bohnsack and Bannerot (1986) and is conducted on shallow (<100ft), hardbottom coral reef habitats. Field surveys use a one-stage design to sample 50 m x 50 m grid cells selected using a stratified-random sampling allocation. This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).
 
 ```{r echo=FALSE}
 table <-  MIR_data$sample_data %>%
@@ -68,6 +68,8 @@ datatable(table,
 
 ## Fish Species
 
+A selection of fish species were chosen to represent different trophic levels and functional roles. 
+
 ```{r echo=FALSE}
 spp_list <- tribble(
   ~SPECIES_CD, ~CommonName, ~SciName,
@@ -96,18 +98,19 @@ datatable(spp_list,
 
 
 ## Density
-
+Density is represented as the number of individuals per 177 m^2.
 ```{r}
 MIR_domain_dens_by_year(MIR_data, spp_list)
 ```
 
 ## Occurrence
-
+Survey occurrence within MIR sites and sites in the Florida Keys. 
 ```{r}
 MIR_domain_occ_by_year(MIR_data, spp_list)
 ```
 
 ## Length Frequency {.tabset}
+Number of individuals counted within size bins for surveys within MIR sites and outside. 
 
 ### French Grunt
 ```{r, fig.show="hold", out.width="50%"} 
