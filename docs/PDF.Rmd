@@ -54,22 +54,6 @@ table <- MIR_data$sample_data %>%
   ) %>%
   select(PROT, STRAT, description, n)
 
-table <-  MIR_data$sample_data %>%
-            group_by(PROT, STRAT) %>%
-            summarise(n = length(unique(PRIMARY_SAMPLE_UNIT))) %>%
-            mutate(description = case_when(
-              STRAT == "FK01" ~ "inshore reefs, all depths",
-              STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
-              STRAT == "FK03" ~ "offshore patch, all depths",
-              STRAT == "FK04" ~ "forereef, low rugosity, <12m",
-              STRAT == "FK05" ~ "forereef, high rugosity, <12m"
-            )) %>%
-            mutate(PROT = case_when(
-              PROT == 0 ~ "Outside",
-              PROT == 1 ~ "Inside"
-            )) %>% 
-            select(PROT, STRAT, description, n) %>%
-            ungroup()
 kbl(table, 
     booktabs = T, 
     caption = "Site Description",
