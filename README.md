@@ -10,6 +10,4 @@ FK06-FK09 were removed from the “outside” data set.
 
 ------------------------------------------------------------------------
 
-## In progress
 
-Can’t get logo to work
