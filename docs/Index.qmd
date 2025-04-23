@@ -181,9 +181,11 @@ MIR_domain_occ_by_year(MIR_data, spp_list)
 
 \newpage
 
-## Length Frequency {.tabset}
+## Length Frequency
 
 Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef from their nursery habitat, length classes that are selected by the local recreational and commercial fisheries, and the success of management practices. Relative length frequency are shown of species within MIR sites and outside
+
+::: {.panel-tabset}
 
 ### French Grunt
 
