@@ -56,25 +56,15 @@ div.csl-indent {
 <link href="Index_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="Index_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
 <link href="Index_files/libs/htmltools-fill-0.5.8.1/fill.css" rel="stylesheet">
-
 <script src="Index_files/libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
-
 <link href="Index_files/libs/datatables-css-0.0.0/datatables-crosstalk.css" rel="stylesheet">
-
 <script src="Index_files/libs/datatables-binding-0.33/datatables.js"></script>
-
 <script src="Index_files/libs/jquery-3.6.0/jquery-3.6.0.min.js"></script>
-
 <link href="Index_files/libs/dt-core-1.13.6/css/jquery.dataTables.min.css" rel="stylesheet">
-
 <link href="Index_files/libs/dt-core-1.13.6/css/jquery.dataTables.extra.css" rel="stylesheet">
-
 <script src="Index_files/libs/dt-core-1.13.6/js/jquery.dataTables.min.js"></script>
-
 <link href="Index_files/libs/crosstalk-1.2.1/css/crosstalk.min.css" rel="stylesheet">
-
 <script src="Index_files/libs/crosstalk-1.2.1/js/crosstalk.min.js"></script>
-
 
   <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
   <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
@@ -148,15 +138,7 @@ window.Quarto = {
   <li><a href="#fish-species" id="toc-fish-species" class="nav-link" data-scroll-target="#fish-species"><span class="header-section-number">2</span> Fish Species</a></li>
   <li><a href="#density" id="toc-density" class="nav-link" data-scroll-target="#density"><span class="header-section-number">3</span> Density</a></li>
   <li><a href="#occurrence" id="toc-occurrence" class="nav-link" data-scroll-target="#occurrence"><span class="header-section-number">4</span> Occurrence</a></li>
-  <li><a href="#length-frequency" id="toc-length-frequency" class="nav-link" data-scroll-target="#length-frequency"><span class="header-section-number">5</span> Length Frequency</a>
-  <ul class="collapse">
-  <li><a href="#french-grunt" id="toc-french-grunt" class="nav-link" data-scroll-target="#french-grunt"><span class="header-section-number">5.1</span> French Grunt</a></li>
-  <li><a href="#stoplight-parrotfish" id="toc-stoplight-parrotfish" class="nav-link" data-scroll-target="#stoplight-parrotfish"><span class="header-section-number">5.2</span> Stoplight Parrotfish</a></li>
-  <li><a href="#rainbow-parrotfish" id="toc-rainbow-parrotfish" class="nav-link" data-scroll-target="#rainbow-parrotfish"><span class="header-section-number">5.3</span> Rainbow Parrotfish</a></li>
-  <li><a href="#spot-damselfish" id="toc-spot-damselfish" class="nav-link" data-scroll-target="#spot-damselfish"><span class="header-section-number">5.4</span> 3-Spot Damselfish</a></li>
-  <li><a href="#porgy" id="toc-porgy" class="nav-link" data-scroll-target="#porgy"><span class="header-section-number">5.5</span> Porgy</a></li>
-  <li><a href="#red-grouper" id="toc-red-grouper" class="nav-link" data-scroll-target="#red-grouper"><span class="header-section-number">5.6</span> Red Grouper</a></li>
-  </ul></li>
+  <li><a href="#length-frequency" id="toc-length-frequency" class="nav-link" data-scroll-target="#length-frequency"><span class="header-section-number">5</span> Length Frequency</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
@@ -166,6 +148,23 @@ window.Quarto = {
 
 
 
+<!-- Add NOAA logo to title-block-banner -->
+<style>
+  .noaa-logo {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background-color: white;
+    padding: 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* soft drop shadow */
+    z-index: 10;
+  }
+</style>
+
+<div class="noaa-logo">
+  <img src="noaa_logo.png" alt="NOAA Logo" width="200">
+</div>
 <!-- html-only -->
 <style>
   nav#TOC {
@@ -179,8 +178,8 @@ window.Quarto = {
 <p>The RVC, stationary-point-count method is modified from Bohnsack and Bannerot <span class="citation" data-cites="Bohnsack86">(<a href="#ref-Bohnsack86" role="doc-biblioref">Bohnsack and Bannerot 1986</a>)</span> and is conducted on shallow (&lt;100ft), hardbottom coral reef habitats. Field surveys use a one-stage design to sample 50 m x 50 m grid cells selected using a stratified-random sampling allocation. This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-71f58f89478ab34ba2e4" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-71f58f89478ab34ba2e4">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 1. Number of sites sampled.<\/caption>","data":[["Outside","Outside","Outside","Outside","Outside","Inside","Inside","Inside","Inside","Inside"],["FK01","FK02","FK03","FK04","FK05","FK01","FK02","FK03","FK04","FK05"],["inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m","inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m"],[15,170,96,181,167,12,25,15,20,125]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Study Area<\/th>\n      <th>Strata Name<\/th>\n      <th>Strata Description<\/th>\n      <th>Sample Number<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"PROT","targets":0},{"name":"STRAT","targets":1},{"name":"description","targets":2},{"name":"n","targets":3}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-360f8ae5295580add6af" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-360f8ae5295580add6af">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 1. Number of sites sampled.<\/caption>","data":[["Outside","Outside","Outside","Outside","Outside","Inside","Inside","Inside","Inside","Inside"],["FK01","FK02","FK03","FK04","FK05","FK01","FK02","FK03","FK04","FK05"],["inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m","inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m"],[15,170,96,181,167,12,25,15,20,125]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Study Area<\/th>\n      <th>Strata Name<\/th>\n      <th>Strata Description<\/th>\n      <th>Sample Number<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"PROT","targets":0},{"name":"STRAT","targets":1},{"name":"description","targets":2},{"name":"n","targets":3}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -189,8 +188,8 @@ window.Quarto = {
 <p>A selection of fish species were chosen to represent different trophic levels and functional roles.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-4e164512bde32e81b04f" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-4e164512bde32e81b04f">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 2. Fish species. For analysis, both porgy species were combined.<\/caption>","data":[["HAE FLAV","SPA VIRI","SCA GUAC","STE PLAN","CAL CALA","CAL NODO","EPI MORI"],["French Grunt","Stoplight Parrotfish","Rainbow Parrotfish","3-Spot Damselfish","Porgy","Porgy","Red Grouper"],["Haemulon flavolineatum","Sparisoma viride","Scarus guacamaia","Stegastes planifrons","Calamus calamus","Calamus nodosus","Epinephelus morio"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Species Code<\/th>\n      <th>Common Name<\/th>\n      <th>Scientific Name<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"SPECIES_CD","targets":0},{"name":"CommonName","targets":1},{"name":"SciName","targets":2}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-style':'italic'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-e82dec2487c402b255d5" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-e82dec2487c402b255d5">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 2. Fish species. For analysis, both porgy species were combined.<\/caption>","data":[["HAE FLAV","SPA VIRI","SCA GUAC","STE PLAN","CAL CALA","CAL NODO","EPI MORI"],["French Grunt","Stoplight Parrotfish","Rainbow Parrotfish","3-Spot Damselfish","Porgy","Porgy","Red Grouper"],["Haemulon flavolineatum","Sparisoma viride","Scarus guacamaia","Stegastes planifrons","Calamus calamus","Calamus nodosus","Epinephelus morio"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Species Code<\/th>\n      <th>Common Name<\/th>\n      <th>Scientific Name<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"SPECIES_CD","targets":0},{"name":"CommonName","targets":1},{"name":"SciName","targets":2}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-style':'italic'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -223,11 +222,13 @@ window.Quarto = {
 </div>
 <div style="page-break-after: always;"></div>
 </section>
-<section id="length-frequency" class="level2 tabset" data-number="5">
-<h2 class="tabset anchored" data-number="5" data-anchor-id="length-frequency"><span class="header-section-number">5</span> Length Frequency</h2>
+<section id="length-frequency" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="length-frequency"><span class="header-section-number">5</span> Length Frequency</h2>
 <p>Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef from their nursery habitat, length classes that are selected by the local recreational and commercial fisheries, and the success of management practices. Relative length frequency are shown of species within MIR sites and outside</p>
-<section id="french-grunt" class="level3" data-number="5.1">
-<h3 data-number="5.1" class="anchored" data-anchor-id="french-grunt"><span class="header-section-number">5.1</span> French Grunt</h3>
+<div class="tabset-margin-container"></div><div class="panel-tabset">
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">French Grunt</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Stoplight Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Rainbow Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">3-Spot Damselfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Porgy</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Red Grouper</a></li></ul>
+<div class="tab-content">
+<div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -244,9 +245,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
-<section id="stoplight-parrotfish" class="level3" data-number="5.2">
-<h3 data-number="5.2" class="anchored" data-anchor-id="stoplight-parrotfish"><span class="header-section-number">5.2</span> Stoplight Parrotfish</h3>
+</div>
+<div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -263,9 +263,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
-<section id="rainbow-parrotfish" class="level3" data-number="5.3">
-<h3 data-number="5.3" class="anchored" data-anchor-id="rainbow-parrotfish"><span class="header-section-number">5.3</span> Rainbow Parrotfish</h3>
+</div>
+<div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -282,9 +281,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
-<section id="spot-damselfish" class="level3" data-number="5.4">
-<h3 data-number="5.4" class="anchored" data-anchor-id="spot-damselfish"><span class="header-section-number">5.4</span> 3-Spot Damselfish</h3>
+</div>
+<div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -301,9 +299,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
-<section id="porgy" class="level3" data-number="5.5">
-<h3 data-number="5.5" class="anchored" data-anchor-id="porgy"><span class="header-section-number">5.5</span> Porgy</h3>
+</div>
+<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -320,9 +317,8 @@ window.Quarto = {
 </div>
 </div>
 </div>
-</section>
-<section id="red-grouper" class="level3" data-number="5.6">
-<h3 data-number="5.6" class="anchored" data-anchor-id="red-grouper"><span class="header-section-number">5.6</span> Red Grouper</h3>
+</div>
+<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
 <div class="cell">
 <div class="cell-output-display">
 <div>
@@ -339,8 +335,10 @@ window.Quarto = {
 </div>
 </div>
 </div>
+</div>
+</div>
+</div>
 
-</section>
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
