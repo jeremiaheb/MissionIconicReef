@@ -13,8 +13,8 @@ format:
     theme: lumen
     title-block: true
     title-block-banner: true
-    #logo: noaa_logo.png
-    tabset: true 
+    tabset: true
+    include-before-body: _logo.html 
   pdf:
     toc: true
     number-sections: true
@@ -34,25 +34,6 @@ format:
           \includegraphics[width=\textwidth]{MIRmap.png}
         }
 ---
-<!-- Add NOAA logo to title-block-banner -->
-```{=html}
-<style>
-  .noaa-logo {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background-color: white;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* soft drop shadow */
-    z-index: 10;
-  }
-</style>
-
-<div class="noaa-logo">
-  <img src="noaa_logo.png" alt="NOAA Logo" width="200">
-</div>
-```
 
 <!-- html-only -->
 
