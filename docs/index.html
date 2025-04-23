@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="Jeremiah Blondeau + Rob Harper">
-<meta name="dcterms.date" content="2025-04-21">
+<meta name="dcterms.date" content="2025-04-23">
 
 <title>Mission: Iconic Reef</title>
 <style>
@@ -22,7 +22,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-</style>
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
+}
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
+}
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
+}
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="Index_files/libs/clipboard/clipboard.min.js"></script>
@@ -110,7 +130,7 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">April 21, 2025</p>
+        <p class="date">April 23, 2025</p>
       </div>
     </div>
     
@@ -156,11 +176,11 @@ window.Quarto = {
 <div style="page-break-after: always;"></div>
 <section id="the-data" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">1</span> The Data</h2>
-<p>The RVC, stationary-point-count method is modified from Bohnsack and Bannerot (1986) and is conducted on shallow (&lt;100ft), hardbottom coral reef habitats. Field surveys use a one-stage design to sample 50 m x 50 m grid cells selected using a stratified-random sampling allocation. This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).</p>
+<p>The RVC, stationary-point-count method is modified from Bohnsack and Bannerot <span class="citation" data-cites="Bohnsack86">(<a href="#ref-Bohnsack86" role="doc-biblioref">Bohnsack and Bannerot 1986</a>)</span> and is conducted on shallow (&lt;100ft), hardbottom coral reef habitats. Field surveys use a one-stage design to sample 50 m x 50 m grid cells selected using a stratified-random sampling allocation. This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-dfa005411bd885399c65" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-dfa005411bd885399c65">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 1. Number of sites sampled.<\/caption>","data":[["Outside","Outside","Outside","Outside","Outside","Inside","Inside","Inside","Inside","Inside"],["FK01","FK02","FK03","FK04","FK05","FK01","FK02","FK03","FK04","FK05"],["inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m","inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m"],[15,170,96,181,167,12,25,15,20,125]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Study Area<\/th>\n      <th>Strata Name<\/th>\n      <th>Strata Description<\/th>\n      <th>Sample Number<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"PROT","targets":0},{"name":"STRAT","targets":1},{"name":"description","targets":2},{"name":"n","targets":3}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-71f58f89478ab34ba2e4" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-71f58f89478ab34ba2e4">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 1. Number of sites sampled.<\/caption>","data":[["Outside","Outside","Outside","Outside","Outside","Inside","Inside","Inside","Inside","Inside"],["FK01","FK02","FK03","FK04","FK05","FK01","FK02","FK03","FK04","FK05"],["inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m","inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m"],[15,170,96,181,167,12,25,15,20,125]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Study Area<\/th>\n      <th>Strata Name<\/th>\n      <th>Strata Description<\/th>\n      <th>Sample Number<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"PROT","targets":0},{"name":"STRAT","targets":1},{"name":"description","targets":2},{"name":"n","targets":3}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 </section>
@@ -169,8 +189,8 @@ window.Quarto = {
 <p>A selection of fish species were chosen to represent different trophic levels and functional roles.</p>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-97d5c3a93379203dd255" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-97d5c3a93379203dd255">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 2. Fish species. For analysis, both porgy species were combined.<\/caption>","data":[["HAE FLAV","SPA VIRI","SCA GUAC","STE PLAN","CAL CALA","CAL NODO","EPI MORI"],["French Grunt","Stoplight Parrotfish","Rainbow Parrotfish","3-Spot Damselfish","Porgy","Porgy","Red Grouper"],["Haemulon flavolineatum","Sparisoma viride","Scarus guacamaia","Stegastes planifrons","Calamus calamus","Calamus nodosus","Epinephelus morio"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Species Code<\/th>\n      <th>Common Name<\/th>\n      <th>Scientific Name<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"SPECIES_CD","targets":0},{"name":"CommonName","targets":1},{"name":"SciName","targets":2}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-style':'italic'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-4e164512bde32e81b04f" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-4e164512bde32e81b04f">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 2. Fish species. For analysis, both porgy species were combined.<\/caption>","data":[["HAE FLAV","SPA VIRI","SCA GUAC","STE PLAN","CAL CALA","CAL NODO","EPI MORI"],["French Grunt","Stoplight Parrotfish","Rainbow Parrotfish","3-Spot Damselfish","Porgy","Porgy","Red Grouper"],["Haemulon flavolineatum","Sparisoma viride","Scarus guacamaia","Stegastes planifrons","Calamus calamus","Calamus nodosus","Epinephelus morio"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Species Code<\/th>\n      <th>Common Name<\/th>\n      <th>Scientific Name<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"SPECIES_CD","targets":0},{"name":"CommonName","targets":1},{"name":"SciName","targets":2}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-style':'italic'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -319,10 +339,15 @@ window.Quarto = {
 </div>
 </div>
 </div>
+
 </section>
 </section>
 
-</main>
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Bohnsack86" class="csl-entry" role="listitem">
+Bohnsack, James A., and Scott P. Bannerot. 1986. <span>“A Stationary Visual Census Technique for Quantitatively Assessing Community Structure of Coral Reef Fishes.”</span> <em>NOAA Technical Report</em> NMFS (41).
+</div>
+</div></section></div></main>
 <!-- /main column -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {

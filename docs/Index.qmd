@@ -4,6 +4,7 @@ author: "[Jeremiah Blondeau](https://github.com/jeremiaheb) + Rob Harper"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "jeremiah.blondeau@noaa.gov"
 github: "jeremiahheb/MissionIconicReef"
+bibliography: references.bib
 format: 
   html:
     toc: true
@@ -35,12 +36,14 @@ format:
 ---
 
 <!-- html-only -->
+
+```{=html}
 <style>
   nav#TOC {
     font-size: 0.85em;
   }
 </style>
-
+```
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
@@ -60,7 +63,6 @@ source('code/MIR_Plot_functions.R', local = knitr::knit_global())
 MIR_data <- readRDS("../data/MIR_Dataset.rds")
 ```
 
-
 ```{r, echo=FALSE, results='asis'}
 # Map format to appear correct in HTML and PDF output
 if (knitr::is_html_output()) {
@@ -69,9 +71,10 @@ if (knitr::is_html_output()) {
 ```
 
 \newpage
+
 ## The Data
 
-The RVC, stationary-point-count method is modified from Bohnsack and Bannerot (1986) and is conducted on shallow (\<100ft), hardbottom coral reef habitats. Field surveys use a one-stage design to sample 50 m x 50 m grid cells selected using a stratified-random sampling allocation. This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).
+The RVC, stationary-point-count method is modified from Bohnsack and Bannerot [@Bohnsack86] and is conducted on shallow (\<100ft), hardbottom coral reef habitats. Field surveys use a one-stage design to sample 50 m x 50 m grid cells selected using a stratified-random sampling allocation. This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).
 
 ```{r echo=FALSE}
 table <-  MIR_data$sample_data %>%
@@ -115,7 +118,9 @@ if (knitr::is_html_output()) {
 ```
 
 ## Fish Species
+
 A selection of fish species were chosen to represent different trophic levels and functional roles.
+
 ```{r echo=FALSE}
 spp_list <- tribble(
   ~SPECIES_CD, ~CommonName, ~SciName,
@@ -155,6 +160,7 @@ if (knitr::is_html_output()) {
 ```
 
 \newpage
+
 ## Density
 
 NCRMP’s comprehensive sampling design strategy provides a broad, population-level perspective on the reef fish community. NCRMP surveys capture a snapshot of these coral reef fish populations. Reporting temporal trends provides a comprehensive perspective of changes in reef fish populations. In particular, trend data can provide insight into how species respond to management actions including targeted restoration efforts within M:IR sites. Density is represented as the number of individuals per 177 m$^{2}$ ± SE.
@@ -162,7 +168,9 @@ NCRMP’s comprehensive sampling design strategy provides a broad, population-le
 ```{r, fig.width=7, fig.height=5, echo=FALSE}
 MIR_domain_dens_by_year(MIR_data, spp_list)
 ```
+
 \newpage
+
 ## Occurrence
 
 Occurrence measures how often a species is detected across surveyed sites, providing insight into its distribution within and outside M:IR areas. It reflects presence regardless of abundance, helping to identify widespread versus rare species. Survey occurrence is shown within MIR sites and outside ± SE.
@@ -170,7 +178,9 @@ Occurrence measures how often a species is detected across surveyed sites, provi
 ```{r, fig.width=7, fig.height=5, echo=FALSE}
 MIR_domain_occ_by_year(MIR_data, spp_list)
 ```
+
 \newpage
+
 ## Length Frequency {.tabset}
 
 Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef from their nursery habitat, length classes that are selected by the local recreational and commercial fisheries, and the success of management practices. Relative length frequency are shown of species within MIR sites and outside
@@ -220,4 +230,3 @@ MIR_LF(df = MIR_data_copy, spp = "CAL NODO", bin_size = 4, yrs = 2024, spp_name 
 MIR_LF(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = 2022, spp_name = "Red Grouper")
 MIR_LF(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = 2024, spp_name = "Red Grouper")
 ```
-
