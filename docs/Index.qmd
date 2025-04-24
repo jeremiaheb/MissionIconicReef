@@ -13,8 +13,8 @@ format:
     theme: lumen
     title-block: true
     title-block-banner: true
-    logo: noaa_logo.png
-    tabset: true 
+    tabset: true
+    include-before-body: _logo.html 
   pdf:
     toc: true
     number-sections: true
