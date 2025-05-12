@@ -74,7 +74,7 @@ if (knitr::is_html_output()) {
 
 ## The Data
 
-The RVC, stationary-point-count method is modified from Bohnsack and Bannerot [@Bohnsack86] and is conducted on shallow (\<100ft), hardbottom coral reef habitats. Field surveys use a one-stage design to sample 50 m x 50 m grid cells selected using a stratified-random sampling allocation. This data set represents sample locations in the Florida Keys. Only those strata types found within the MIR areas were considered (table 1).
+NCRMP fish surveys use the Reef Visual Census (RVC), stationary-point-count method modified from Bohnsack and Bannerot [@Bohnsack86]. Non-extractive visual surveys are conducted on shallow (\<30 m), hard-bottom coral reef habitats. A stratified-random, one-stage survey design was used to select and sample within 50 m x 50 m grid cells [@smith2011]. This dataset includes reef fish data collected from sample locations in the Florida Keys. For parity, the larger NCRMP dataset is restricted to strata types (i.e., depth and rugosity combinations) that occur within the M:IR areas (table 1).
 
 ```{r echo=FALSE}
 table <-  MIR_data$sample_data %>%
@@ -119,7 +119,7 @@ if (knitr::is_html_output()) {
 
 ## Fish Species
 
-A selection of fish species were chosen to represent different trophic levels and functional roles.
+Six reef fish species were chosen to represent different trophic levels and functional roles.
 
 ```{r echo=FALSE}
 spp_list <- tribble(
@@ -163,7 +163,7 @@ if (knitr::is_html_output()) {
 
 ## Density
 
-NCRMP’s comprehensive sampling design strategy provides a broad, population-level perspective on the reef fish community. NCRMP surveys capture a snapshot of these coral reef fish populations. Reporting temporal trends provides a comprehensive perspective of changes in reef fish populations. In particular, trend data can provide insight into how species respond to management actions including targeted restoration efforts within M:IR sites. Density is represented as the number of individuals per 177 m$^{2}$ ± SE.
+NCRMP’s comprehensive sampling design provides a broad, population-level perspective on the status and trends of the reef fish community. In particular, trend data can provide insight into how species respond to events including regional management actions such as targeted coral restoration efforts within the M:IR sites. Density results are shown as the number of individuals per survey area 177 m$^{2}$ ± SE.
 
 ```{r, fig.width=7, fig.height=5, echo=FALSE}
 MIR_domain_dens_by_year(MIR_data, spp_list)
@@ -173,7 +173,7 @@ MIR_domain_dens_by_year(MIR_data, spp_list)
 
 ## Occurrence
 
-Occurrence measures how often a species is detected across surveyed sites, providing insight into its distribution within and outside M:IR areas. It reflects presence regardless of abundance, helping to identify widespread versus rare species. Survey occurrence is shown within MIR sites and outside ± SE.
+Occurrence measures how often a species is detected in surveys, providing insight into its distribution within M:IR sites and outside of M:IR sites in the Florida Keys. Results show presence regardless of abundance, helping to identify widespread versus rare species. Survey occurrence results are shown within M:IR sites (inside) and in the Florida Keys (outside) ± SE.
 
 ```{r, fig.width=7, fig.height=5, echo=FALSE}
 MIR_domain_occ_by_year(MIR_data, spp_list)
@@ -183,36 +183,44 @@ MIR_domain_occ_by_year(MIR_data, spp_list)
 
 ## Length Frequency
 
-Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef from their nursery habitat, length classes that are selected by the local recreational and commercial fisheries, and the success of management practices. Relative length frequency are shown of species within MIR sites and outside
+Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef (i.e., young of year or from nursery habitat), length classes removed by the local fisheries, and the effectiveness of management actions
 
 ::: {.panel-tabset}
 
 ### French Grunt
 
 ```{r, fig.show="hold", out.width="50%", echo=FALSE}
-MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2022, spp_name = "French grunt")
-MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2024, spp_name = "French grunt")
+MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2022, spp_name = "French Grunt")
+MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2024, spp_name = "French Grunt")
+MIR_LF_yr(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = c(2022, 2024), spp_name = "French grunt", category = "M:IR", custom_title = "French Grunt - M:IR")
+MIR_LF_yr(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = c(2022, 2024), spp_name = "French grunt", category = "open", custom_title = "French Grunt - Open")
 ```
 
 ### Stoplight Parrotfish
 
 ```{r, fig.show="hold", out.width="50%", echo=FALSE}
-MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2022, spp_name = "Stoplight parrotfish")
-MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2024, spp_name = "Stoplight parrotfish")
+MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2022, spp_name = "Stoplight Parrotfish")
+MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2024, spp_name = "Stoplight Parrotfish")
+MIR_LF_yr(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = c(2022, 2024), spp_name = "Stoplight Parrotfish", category = "M:IR", custom_title = "Stoplight Parrotfish - M:IR")
+MIR_LF_yr(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = c(2022, 2024), spp_name = "Stoplight Parrotfish", category = "open", custom_title = "Stoplight Parrotfish - Open")
 ```
 
 ### Rainbow Parrotfish
 
 ```{r, fig.show="hold", out.width="50%", echo=FALSE}
-MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2022, spp_name = "Rainbow parrotfish")
-MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2024, spp_name = "Rainbow parrotfish")
+MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2022, spp_name = "Rainbow Parrotfish")
+MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2024, spp_name = "Rainbow Parrotfish")
+MIR_LF_yr(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = c(2022, 2024), spp_name = "Rainbow Parrotfish", category = "M:IR", custom_title = "Rainbow Parrotfish - Open")
+MIR_LF_yr(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = c(2022, 2024), spp_name = "Rainbow Parrotfish", category = "open", custom_title = "Rainbow Parrotfish - Open")
 ```
 
 ### 3-Spot Damselfish
 
 ```{r, fig.show="hold", out.width="50%", echo=FALSE}
-MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2022, spp_name = "3-spot damselfish")
-MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2024, spp_name = "3-spot damselfish")
+MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2022, spp_name = "3-Spot Damselfish")
+MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2024, spp_name = "3-Spot Damselfish")
+MIR_LF_yr(df = MIR_data, spp = "ste plan", bin_size = 5, yrs = c(2022, 2024), spp_name = "3-Spot Damselfish", category = "M:IR", custom_title = "3-Spot Damselfish - MIR")
+MIR_LF_yr(df = MIR_data, spp = "ste plan", bin_size = 5, yrs = c(2022, 2024), spp_name = "3-Spot Damselfish", category = "open", custom_title = "3-Spot Damselfish - Open")
 ```
 
 ### Porgy
@@ -224,6 +232,8 @@ MIR_data_copy$sample_data <- MIR_data_copy$sample_data %>%
 #Merged CAL CALA and CAL NODO to graph both porgy species together
 MIR_LF(df = MIR_data_copy, spp = "CAL NODO", bin_size = 4, yrs = 2022, spp_name = "Porgy")
 MIR_LF(df = MIR_data_copy, spp = "CAL NODO", bin_size = 4, yrs = 2024, spp_name = "Porgy")
+MIR_LF_yr(df = MIR_data_copy, spp = "CAL NODO", bin_size = 5, yrs = c(2022, 2024), spp_name = "Porgy", category = "M:IR", custom_title = "Porgy - MIR")
+MIR_LF_yr(df = MIR_data_copy, spp = "CAL NODO", bin_size = 5, yrs = c(2022, 2024), spp_name = "Porgy", category = "open", custom_title = "Porgy - Open")
 ```
 
 ### Red Grouper
@@ -231,4 +241,6 @@ MIR_LF(df = MIR_data_copy, spp = "CAL NODO", bin_size = 4, yrs = 2024, spp_name 
 ```{r, fig.show="hold", out.width="50%", echo=FALSE}
 MIR_LF(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = 2022, spp_name = "Red Grouper")
 MIR_LF(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = 2024, spp_name = "Red Grouper")
+MIR_LF_yr(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = c(2022, 2024), spp_name = "Red Grouper", category = "M:IR", custom_title = "Red Grouper - MIR")
+MIR_LF_yr(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = c(2022, 2024), spp_name = "Red Grouper", category = "open", custom_title = "Red Grouper - Open")
 ```
