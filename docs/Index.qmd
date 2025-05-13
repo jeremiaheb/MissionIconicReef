@@ -17,6 +17,7 @@ format:
     tabset: true
     include-before-body: _logo.html 
   pdf:
+    mainfont: ArialMT
     toc: true
     number-sections: true
     fig-cap-location: bottom
