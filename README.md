@@ -4,6 +4,23 @@ width="300" />
 
 # M:IR RVC Analysis
 
+## Instructions for use
+
+### Change species displayed in the document
+1. Open the file named "Index.qmd"
+2. Scroll to line 156 and find the object named "target species"
+3. Add the desired list of species codes using the existing format
+  3a. The species code is the first three letters of the genus and species names 
+    (e.g., EPI ITAJ for Epinephelus itajara, the goliath grouper) 
+4. Ensure that each species code is surrounded by quotation marks and each 
+  species is separated separated by commas. 
+5. Click render to HTML or PDF view the new report
+
+### Customizing length frequency bins
+
+
+###
+
 ### The Data
 
 Sites at MIR locations, “inside”, were compared to sites in the rest of

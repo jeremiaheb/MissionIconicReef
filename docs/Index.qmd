@@ -54,6 +54,8 @@ library(rvc)
 library(tidyverse)
 library(DT)
 library(patchwork)
+library(glue)
+library(purrr)
 
 # Source Plotting Functions
 source('code/labeler.R', local = knitr::knit_global())
@@ -64,7 +66,35 @@ source('code/MIR_Plot_functions.R', local = knitr::knit_global())
 
 # Read in MIR data set
 MIR_data <- readRDS("../data/MIR_Dataset.rds")
+
+# Read in additional species size data (used to generate LF plots)
+# This never changes! It is a list of all species codes + max size
+
+community_data <- readRDS("../data/community_data.rds")
+
+
 ```
+
+## Introduction
+
+```{=html}
+<script src="code/expand.js"></script>
+```
+<details class="expand" open>
+<summary style="font-size:1.1em; font-weight:bold; cursor:pointer;">
+
+</summary>
+<br>
+
+fish fish fish
+
+count fish
+
+big fish little fish
+
+test
+
+</details>
 
 ```{r, echo=FALSE, results='asis'}
 # Map format to appear correct in HTML and PDF output
@@ -73,36 +103,89 @@ if (knitr::is_html_output()) {
 }
 ```
 
+
+
+
 \newpage
 
 ## The Data
 
 NCRMP fish surveys use the Reef Visual Census (RVC), stationary-point-count method modified from Bohnsack and Bannerot [@Bohnsack86]. Non-extractive visual surveys are conducted on shallow (\<30 m), hard-bottom coral reef habitats. A stratified-random, one-stage survey design was used to select and sample within 50 m x 50 m grid cells [@smith2011]. This dataset includes reef fish data collected from sample locations in the Florida Keys. For parity, the larger NCRMP dataset is restricted to strata types (i.e., depth and rugosity combinations) that occur within the M:IR areas (table 1).
 
+### Strata
+
 ```{r echo=FALSE}
-table <-  MIR_data$sample_data %>%
-            group_by(PROT, STRAT) %>%
-            summarise(n = length(unique(PRIMARY_SAMPLE_UNIT))) %>%
-            mutate(description = case_when(
-              STRAT == "FK01" ~ "inshore reefs, all depths",
-              STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
-              STRAT == "FK03" ~ "offshore patch, all depths",
-              STRAT == "FK04" ~ "forereef, low rugosity, <12m",
-              STRAT == "FK05" ~ "forereef, high rugosity, <12m"
-            )) %>%
-            mutate(PROT = case_when(
-              PROT == 0 ~ "Outside",
-              PROT == 1 ~ "Inside"
-            )) %>% 
-            select(PROT, STRAT, description, n) %>%
-            ungroup()
-#conditional statement for rendering in both HTML and PDF
+# table <-  MIR_data$sample_data %>%
+#             group_by(PROT, STRAT) %>%
+#             summarise(n = length(unique(PRIMARY_SAMPLE_UNIT))) %>%
+#             mutate(description = case_when(
+#               STRAT == "FK01" ~ "inshore reefs, all depths",
+#               STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
+#               STRAT == "FK03" ~ "offshore patch, all depths",
+#               STRAT == "FK04" ~ "forereef, low rugosity, <12m",
+#               STRAT == "FK05" ~ "forereef, high rugosity, <12m"
+#             )) %>%
+#             mutate(PROT = case_when(
+#               PROT == 0 ~ "Outside",
+#               PROT == 1 ~ "Inside"
+#             )) %>% 
+#             select(PROT, STRAT, description, n) %>%
+#             ungroup()
+# #conditional statement for rendering in both HTML and PDF
+# if (knitr::is_html_output()) {
+#   DT::datatable(table,
+#     class = "cell-border stripe", 
+#     rownames = FALSE,
+#     colnames = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
+#     caption = "Table 1. Number of sites sampled.",
+#     options = list(
+#       columnDefs = list(list(className = 'dt-center', targets = "_all")),
+#       info = FALSE,
+#       paging = FALSE,
+#       searching = FALSE
+#     )
+#   )
+# } else {
+#   knitr::kable(table,
+#                caption = "Table 1. Number of sites sampled.",
+#                col.names = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
+#                booktabs = TRUE) %>%
+#     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10)
+# }
+
+table <- MIR_data$sample_data %>%
+  group_by(YEAR, PROT, STRAT) %>%
+  summarise(n = length(unique(PRIMARY_SAMPLE_UNIT)), .groups = "drop") %>%
+  mutate(description = case_when(
+    STRAT == "FK01" ~ "inshore reefs, all depths",
+    STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
+    STRAT == "FK03" ~ "offshore patch, all depths",
+    STRAT == "FK04" ~ "forereef, low rugosity, <12m",
+    STRAT == "FK05" ~ "forereef, high rugosity, <12m"
+  )) %>%
+  mutate(PROT = case_when(
+    PROT == 0 ~ "Outside",
+    PROT == 1 ~ "Inside"
+  )) %>%
+  # Set factor levels to preserve desired order
+  mutate(PROT = factor(PROT, levels = c("Outside", "Inside"))) %>%
+  select(YEAR, PROT, STRAT, description, n) %>%
+  pivot_wider(
+    names_from = YEAR,
+    values_from = n,
+    values_fill = 0
+  ) %>%
+  arrange(PROT, STRAT) %>%  # ensure Outside comes first, then Inside
+  ungroup()
+
+# Conditional rendering for HTML and PDF
 if (knitr::is_html_output()) {
-  DT::datatable(table,
+  DT::datatable(
+    table,
     class = "cell-border stripe", 
     rownames = FALSE,
-    colnames = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
-    caption = "Table 1. Number of sites sampled.",
+    colnames = c("Study Area", "Strata Name", "Strata Description", sort(unique(MIR_data$sample_data$YEAR))),
+    caption = "Table 1. Number of sites sampled by year.",
     options = list(
       columnDefs = list(list(className = 'dt-center', targets = "_all")),
       info = FALSE,
@@ -111,35 +194,75 @@ if (knitr::is_html_output()) {
     )
   )
 } else {
-  knitr::kable(table,
-               caption = "Table 1. Number of sites sampled.",
-               col.names = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
-               booktabs = TRUE) %>%
+  knitr::kable(
+    table,
+    caption = "Table 1. Number of sites sampled by year.",
+    booktabs = TRUE
+  ) %>%
     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10)
 }
-
 ```
 
-## Fish Species
+### Fish Species
 
 Six reef fish species were chosen to represent different trophic levels and functional roles.
 
 ```{r echo=FALSE}
-spp_list <- tribble(
-  ~SPECIES_CD, ~CommonName, ~SciName,
-  "HAE FLAV", "French Grunt", "Haemulon flavolineatum",
-  "SPA VIRI", "Stoplight Parrotfish", "Sparisoma viride",
-  "SCA GUAC", "Rainbow Parrotfish", "Scarus guacamaia", 
-  "STE PLAN", "3-Spot Damselfish", "Stegastes planifrons",
-  "CAL CALA", "Porgy", "Calamus calamus",
-  "CAL NODO", "Porgy", "Calamus nodosus",
-  "EPI MORI", "Red Grouper", "Epinephelus morio"
-) %>%
-as.data.frame()
+# To add species to the document, add species code here
+target_species <- c(
+  "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
+  "CAL CALA", "CAL NODO", "EPI MORI", "EPI ITAJ"
+)
 
-#conditional statement for rendering in both HTML and PDF
+# Build spp_list dynamically from MIR_data$taxonomic_data
+spp_list <- MIR_data$taxonomic_data %>%
+  filter(SPECIES_CD %in% target_species) %>%
+  select(SPECIES_CD, COMNAME, SCINAME) %>%
+  distinct() %>%
+  arrange(match(SPECIES_CD, target_species)) %>%
+  left_join(community_data)   # preserve order
+
+spp_list <- spp_list %>%
+  mutate(COMNAME = str_to_title(COMNAME))
+
+
+# Conditional rendering for HTML or PDF
+# if (knitr::is_html_output()) {
+#   DT::datatable(
+#     spp_list %>%
+#       mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE)),
+#     class = "cell-border stripe",
+#     rownames = FALSE,
+#     colnames = c("Species Code", "Common Name", "Scientific Name"),
+#     caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
+#     options = list(
+#       columnDefs = list(list(className = 'dt-center', targets = "_all")),
+#       info = FALSE,
+#       paging = FALSE,
+#       searching = FALSE
+#     )
+#   ) %>%
+#     DT::formatStyle(columns = "SCINAME", fontStyle = "italic")
+# } else {
+#   knitr::kable(
+#     spp_list %>%
+#       mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE)),
+#     caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
+#     col.names = c("Species Code", "Common Name", "Scientific Name"),
+#     booktabs = TRUE
+#   ) %>%
+#     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10) %>%
+#     kableExtra::column_spec(3, italic = TRUE)
+# }
+
+spp_table <- spp_list %>%
+  select(SPECIES_CD, COMNAME, SCINAME) %>%
+  mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE))  # capitalize first letter
+
+# Conditional rendering for HTML or PDF
 if (knitr::is_html_output()) {
-  DT::datatable(spp_list,
+  DT::datatable(
+    spp_table,
     class = "cell-border stripe",
     rownames = FALSE,
     colnames = c("Species Code", "Common Name", "Scientific Name"),
@@ -151,15 +274,18 @@ if (knitr::is_html_output()) {
       searching = FALSE
     )
   ) %>%
-    DT::formatStyle(columns = "SciName", fontStyle = "italic")
+    DT::formatStyle(columns = "SCINAME", fontStyle = "italic")
 } else {
-  knitr::kable(spp_list,
-               caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
-               col.names = c("Species Code", "Common Name", "Scientific Name"),
-               booktabs = TRUE) %>%
+  knitr::kable(
+    spp_table,
+    caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
+    col.names = c("Species Code", "Common Name", "Scientific Name"),
+    booktabs = TRUE
+  ) %>%
     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10) %>%
     kableExtra::column_spec(3, italic = TRUE)
 }
+
 ```
 
 \newpage
@@ -188,73 +314,27 @@ MIR_domain_occ_by_year(MIR_data, spp_list)
 
 Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef (i.e., young of year or from nursery habitat), length classes removed by the local fisheries, and the effectiveness of management actions
 
+
 ::: {.panel-tabset}
 
-### French Grunt
-```{r, echo=FALSE, fig.width=12, fig.height=10}
-p1 <- MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2022, spp_name = "French Grunt")
-p2 <- MIR_LF(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = 2024, spp_name = "French Grunt")
-p3 <- MIR_LF_yr(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = c(2022, 2024), spp_name = "French grunt", category = "M:IR", custom_title = "French Grunt - M:IR")
-p4 <- MIR_LF_yr(df = MIR_data, spp = "hae flav", bin_size = 5, yrs = c(2022, 2024), spp_name = "French grunt", category = "open", custom_title = "French Grunt - Open")
+```{r, echo=FALSE, results='asis', fig.width=12, fig.height=10}
 
-(p1 | p2) / (p3 | p4)
+pmap(spp_list, function(SPECIES_CD, COMNAME, SCINAME, max_size) {
+  
+  cat("### ", COMNAME, "\n\n")
+  
+  p <- render_LF_plots(
+    df         = MIR_data,
+    SPECIES_CD = SPECIES_CD,
+    COMNAME    = COMNAME,
+    max_size   = max_size,
+    yrs        = c(2022, 2024),
+    target_bins = 10
+  )
+  
+  print(p)
+  cat("\n\n")
+})
 ```
 
-### Stoplight Parrotfish
 
-```{r, echo=FALSE, fig.width=12, fig.height=10}
-p1 <- MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2022, spp_name = "Stoplight Parrotfish")
-p2 <- MIR_LF(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = 2024, spp_name = "Stoplight Parrotfish")
-p3 <- MIR_LF_yr(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = c(2022, 2024), spp_name = "Stoplight Parrotfish", category = "M:IR", custom_title = "Stoplight Parrotfish - M:IR")
-p4 <- MIR_LF_yr(df = MIR_data, spp = "spa viri", bin_size = 5, yrs = c(2022, 2024), spp_name = "Stoplight Parrotfish", category = "open", custom_title = "Stoplight Parrotfish - Open")
-
-(p1 | p2) / (p3 | p4)
-```
-
-### Rainbow Parrotfish
-
-```{r, echo=FALSE, fig.width=12, fig.height=10}
-p1 <- MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2022, spp_name = "Rainbow Parrotfish")
-p2 <- MIR_LF(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = 2024, spp_name = "Rainbow Parrotfish")
-p3 <- MIR_LF_yr(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = c(2022, 2024), spp_name = "Rainbow Parrotfish", category = "M:IR", custom_title = "Rainbow Parrotfish - M:IR")
-p4 <- MIR_LF_yr(df = MIR_data, spp = "sca guac", bin_size = 5, yrs = c(2022, 2024), spp_name = "Rainbow Parrotfish", category = "open", custom_title = "Rainbow Parrotfish - Open")
-
-(p1 | p2) / (p3 | p4)
-```
-
-### 3-Spot Damselfish
-
-```{r, echo=FALSE, fig.width=12, fig.height=10}
-p1 <- MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2022, spp_name = "3-Spot Damselfish")
-p2 <- MIR_LF(df = MIR_data, spp = "ste plan", bin_size = 2, yrs = 2024, spp_name = "3-Spot Damselfish")
-p3 <- MIR_LF_yr(df = MIR_data, spp = "ste plan", bin_size = 5, yrs = c(2022, 2024), spp_name = "3-Spot Damselfish", category = "M:IR", custom_title = "3-Spot Damselfish - M:IR")
-p4 <- MIR_LF_yr(df = MIR_data, spp = "ste plan", bin_size = 5, yrs = c(2022, 2024), spp_name = "3-Spot Damselfish", category = "open", custom_title = "3-Spot Damselfish - Open")
-
-(p1 | p2) / (p3 | p4)
-```
-
-### Porgy
-
-```{r, echo=FALSE, fig.width=12, fig.height=10}
-MIR_data_copy <- MIR_data
-MIR_data_copy$sample_data <- MIR_data_copy$sample_data %>%
-  mutate(SPECIES_CD = if_else(SPECIES_CD == "CAL CALA", "CAL NODO", SPECIES_CD))
-#Merged CAL CALA and CAL NODO to graph both porgy species together
-p1 <- MIR_LF(df = MIR_data_copy, spp = "CAL NODO", bin_size = 4, yrs = 2022, spp_name = "Porgy")
-p2 <- MIR_LF(df = MIR_data_copy, spp = "CAL NODO", bin_size = 4, yrs = 2024, spp_name = "Porgy")
-p3 <- MIR_LF_yr(df = MIR_data_copy, spp = "CAL NODO", bin_size = 5, yrs = c(2022, 2024), spp_name = "Porgy", category = "M:IR", custom_title = "Porgy - M:IR")
-p4 <- MIR_LF_yr(df = MIR_data_copy, spp = "CAL NODO", bin_size = 5, yrs = c(2022, 2024), spp_name = "Porgy", category = "open", custom_title = "Porgy - Open")
-
-(p1 | p2) / (p3 | p4)
-```
-
-### Red Grouper
-
-```{r, echo=FALSE, fig.width=12, fig.height=10}
-p1 <- MIR_LF(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = 2022, spp_name = "Red Grouper")
-p2 <- MIR_LF(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = 2024, spp_name = "Red Grouper")
-p3 <- MIR_LF_yr(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = c(2022, 2024), spp_name = "Red Grouper", category = "M:IR", custom_title = "Red Grouper - M:IR")
-p4 <- MIR_LF_yr(df = MIR_data, spp = "epi mori", bin_size = 5, yrs = c(2022, 2024), spp_name = "Red Grouper", category = "open", custom_title = "Red Grouper - Open")
-
-(p1 | p2) / (p3 | p4)
-```
