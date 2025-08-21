@@ -55,6 +55,7 @@ library(tidyverse)
 library(DT)
 library(patchwork)
 library(glue)
+library(purrr)
 
 # Source Plotting Functions
 source('code/labeler.R', local = knitr::knit_global())
@@ -114,29 +115,77 @@ NCRMP fish surveys use the Reef Visual Census (RVC), stationary-point-count meth
 ### Strata
 
 ```{r echo=FALSE}
-table <-  MIR_data$sample_data %>%
-            group_by(PROT, STRAT) %>%
-            summarise(n = length(unique(PRIMARY_SAMPLE_UNIT))) %>%
-            mutate(description = case_when(
-              STRAT == "FK01" ~ "inshore reefs, all depths",
-              STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
-              STRAT == "FK03" ~ "offshore patch, all depths",
-              STRAT == "FK04" ~ "forereef, low rugosity, <12m",
-              STRAT == "FK05" ~ "forereef, high rugosity, <12m"
-            )) %>%
-            mutate(PROT = case_when(
-              PROT == 0 ~ "Outside",
-              PROT == 1 ~ "Inside"
-            )) %>% 
-            select(PROT, STRAT, description, n) %>%
-            ungroup()
-#conditional statement for rendering in both HTML and PDF
+# table <-  MIR_data$sample_data %>%
+#             group_by(PROT, STRAT) %>%
+#             summarise(n = length(unique(PRIMARY_SAMPLE_UNIT))) %>%
+#             mutate(description = case_when(
+#               STRAT == "FK01" ~ "inshore reefs, all depths",
+#               STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
+#               STRAT == "FK03" ~ "offshore patch, all depths",
+#               STRAT == "FK04" ~ "forereef, low rugosity, <12m",
+#               STRAT == "FK05" ~ "forereef, high rugosity, <12m"
+#             )) %>%
+#             mutate(PROT = case_when(
+#               PROT == 0 ~ "Outside",
+#               PROT == 1 ~ "Inside"
+#             )) %>% 
+#             select(PROT, STRAT, description, n) %>%
+#             ungroup()
+# #conditional statement for rendering in both HTML and PDF
+# if (knitr::is_html_output()) {
+#   DT::datatable(table,
+#     class = "cell-border stripe", 
+#     rownames = FALSE,
+#     colnames = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
+#     caption = "Table 1. Number of sites sampled.",
+#     options = list(
+#       columnDefs = list(list(className = 'dt-center', targets = "_all")),
+#       info = FALSE,
+#       paging = FALSE,
+#       searching = FALSE
+#     )
+#   )
+# } else {
+#   knitr::kable(table,
+#                caption = "Table 1. Number of sites sampled.",
+#                col.names = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
+#                booktabs = TRUE) %>%
+#     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10)
+# }
+
+table <- MIR_data$sample_data %>%
+  group_by(YEAR, PROT, STRAT) %>%
+  summarise(n = length(unique(PRIMARY_SAMPLE_UNIT)), .groups = "drop") %>%
+  mutate(description = case_when(
+    STRAT == "FK01" ~ "inshore reefs, all depths",
+    STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
+    STRAT == "FK03" ~ "offshore patch, all depths",
+    STRAT == "FK04" ~ "forereef, low rugosity, <12m",
+    STRAT == "FK05" ~ "forereef, high rugosity, <12m"
+  )) %>%
+  mutate(PROT = case_when(
+    PROT == 0 ~ "Outside",
+    PROT == 1 ~ "Inside"
+  )) %>%
+  # Set factor levels to preserve desired order
+  mutate(PROT = factor(PROT, levels = c("Outside", "Inside"))) %>%
+  select(YEAR, PROT, STRAT, description, n) %>%
+  pivot_wider(
+    names_from = YEAR,
+    values_from = n,
+    values_fill = 0
+  ) %>%
+  arrange(PROT, STRAT) %>%  # ensure Outside comes first, then Inside
+  ungroup()
+
+# Conditional rendering for HTML and PDF
 if (knitr::is_html_output()) {
-  DT::datatable(table,
+  DT::datatable(
+    table,
     class = "cell-border stripe", 
     rownames = FALSE,
-    colnames = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
-    caption = "Table 1. Number of sites sampled.",
+    colnames = c("Study Area", "Strata Name", "Strata Description", sort(unique(MIR_data$sample_data$YEAR))),
+    caption = "Table 1. Number of sites sampled by year.",
     options = list(
       columnDefs = list(list(className = 'dt-center', targets = "_all")),
       info = FALSE,
@@ -145,13 +194,13 @@ if (knitr::is_html_output()) {
     )
   )
 } else {
-  knitr::kable(table,
-               caption = "Table 1. Number of sites sampled.",
-               col.names = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
-               booktabs = TRUE) %>%
+  knitr::kable(
+    table,
+    caption = "Table 1. Number of sites sampled by year.",
+    booktabs = TRUE
+  ) %>%
     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10)
 }
-
 ```
 
 ### Fish Species
@@ -173,13 +222,47 @@ spp_list <- MIR_data$taxonomic_data %>%
   arrange(match(SPECIES_CD, target_species)) %>%
   left_join(community_data)   # preserve order
 
+spp_list <- spp_list %>%
+  mutate(COMNAME = str_to_title(COMNAME))
 
+
+# Conditional rendering for HTML or PDF
+# if (knitr::is_html_output()) {
+#   DT::datatable(
+#     spp_list %>%
+#       mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE)),
+#     class = "cell-border stripe",
+#     rownames = FALSE,
+#     colnames = c("Species Code", "Common Name", "Scientific Name"),
+#     caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
+#     options = list(
+#       columnDefs = list(list(className = 'dt-center', targets = "_all")),
+#       info = FALSE,
+#       paging = FALSE,
+#       searching = FALSE
+#     )
+#   ) %>%
+#     DT::formatStyle(columns = "SCINAME", fontStyle = "italic")
+# } else {
+#   knitr::kable(
+#     spp_list %>%
+#       mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE)),
+#     caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
+#     col.names = c("Species Code", "Common Name", "Scientific Name"),
+#     booktabs = TRUE
+#   ) %>%
+#     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10) %>%
+#     kableExtra::column_spec(3, italic = TRUE)
+# }
+
+spp_table <- spp_list %>%
+  select(SPECIES_CD, COMNAME, SCINAME) %>%
+  mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE))  # capitalize first letter
 
 # Conditional rendering for HTML or PDF
 if (knitr::is_html_output()) {
   DT::datatable(
-    spp_list %>%
-      mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE)),
+    spp_table,
     class = "cell-border stripe",
     rownames = FALSE,
     colnames = c("Species Code", "Common Name", "Scientific Name"),
@@ -194,8 +277,7 @@ if (knitr::is_html_output()) {
     DT::formatStyle(columns = "SCINAME", fontStyle = "italic")
 } else {
   knitr::kable(
-    spp_list %>%
-      mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE)),
+    spp_table,
     caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
     col.names = c("Species Code", "Common Name", "Scientific Name"),
     booktabs = TRUE
@@ -203,11 +285,6 @@ if (knitr::is_html_output()) {
     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10) %>%
     kableExtra::column_spec(3, italic = TRUE)
 }
-
-#joining target species with file that contains max size for LF plots
-
-target_species_wmax <- spp_list %>%
-  left_join(community_data, by = "SPECIES_CD")
 
 ```
 
@@ -241,16 +318,18 @@ Length compositions provide a detailed description of a selected fish’s popula
 ::: {.panel-tabset}
 
 ```{r, echo=FALSE, results='asis', fig.width=12, fig.height=10}
-library(purrr)
 
-walk2(spp_list$SPECIES_CD, spp_list$COMNAME, function(code, name) {
-  cat("### ", name, "\n\n")   # Section header per species
+pmap(spp_list, function(SPECIES_CD, COMNAME, SCINAME, max_size) {
   
-  p <- render_LF_for_species(
-    df = MIR_data,
-    SPECIES_CD = code,
-    COMNAME = name,
-    yrs = c(2022, 2024)   # no bin_size here
+  cat("### ", COMNAME, "\n\n")
+  
+  p <- render_LF_plots(
+    df         = MIR_data,
+    SPECIES_CD = SPECIES_CD,
+    COMNAME    = COMNAME,
+    max_size   = max_size,
+    yrs        = c(2022, 2024),
+    target_bins = 10
   )
   
   print(p)
