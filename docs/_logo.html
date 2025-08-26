@@ -1,18 +1,24 @@
 <style>
-  .noaa-logo {
+  .logo-container {
     position: absolute;
     top: 1rem;
     right: 1rem;
+    display: flex;
+    gap: 1rem;  /* space between logos */
     background-color: white;
     padding: 0.5rem;
     border-radius: 0.5rem;
     box-shadow: 0 2px 4px rgba(0,0,0,0.2);
     z-index: 10;
   }
+
+  .logo-container img {
+    height: 75px; /* adjust as needed */
+  }
 </style>
 
-<div class="noaa-logo">
-  <img src="noaa_logo.png" alt="NOAA Logo" width="200">
+<div class="logo-container">
+  <img src="MIR.png" alt="Mission Iconic Reef Logo">
+  <img src="noaa_logo.png" alt="NOAA Logo">
 </div>
-
 
