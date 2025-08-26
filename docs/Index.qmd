@@ -86,13 +86,12 @@ community_data <- readRDS("../data/community_data.rds")
 </summary>
 <br>
 
-fish fish fish
+[Mission: Iconic Reefs](https://missioniconicreefs.org/) is a multi-institutional initiative designed to restore ecological function and biodiversity across key reef sites in the Florida Keys. Led by NOAA’s Office of Habitat Conservation and the Florida Keys National Marine Sanctuary in collaboration with federal, state, institutional, and non-profit partners, M:IR targets nearly three million square feet of reef, employing a phased restoration strategy. The overarching goal is to restore coral cover and reef function to a self-sustaining state.
 
-count fish
+Monitoring the response of reef fish populations to these restoration interventions is critical for evaluating ecological outcomes [@Feeley2025]. The National Coral Reef Monitoring Program (NCRMP) conducts non-extractive Reef Visual Census (RVC) surveys using a stationary-point-count method modified from Bohnsack and Bannerot (1986) [@Bohnsack86; @Towle2025]. Surveys are conducted on shallow (<30 m), hard-bottom reef habitats and employ a stratified-random, one-stage design within 50 m × 50 m grid cells to ensure representative sampling across depth and rugosity strata [@Towle2025; @Ault2021]. For this analysis, the NCRMP dataset was restricted to strata types overlapping M:IR sites to allow direct comparisons of fish communities inside and outside restoration areas.
 
-big fish little fish
+Six reef fish species were selected to represent a range of trophic levels and functional roles. NCRMP’s extensive sampling provides population-level insights into density (number of individuals per 177 m$^{2}$ ± SE), occurrence (frequency of detection within and outside M:IR sites ± SE), and relative length frequency distributions. Density and occurrence metrics enable detection of shifts in abundance and distribution patterns in response to environmental disturbances and management interventions [@Ault2021]. Length frequency data provide detailed information on population structure, recruitment, and potential fishing impacts, serving as an indicator of restoration effectiveness and long-term population sustainability [@Ault2021].  Analysis was completed using the Blondeau & Ganz RVC Statistics package in R [@Ganz2015].
 
-test
 
 </details>
 ### Map of M:IR Sites
@@ -109,7 +108,7 @@ if (knitr::is_html_output()) {
 
 ## The Data
 
-NCRMP fish surveys use the Reef Visual Census (RVC), stationary-point-count method modified from Bohnsack and Bannerot [@Bohnsack86]. Non-extractive visual surveys are conducted on shallow (\<30 m), hard-bottom coral reef habitats. A stratified-random, one-stage survey design was used to select and sample within 50 m x 50 m grid cells [@smith2011]. This dataset includes reef fish data collected from sample locations in the Florida Keys. For parity, the larger NCRMP dataset is restricted to strata types (i.e., depth and rugosity combinations) that occur within the M:IR areas (table 1).
+NCRMP fish surveys use the Reef Visual Census (RVC), stationary-point-count method modified from Bohnsack and Bannerot [@Bohnsack86; Feeley2025]. Non-extractive visual surveys are conducted on shallow (\<30 m), hard-bottom coral reef habitats. A stratified-random, one-stage survey design was used to select and sample within 50 m x 50 m grid cells [@Ault2021]. This dataset includes reef fish data collected from sample locations in the Florida Keys. For parity, the larger NCRMP dataset is restricted to strata types (i.e., depth and rugosity combinations) that occur within the M:IR areas (table 1).
 
 ### Strata
 
@@ -128,7 +127,7 @@ Six reef fish species were chosen to represent different trophic levels and func
 target_species <- c(
   "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
   "CAL CALA", "CAL NODO", "EPI MORI" 
-  #"EPI ITAJ",
+  # "EPI ITAJ",
   # "THA BIFA", "HAL GARN", "STE LEUC", "SPA AURO",
   # "ABU SAXA", "HAE SCIU", "OCY CHRY", "LUT GRIS"
 )
@@ -156,7 +155,8 @@ MIR_data_merged <- MIR_data
 MIR_data_merged$sample_data <- MIR_data$sample_data %>%
   mutate(SPECIES_CD = ifelse(SPECIES_CD %in% c("CAL CALA", "CAL NODO"), "CAL CALA", SPECIES_CD))
 
-#creating new spp_list for plots. spp_list is still used in table to show original species information
+#creating spp_list_merged for plots with merged species data. 
+#spp_list is still used in table to show original species information
 spp_list_merged <- spp_list %>%
   mutate(
     COMNAME = ifelse(SPECIES_CD %in% c("CAL CALA", "CAL NODO"), "Porgy", COMNAME),
@@ -216,5 +216,7 @@ pwalk(
 )
 ```
 
+\newpage
+## References
 
 

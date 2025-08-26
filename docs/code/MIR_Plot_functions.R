@@ -1,3 +1,4 @@
+# Strata table
 render_strata_table <- function(df, caption = "Number of sites sampled by year") {
 
   table <- df %>%
@@ -50,9 +51,8 @@ render_strata_table <- function(df, caption = "Number of sites sampled by year")
   }
 }
 
-# -----------------------------
 # Species Table
-# -----------------------------
+
 render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
 
   # Add image paths if missing
