@@ -1,5 +1,5 @@
 ---
-title: "Mission: Iconic Reef"
+title: "Mission: Iconic Reefs RVC Analysis"
 author: "[Jeremiah Blondeau](https://github.com/jeremiaheb) + Rob Harper"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "jeremiah.blondeau@noaa.gov"
@@ -27,16 +27,13 @@ format:
         \usepackage{graphicx}
         \usepackage{titling}
         \pretitle{%
-          \begin{center}
-          \includegraphics[width=4cm]{noaa_logo.png}\\[1em]
-          \LARGE
+        \begin{center}
+        \includegraphics[width=4cm]{MIR.png}\hspace{1em}%
+        \includegraphics[width=4cm]{noaa_logo.png}\\[1em]
+        \LARGE
         }
-        \posttitle{%
-          \par\end{center}\vskip 1em
-          \includegraphics[width=\textwidth]{MIRmap.png}
-        }
+      
 ---
-
 <!-- html-only -->
 
 ```{=html}
@@ -45,7 +42,10 @@ format:
     font-size: 0.85em;
   }
 </style>
+
 ```
+
+
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(warning = FALSE, message = FALSE)
@@ -55,7 +55,7 @@ library(tidyverse)
 library(DT)
 library(patchwork)
 library(glue)
-library(purrr)
+
 
 # Source Plotting Functions
 source('code/labeler.R', local = knitr::knit_global())
@@ -95,15 +95,14 @@ big fish little fish
 test
 
 </details>
-
-```{r, echo=FALSE, results='asis'}
-# Map format to appear correct in HTML and PDF output
+### Map of M:IR Sites
+```{r, echo=FALSE, results='asis', out.width='80%', fig.align='center'}
 if (knitr::is_html_output()) {
   cat('<img src="MIRmap.png" alt="Map of M:IR Sites" width="100%" style="margin-top: 1em;">')
+} else {
+  knitr::include_graphics("MIRmap.png")
 }
 ```
-
-
 
 
 \newpage
@@ -115,177 +114,57 @@ NCRMP fish surveys use the Reef Visual Census (RVC), stationary-point-count meth
 ### Strata
 
 ```{r echo=FALSE}
-# table <-  MIR_data$sample_data %>%
-#             group_by(PROT, STRAT) %>%
-#             summarise(n = length(unique(PRIMARY_SAMPLE_UNIT))) %>%
-#             mutate(description = case_when(
-#               STRAT == "FK01" ~ "inshore reefs, all depths",
-#               STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
-#               STRAT == "FK03" ~ "offshore patch, all depths",
-#               STRAT == "FK04" ~ "forereef, low rugosity, <12m",
-#               STRAT == "FK05" ~ "forereef, high rugosity, <12m"
-#             )) %>%
-#             mutate(PROT = case_when(
-#               PROT == 0 ~ "Outside",
-#               PROT == 1 ~ "Inside"
-#             )) %>% 
-#             select(PROT, STRAT, description, n) %>%
-#             ungroup()
-# #conditional statement for rendering in both HTML and PDF
-# if (knitr::is_html_output()) {
-#   DT::datatable(table,
-#     class = "cell-border stripe", 
-#     rownames = FALSE,
-#     colnames = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
-#     caption = "Table 1. Number of sites sampled.",
-#     options = list(
-#       columnDefs = list(list(className = 'dt-center', targets = "_all")),
-#       info = FALSE,
-#       paging = FALSE,
-#       searching = FALSE
-#     )
-#   )
-# } else {
-#   knitr::kable(table,
-#                caption = "Table 1. Number of sites sampled.",
-#                col.names = c("Study Area", "Strata Name", "Strata Description", "Sample Number"),
-#                booktabs = TRUE) %>%
-#     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10)
-# }
-
-table <- MIR_data$sample_data %>%
-  group_by(YEAR, PROT, STRAT) %>%
-  summarise(n = length(unique(PRIMARY_SAMPLE_UNIT)), .groups = "drop") %>%
-  mutate(description = case_when(
-    STRAT == "FK01" ~ "inshore reefs, all depths",
-    STRAT == "FK02" ~ "mid-channel patch reefs, all depths",
-    STRAT == "FK03" ~ "offshore patch, all depths",
-    STRAT == "FK04" ~ "forereef, low rugosity, <12m",
-    STRAT == "FK05" ~ "forereef, high rugosity, <12m"
-  )) %>%
-  mutate(PROT = case_when(
-    PROT == 0 ~ "Outside",
-    PROT == 1 ~ "Inside"
-  )) %>%
-  # Set factor levels to preserve desired order
-  mutate(PROT = factor(PROT, levels = c("Outside", "Inside"))) %>%
-  select(YEAR, PROT, STRAT, description, n) %>%
-  pivot_wider(
-    names_from = YEAR,
-    values_from = n,
-    values_fill = 0
-  ) %>%
-  arrange(PROT, STRAT) %>%  # ensure Outside comes first, then Inside
-  ungroup()
-
-# Conditional rendering for HTML and PDF
-if (knitr::is_html_output()) {
-  DT::datatable(
-    table,
-    class = "cell-border stripe", 
-    rownames = FALSE,
-    colnames = c("Study Area", "Strata Name", "Strata Description", sort(unique(MIR_data$sample_data$YEAR))),
-    caption = "Table 1. Number of sites sampled by year.",
-    options = list(
-      columnDefs = list(list(className = 'dt-center', targets = "_all")),
-      info = FALSE,
-      paging = FALSE,
-      searching = FALSE
-    )
-  )
-} else {
-  knitr::kable(
-    table,
-    caption = "Table 1. Number of sites sampled by year.",
-    booktabs = TRUE
-  ) %>%
-    kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10)
-}
+render_strata_table(MIR_data$sample_data, caption = "Number of sites sampled by year.")
 ```
+
+\newpage
 
 ### Fish Species
 
 Six reef fish species were chosen to represent different trophic levels and functional roles.
 
-```{r echo=FALSE}
+``` {r echo=FALSE}
 # To add species to the document, add species code here
 target_species <- c(
   "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
-  "CAL CALA", "CAL NODO", "EPI MORI", "EPI ITAJ"
+  "CAL CALA", "CAL NODO", "EPI MORI" 
+  #"EPI ITAJ",
+  # "THA BIFA", "HAL GARN", "STE LEUC", "SPA AURO",
+  # "ABU SAXA", "HAE SCIU", "OCY CHRY", "LUT GRIS"
 )
 
-# Build spp_list dynamically from MIR_data$taxonomic_data
+# Build spp_list dynamically with image paths for later use in tables/plots
+
 spp_list <- MIR_data$taxonomic_data %>%
   filter(SPECIES_CD %in% target_species) %>%
   select(SPECIES_CD, COMNAME, SCINAME) %>%
   distinct() %>%
   arrange(match(SPECIES_CD, target_species)) %>%
-  left_join(community_data)   # preserve order
+  left_join(community_data) %>%
+  mutate(
+    COMNAME = stringr::str_to_title(COMNAME),
+    img_path = file.path("species_photos", paste0(gsub(" ", "_", SPECIES_CD), ".png"))
+  )
 
-spp_list <- spp_list %>%
-  mutate(COMNAME = str_to_title(COMNAME))
+render_species_table(spp_list, caption = "Fish species with representative photos. For analysis, both porgy species were combined.")
+```
 
 
-# Conditional rendering for HTML or PDF
-# if (knitr::is_html_output()) {
-#   DT::datatable(
-#     spp_list %>%
-#       mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE)),
-#     class = "cell-border stripe",
-#     rownames = FALSE,
-#     colnames = c("Species Code", "Common Name", "Scientific Name"),
-#     caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
-#     options = list(
-#       columnDefs = list(list(className = 'dt-center', targets = "_all")),
-#       info = FALSE,
-#       paging = FALSE,
-#       searching = FALSE
-#     )
-#   ) %>%
-#     DT::formatStyle(columns = "SCINAME", fontStyle = "italic")
-# } else {
-#   knitr::kable(
-#     spp_list %>%
-#       mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE)),
-#     caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
-#     col.names = c("Species Code", "Common Name", "Scientific Name"),
-#     booktabs = TRUE
-#   ) %>%
-#     kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10) %>%
-#     kableExtra::column_spec(3, italic = TRUE)
-# }
+```{r, echo = FALSE}
+#Merging species for analysis. Repeat chunk for merging other species 
+MIR_data_merged <- MIR_data
+MIR_data_merged$sample_data <- MIR_data$sample_data %>%
+  mutate(SPECIES_CD = ifelse(SPECIES_CD %in% c("CAL CALA", "CAL NODO"), "CAL CALA", SPECIES_CD))
 
-spp_table <- spp_list %>%
-  select(SPECIES_CD, COMNAME, SCINAME) %>%
-  mutate(COMNAME = sub("^([a-z])", "\\U\\1", COMNAME, perl = TRUE))  # capitalize first letter
-
-# Conditional rendering for HTML or PDF
-if (knitr::is_html_output()) {
-  DT::datatable(
-    spp_table,
-    class = "cell-border stripe",
-    rownames = FALSE,
-    colnames = c("Species Code", "Common Name", "Scientific Name"),
-    caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
-    options = list(
-      columnDefs = list(list(className = 'dt-center', targets = "_all")),
-      info = FALSE,
-      paging = FALSE,
-      searching = FALSE
-    )
+#creating new spp_list for plots. spp_list is still used in table to show original species information
+spp_list_merged <- spp_list %>%
+  mutate(
+    COMNAME = ifelse(SPECIES_CD %in% c("CAL CALA", "CAL NODO"), "Porgy", COMNAME),
+    SPECIES_CD = ifelse(SPECIES_CD %in% c("CAL CALA", "CAL NODO"), "CAL CALA", SPECIES_CD),
+    SCINAME = ifelse(SPECIES_CD == "CAL CALA", "Calamus spp.", SCINAME) 
   ) %>%
-    DT::formatStyle(columns = "SCINAME", fontStyle = "italic")
-} else {
-  knitr::kable(
-    spp_table,
-    caption = "Table 2. Fish species. For analysis, both porgy species were combined.",
-    col.names = c("Species Code", "Common Name", "Scientific Name"),
-    booktabs = TRUE
-  ) %>%
-    kableExtra::kable_styling(latex_options = c("striped", "hold_position"), font_size = 10) %>%
-    kableExtra::column_spec(3, italic = TRUE)
-}
-
+  distinct(SPECIES_CD, COMNAME, SCINAME, .keep_all = TRUE)
+  
 ```
 
 \newpage
@@ -295,7 +174,7 @@ if (knitr::is_html_output()) {
 NCRMP’s comprehensive sampling design provides a broad, population-level perspective on the status and trends of the reef fish community. In particular, trend data can provide insight into how species respond to events including regional management actions such as targeted coral restoration efforts within the M:IR sites. Density results are shown as the number of individuals per survey area 177 m$^{2}$ ± SE.
 
 ```{r, fig.width=12, fig.height=8, echo=FALSE}
-MIR_domain_dens_by_year(MIR_data, spp_list)
+MIR_domain_dens_by_year(MIR_data_merged, spp_list_merged)
 ```
 
 \newpage
@@ -305,7 +184,7 @@ MIR_domain_dens_by_year(MIR_data, spp_list)
 Occurrence measures how often a species is detected in surveys, providing insight into its distribution within M:IR sites and outside of M:IR sites in the Florida Keys. Results show presence regardless of abundance, helping to identify widespread versus rare species. Survey occurrence results are shown within M:IR sites (inside) and in the Florida Keys (outside) ± SE.
 
 ```{r, fig.width=12, fig.height=8, echo=FALSE}
-MIR_domain_occ_by_year(MIR_data, spp_list)
+MIR_domain_occ_by_year(MIR_data_merged, spp_list_merged)
 ```
 
 \newpage
@@ -318,23 +197,24 @@ Length compositions provide a detailed description of a selected fish’s popula
 ::: {.panel-tabset}
 
 ```{r, echo=FALSE, results='asis', fig.width=12, fig.height=10}
-
-pmap(spp_list, function(SPECIES_CD, COMNAME, SCINAME, max_size) {
-  
-  cat("### ", COMNAME, "\n\n")
-  
-  p <- render_LF_plots(
-    df         = MIR_data,
-    SPECIES_CD = SPECIES_CD,
-    COMNAME    = COMNAME,
-    max_size   = max_size,
-    yrs        = c(2022, 2024),
-    target_bins = 10
-  )
-  
-  print(p)
-  cat("\n\n")
-})
+#Length frequency plots
+pwalk(
+  spp_list_merged,
+  function(SPECIES_CD, COMNAME, SCINAME, max_size, ...) {
+    cat("### ", COMNAME, "\n\n")
+    p <- render_LF_plots(
+      df         = MIR_data_merged,   
+      SPECIES_CD = SPECIES_CD,
+      COMNAME    = COMNAME,
+      max_size   = max_size,
+      yrs        = c(2022, 2024),
+      target_bins = 10
+    )
+    print(p)
+    cat("\n\n")
+  }
+)
 ```
+
 
 
