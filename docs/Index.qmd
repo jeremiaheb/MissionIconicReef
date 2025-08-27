@@ -126,10 +126,10 @@ Six reef fish species were chosen to represent different trophic levels and func
 # To add species to the document, add species code here
 target_species <- c(
   "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
-  "CAL CALA", "CAL NODO", "EPI MORI" 
-  # "EPI ITAJ",
-  # "THA BIFA", "HAL GARN", "STE LEUC", "SPA AURO",
-  # "ABU SAXA", "HAE SCIU", "OCY CHRY", "LUT GRIS"
+  "CAL CALA", "CAL NODO", "EPI MORI", 
+  "EPI ITAJ",
+  "THA BIFA", "HAL GARN", "STE LEUC", "SPA AURO",
+  "ABU SAXA", "HAE SCIU", "OCY CHRY", "LUT GRIS"
 )
 
 # Build spp_list dynamically with image paths for later use in tables/plots
