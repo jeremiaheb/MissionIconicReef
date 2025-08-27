@@ -136,22 +136,68 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
   }
 }
 #Density function
+# MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
+#
+#
+#   inside <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
+#     mutate(SE = sqrt(var),
+#            YEAR = as_factor(YEAR),
+#            protection = "M:IR") %>%
+#     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
+#
+#   out <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
+#     mutate(SE = sqrt(var),
+#            YEAR = as_factor(YEAR),
+#            protection = "Outside") %>%
+#     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
+#
+#   a <- rbind(inside, out)
+#
+#   p <- ggplot(a, aes(x = YEAR, y = density, color = protection, group = protection)) +
+#     geom_line(size = 1) +
+#     geom_point(size = 2) +
+#     geom_errorbar(aes(ymin = density - SE, ymax = density + SE),
+#                   width = 0.25, size = 0.5) +
+#     ggtitle(title) +
+#     theme_Publication(base_size = 15) +
+#     scale_color_manual(name = "Protection Status",
+#                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
+#     theme(legend.text = element_text(size = 12)) +
+#     xlab("Year") +
+#     ylab("Density ind/177m2") +
+#     facet_wrap(~ GROUP, scales = "free_y")
+#
+#   return(p)
+# }
 MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
 
-
-  inside <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
+  inside <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year,
+                             status = 1, length_bins = length) %>%
     mutate(SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "M:IR") %>%
     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  out <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
+
+  out <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year,
+                          status = 0, length_bins = length) %>%
     mutate(SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "Outside") %>%
     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
   a <- rbind(inside, out)
+
+ #Compute significance
+  signif_table <- inside %>%
+    select(GROUP, YEAR, density_in = density) %>%
+    left_join(out %>% select(GROUP, YEAR, density_out = density),
+              by = c("GROUP", "YEAR")) %>%
+    mutate(signif = sample(c(TRUE, FALSE), n(), replace = TRUE))
+  # mock random sig. rule. above. replace with real logic
+  a <- a %>%
+    left_join(signif_table %>% select(GROUP, YEAR, signif),
+              by = c("GROUP", "YEAR"))
 
   p <- ggplot(a, aes(x = YEAR, y = density, color = protection, group = protection)) +
     geom_line(size = 1) +
@@ -167,9 +213,27 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
     ylab("Density ind/177m2") +
     facet_wrap(~ GROUP, scales = "free_y")
 
+#Labeling significance
+#Will have to modify position once we see what real sig looks like
+#Tried a couple things with buffering for error bars but its smack between both dens. right now and looks ok
+  signif_df <- inside %>%
+    select(GROUP, YEAR, density_in = density, SE_in = SE) %>%
+    left_join(out %>% select(GROUP, YEAR, density_out = density, SE_out = SE),
+              by = c("GROUP", "YEAR")) %>%
+    left_join(signif_table %>% select(GROUP, YEAR, signif),
+              by = c("GROUP", "YEAR")) %>%
+    filter(signif) %>%
+    mutate(
+      y_pos = (density_in + density_out)/2,
+      label = "*"
+    )
+
+  p <- p + geom_text(data = signif_df,
+                     aes(x = YEAR, y = y_pos, label = label),
+                     inherit.aes = FALSE, size = 10, color = "black")
+
   return(p)
 }
-
 #Occurrence function
 MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
 
