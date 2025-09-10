@@ -1,24 +1,73 @@
 <style>
-  .logo-container {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    gap: 1rem;  /* space between logos */
-    background-color: white;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    z-index: 10;
-  }
+/* Left-side CRCP logo */
+.left-logo-container {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 10;
+}
 
-  .logo-container img {
-    height: 75px; /* adjust as needed */
-  }
+.left-logo-container img {
+  height: 100px;
+}
+
+/* Right-side stacked logos */
+.logo-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.logo-container img {
+  height: 50px;
+}
+
+/* Table of contents font size */
+nav#TOC {
+  font-size: 0.85em;
+}
+
+/* Center the Quarto title block */
+.quarto-title .title {
+  margin-left: 180px;
+  text-align: center;
+}
 </style>
+
+<div class="left-logo-container">
+  <img src="CRCP.png" alt="CRCP Logo">
+</div>
 
 <div class="logo-container">
   <img src="MIR.png" alt="Mission Iconic Reef Logo">
   <img src="noaa_logo.png" alt="NOAA Logo">
 </div>
 
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Select all anchor tags
+  document.querySelectorAll('a').forEach(function(link) {
+    // Only set target=_blank for external links (optional)
+    if (
+      link.href &&
+      link.hostname &&
+      link.hostname !== window.location.hostname
+    ) {
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener');
+    }
+  });
+});
+</script>

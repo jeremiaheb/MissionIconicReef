@@ -29,7 +29,10 @@ render_strata_table <- function(df, caption = "Number of sites sampled by year")
       class = "cell-border stripe",
       rownames = FALSE,
       colnames = c("Study Area", "Strata Name", "Strata Description", sort(unique(df$YEAR))),
-      caption = caption,
+      caption = htmltools::tags$caption(
+        style = 'caption-side: top; text-align: left; font-weight: bold;',
+        caption
+      ),
       options = list(
         columnDefs = list(list(className = 'dt-center', targets = "_all")),
         info = FALSE,
@@ -42,7 +45,6 @@ render_strata_table <- function(df, caption = "Number of sites sampled by year")
       table,
       caption = caption,
       booktabs = TRUE,
-      caption.bottom = TRUE
     ) %>%
       kableExtra::kable_styling(
         latex_options = c("striped", "hold_position"),
@@ -93,7 +95,10 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
         class = "cell-border stripe",
         rownames = FALSE,
         colnames = c("Species Code", "Common Name", "Scientific Name", "Photo"),
-        caption = caption,
+        caption = htmltools::tags$caption(
+          style = 'caption-side: top; text-align: left; font-weight: bold;',
+          caption
+        ),
         options = list(
           columnDefs = list(list(className = 'dt-center', targets = "_all")),
           info = FALSE,
@@ -101,8 +106,7 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
           searching = FALSE
         )
       ) %>%
-        DT::formatStyle(columns = "SCINAME", fontStyle = "italic")
-    )
+        DT::formatStyle(columns = "SCINAME", fontStyle = "italic"))
 
   } else {
     # PDF table with images (blank if missing)
@@ -126,7 +130,6 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
       col.names = c("Species Code", "Common Name", "Scientific Name", "Photo"),
       booktabs = TRUE,
       escape = FALSE,
-      caption.bottom = TRUE
     ) %>%
       kableExtra::kable_styling(
         latex_options = c("striped", "hold_position"),
@@ -199,7 +202,7 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
-    ylab("Density (ind/m$^{2}$)") +
+    ylab(expression("Density (ind/m"^2*")")) +
     facet_wrap(~ GROUP, scales = "free_y") +
     geom_text(data = signif_df,
                aes(x = YEAR, y = y_pos, label = "*"),
