@@ -1,10 +1,12 @@
 ---
 title: "Mission: Iconic Reefs RVC Analysis"
-author: "[Jeremiah Blondeau](https://github.com/jeremiaheb) + Rob Harper"
+author: "[Jeremiah Blondeau](https://github.com/jeremiaheb) + Jay Grove + Rob Harper"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "jeremiah.blondeau@noaa.gov"
 github: "jeremiahheb/MissionIconicReef"
 bibliography: references.bib
+reference-location: section
+reference-section-title: References
 format: 
   html:
     page-layout: full
@@ -63,6 +65,7 @@ source('code/QL_binned_LengthFreq.R', local = knitr::knit_global())
 source('code/theme_publication.R', local = knitr::knit_global())
 source('code/WrapperFunctions.R', local = knitr::knit_global())
 source('code/MIR_Plot_functions.R', local = knitr::knit_global())
+source('code/two_tail_t_test.R', local = knitr::knit_global())
 
 # Read in MIR data set
 MIR_data <- readRDS("../data/MIR_Dataset.rds")
@@ -77,21 +80,13 @@ community_data <- readRDS("../data/community_data.rds")
 
 ## Introduction
 
-```{=html}
-<script src="code/expand.js"></script>
-```
-<details class="expand" open>
-<summary style="font-size:1.1em; font-weight:bold; cursor:pointer;">
-
-</summary>
-<br>
-
 [Mission: Iconic Reefs](https://missioniconicreefs.org/) is a multi-institutional initiative designed to restore ecological function and biodiversity across key reef sites in the Florida Keys. Led by NOAA’s Office of Habitat Conservation and the Florida Keys National Marine Sanctuary in collaboration with federal, state, institutional, and non-profit partners, M:IR targets nearly three million square feet of reef, employing a phased restoration strategy. The overarching goal is to restore coral cover and reef function to a self-sustaining state.
 
 Monitoring the response of reef fish populations to these restoration interventions is critical for evaluating ecological outcomes [@Feeley2025]. The National Coral Reef Monitoring Program (NCRMP) conducts non-extractive Reef Visual Census (RVC) surveys using a stationary-point-count method modified from Bohnsack and Bannerot (1986) [@Bohnsack86; @Towle2025]. Surveys are conducted on shallow (<30 m), hard-bottom reef habitats and employ a stratified-random, one-stage design within 50 m × 50 m grid cells to ensure representative sampling across depth and rugosity strata [@Towle2025; @Ault2021]. For this analysis, the NCRMP dataset was restricted to strata types overlapping M:IR sites to allow direct comparisons of fish communities inside and outside restoration areas.
 
 Six reef fish species were selected to represent a range of trophic levels and functional roles. NCRMP’s extensive sampling provides population-level insights into density (number of individuals per 177 m$^{2}$ ± SE), occurrence (frequency of detection within and outside M:IR sites ± SE), and relative length frequency distributions. Density and occurrence metrics enable detection of shifts in abundance and distribution patterns in response to environmental disturbances and management interventions [@Ault2021]. Length frequency data provide detailed information on population structure, recruitment, and potential fishing impacts, serving as an indicator of restoration effectiveness and long-term population sustainability [@Ault2021].  Analysis was completed using the Blondeau & Ganz RVC Statistics package in R [@Ganz2015].
 
+Point of Contact: Jeremiah Blondeau (jeremiah.blondeau@noaa.gov)
 
 </details>
 ### Map of M:IR Sites
@@ -125,11 +120,10 @@ Six reef fish species were chosen to represent different trophic levels and func
 ``` {r echo=FALSE}
 # To add species to the document, add species code here
 target_species <- c(
-  "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
-  "CAL CALA", "CAL NODO", "EPI MORI" 
-  # "EPI ITAJ",
+  # "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
+  # "CAL CALA", "CAL NODO", "EPI MORI", "EPI ITAJ",
   # "THA BIFA", "HAL GARN", "STE LEUC", "SPA AURO",
-  # "ABU SAXA", "HAE SCIU", "OCY CHRY", "LUT GRIS"
+  "ABU SAXA", "HAE SCIU", "OCY CHRY", "LUT GRIS"
 )
 
 # Build spp_list dynamically with image paths for later use in tables/plots
@@ -189,7 +183,7 @@ MIR_domain_occ_by_year(MIR_data_merged, spp_list_merged)
 
 \newpage
 
-## Length Frequency
+## Relative Length Frequency
 
 Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef (i.e., young of year or from nursery habitat), length classes removed by the local fisheries, and the effectiveness of management actions
 
@@ -217,6 +211,4 @@ pwalk(
 ```
 
 \newpage
-## References
-
 
