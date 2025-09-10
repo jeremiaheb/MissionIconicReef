@@ -136,22 +136,57 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
   }
 }
 #Density function
+
 MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
 
+  strat_number = dataset$stratum_data %>%
+    reframe(strat_num = n_distinct(STRAT), .by = c(YEAR, PROT)) %>%
+    mutate(YEAR = as_factor(YEAR))
 
-  inside <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
-    mutate(SE = sqrt(var),
+  inside <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year,
+                             status = 1, length_bins = length) %>%
+    mutate(PROT = 1,
+           SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "M:IR") %>%
     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  out <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
-    mutate(SE = sqrt(var),
+
+  out <- getDomainDensity(dataset, species$SPECIES_CD, group = species, years = year,
+                          status = 0, length_bins = length) %>%
+    mutate(PROT = 0,
+           SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "Outside") %>%
     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  a <- rbind(inside, out)
+  a <- rbind(inside, out) %>% left_join(strat_number)
+
+  #Compute significance
+  signif_table <- a %>%
+    group_by(YEAR, GROUP) %>%
+    nest() %>%
+    mutate(signif = map(.f = apply_ttest_dens, .x = data)) %>%
+    mutate(signif = if_else(grepl("NOT", signif), FALSE, TRUE))
+
+  a <- a %>%
+    left_join(signif_table %>% select(GROUP, YEAR, signif),
+              by = c("GROUP", "YEAR"))
+
+  #Labeling significance
+  signif_df <- inside %>%
+    select(GROUP, YEAR, density_in = density, SE_in = SE) %>%
+    left_join(out %>% select(GROUP, YEAR, density_out = density, SE_out = SE),
+              by = c("GROUP", "YEAR")) %>%
+    left_join(signif_table %>% select(GROUP, YEAR, signif),
+              by = c("GROUP", "YEAR")) %>%
+    filter(signif) %>%
+    mutate(
+      y_pos = (
+        if_else(density_in > density_out, density_in - SE_in, density_out - SE_out) +
+          if_else(density_in > density_out, density_out + SE_out, density_in + SE_in)
+      ) / 2
+    )
 
   p <- ggplot(a, aes(x = YEAR, y = density, color = protection, group = protection)) +
     geom_line(size = 1) +
@@ -164,29 +199,65 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
-    ylab("Density ind/177m2") +
-    facet_wrap(~ GROUP, scales = "free_y")
-
+    ylab("Density (ind/m$^{2}$)") +
+    facet_wrap(~ GROUP, scales = "free_y") +
+    geom_text(data = signif_df,
+               aes(x = YEAR, y = y_pos, label = "*"),
+               inherit.aes = FALSE, size = 8,
+               vjust = .75,
+               color = "black")
   return(p)
-}
 
+}
 #Occurrence function
 MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
 
+  strat_number = dataset$stratum_data %>%
+    reframe(strat_num = n_distinct(STRAT), .by = c(YEAR, PROT)) %>%
+    mutate(YEAR = as_factor(YEAR))
+
   inside <- getDomainOccurrence(dataset, species$SPECIES_CD, group = species, years = year, status = 1, length_bins = length) %>%
-    mutate(SE = sqrt(var),
+    mutate(PROT = 1,
+           SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "M:IR") %>%
     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
   out <- getDomainOccurrence(dataset, species$SPECIES_CD, group = species, years = year, status = 0, length_bins = length) %>%
-    mutate(SE = sqrt(var),
+    mutate(PROT = 0,
+           SE = sqrt(var),
            YEAR = as_factor(YEAR),
            protection = "Outside") %>%
     filter(if (!is.null(length)) length_class == paste(">= ", length, sep = "") else TRUE)
 
-  a <- rbind(inside, out)
+  a <- rbind(inside, out) %>% left_join(strat_number)
 
+  signif_table <- a %>%
+    group_by(YEAR, GROUP) %>%
+    nest() %>%
+    mutate(signif = map(.f = apply_ttest_occ, .x = data)) %>%
+    mutate(signif = if_else(grepl("NOT", signif), FALSE, TRUE))
+
+
+  a <- a %>%
+    left_join(signif_table %>% select(GROUP, YEAR, signif),
+              by = c("GROUP", "YEAR"))
+
+  signif_df <- inside %>%
+    select(GROUP, YEAR, occ_in = occurrence, SE_in = SE) %>%
+    left_join(out %>% select(GROUP, YEAR, occ_out = occurrence, SE_out = SE),
+              by = c("GROUP", "YEAR")) %>%
+    left_join(signif_table %>% select(GROUP, YEAR, signif),
+              by = c("GROUP", "YEAR")) %>%
+    filter(signif) %>%
+    mutate(
+      y_pos = (
+        if_else(occ_in > occ_out, occ_in - SE_in, occ_out - SE_out) +
+          if_else(occ_in > occ_out, occ_out + SE_out, occ_in + SE_in)
+      ) / 2
+    )
+
+  # Plot
   p <- ggplot(a, aes(x = YEAR, y = occurrence, color = protection, group = protection)) +
     geom_line(size = 1) +
     geom_point(size = 2) +
@@ -199,7 +270,12 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
     ylab("Relative Occurrence") +
-    facet_wrap(~ GROUP, scales = "free_y")
+    facet_wrap(~ GROUP, scales = "free_y") +
+    geom_text(data = signif_df,
+              aes(x = YEAR, y = y_pos, label = "*"),
+              inherit.aes = FALSE, size = 8,
+              vjust = 0.75,
+              color = "black")
 
   return(p)
 }
@@ -218,6 +294,7 @@ compute_bin_size <- function(max_size, target_bins = 10) {
 
   return(bin_size)
 }
+
 
 # Length frequency for comparing inside to outside
 MIR_LF <- function(df, spp, bin_size, yrs = NULL, spp_name) {

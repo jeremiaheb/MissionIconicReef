@@ -6,8 +6,8 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Jeremiah Blondeau + Rob Harper">
-<meta name="dcterms.date" content="2025-08-27">
+<meta name="author" content="Jeremiah Blondeau + Jay Grove + Rob Harper">
+<meta name="dcterms.date" content="2025-09-10">
 
 <title>Mission: Iconic Reefs RVC Analysis</title>
 <style>
@@ -113,14 +113,14 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p><a href="https://github.com/jeremiaheb">Jeremiah Blondeau</a> + Rob Harper </p>
+               <p><a href="https://github.com/jeremiaheb">Jeremiah Blondeau</a> + Jay Grove + Rob Harper </p>
             </div>
     </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 27, 2025</p>
+        <p class="date">September 10, 2025</p>
       </div>
     </div>
     
@@ -145,7 +145,8 @@ window.Quarto = {
   </ul></li>
   <li><a href="#density" id="toc-density" class="nav-link" data-scroll-target="#density"><span class="header-section-number">3</span> Density</a></li>
   <li><a href="#occurrence" id="toc-occurrence" class="nav-link" data-scroll-target="#occurrence"><span class="header-section-number">4</span> Occurrence</a></li>
-  <li><a href="#length-frequency" id="toc-length-frequency" class="nav-link" data-scroll-target="#length-frequency"><span class="header-section-number">5</span> Length Frequency</a></li>
+  <li><a href="#relative-length-frequency" id="toc-relative-length-frequency" class="nav-link" data-scroll-target="#relative-length-frequency"><span class="header-section-number">5</span> Relative Length Frequency</a></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
@@ -188,15 +189,11 @@ window.Quarto = {
 
 <section id="introduction" class="level2" data-number="1">
 <h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
-<script src="code/expand.js"></script>
-<details class="expand" open="">
-<summary style="font-size:1.1em; font-weight:bold; cursor:pointer;">
-</summary>
-<p><br></p>
 <p><a href="https://missioniconicreefs.org/">Mission: Iconic Reefs</a> is a multi-institutional initiative designed to restore ecological function and biodiversity across key reef sites in the Florida Keys. Led by NOAA’s Office of Habitat Conservation and the Florida Keys National Marine Sanctuary in collaboration with federal, state, institutional, and non-profit partners, M:IR targets nearly three million square feet of reef, employing a phased restoration strategy. The overarching goal is to restore coral cover and reef function to a self-sustaining state.</p>
 <p>Monitoring the response of reef fish populations to these restoration interventions is critical for evaluating ecological outcomes <span class="citation" data-cites="Feeley2025">(<a href="#ref-Feeley2025" role="doc-biblioref">Feeley et al. 2025</a>)</span>. The National Coral Reef Monitoring Program (NCRMP) conducts non-extractive Reef Visual Census (RVC) surveys using a stationary-point-count method modified from Bohnsack and Bannerot (1986) <span class="citation" data-cites="Bohnsack86 Towle2025">(<a href="#ref-Bohnsack86" role="doc-biblioref">Bohnsack and Bannerot 1986</a>; <a href="#ref-Towle2025" role="doc-biblioref">Towle et al. 2025</a>)</span>. Surveys are conducted on shallow (&lt;30 m), hard-bottom reef habitats and employ a stratified-random, one-stage design within 50 m × 50 m grid cells to ensure representative sampling across depth and rugosity strata <span class="citation" data-cites="Towle2025 Ault2021">(<a href="#ref-Towle2025" role="doc-biblioref">Towle et al. 2025</a>; <a href="#ref-Ault2021" role="doc-biblioref">Ault et al. 2021</a>)</span>. For this analysis, the NCRMP dataset was restricted to strata types overlapping M:IR sites to allow direct comparisons of fish communities inside and outside restoration areas.</p>
 <p>Six reef fish species were selected to represent a range of trophic levels and functional roles. NCRMP’s extensive sampling provides population-level insights into density (number of individuals per 177 m<span class="math inline">\(^{2}\)</span> ± SE), occurrence (frequency of detection within and outside M:IR sites ± SE), and relative length frequency distributions. Density and occurrence metrics enable detection of shifts in abundance and distribution patterns in response to environmental disturbances and management interventions <span class="citation" data-cites="Ault2021">(<a href="#ref-Ault2021" role="doc-biblioref">Ault et al. 2021</a>)</span>. Length frequency data provide detailed information on population structure, recruitment, and potential fishing impacts, serving as an indicator of restoration effectiveness and long-term population sustainability <span class="citation" data-cites="Ault2021">(<a href="#ref-Ault2021" role="doc-biblioref">Ault et al. 2021</a>)</span>. Analysis was completed using the Blondeau &amp; Ganz RVC Statistics package in R <span class="citation" data-cites="Ganz2015">(<a href="#ref-Ganz2015" role="doc-biblioref">Ganz and Blondeau 2015</a>)</span>.</p>
-</details>
+<p>Point of Contact: Jeremiah Blondeau (jeremiah.blondeau@noaa.gov)</p>
+
 <section id="map-of-mir-sites" class="level3" data-number="1.1">
 <h3 data-number="1.1" class="anchored" data-anchor-id="map-of-mir-sites"><span class="header-section-number">1.1</span> Map of M:IR Sites</h3>
 <div class="cell" data-layout-align="center">
@@ -212,8 +209,8 @@ window.Quarto = {
 <h3 data-number="2.1" class="anchored" data-anchor-id="strata"><span class="header-section-number">2.1</span> Strata</h3>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-05fb59a41fe9c69ed77d" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-05fb59a41fe9c69ed77d">{"x":{"filter":"none","vertical":false,"caption":"<caption>Number of sites sampled by year.<\/caption>","data":[["Outside","Outside","Outside","Outside","Outside","Inside","Inside","Inside","Inside","Inside"],["FK01","FK02","FK03","FK04","FK05","FK01","FK02","FK03","FK04","FK05"],["Inshore reefs, all depths","Mid-channel patch reefs, all depths","Offshore patch, all depths","Forereef, low rugosity, &lt;12m","Forereef, high rugosity, &lt;12m","Inshore reefs, all depths","Mid-channel patch reefs, all depths","Offshore patch, all depths","Forereef, low rugosity, &lt;12m","Forereef, high rugosity, &lt;12m"],[0,101,61,95,88,0,12,7,5,61],[15,100,36,105,87,12,13,8,15,64]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Study Area<\/th>\n      <th>Strata Name<\/th>\n      <th>Strata Description<\/th>\n      <th>2022<\/th>\n      <th>2024<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"PROT","targets":0},{"name":"STRAT","targets":1},{"name":"description","targets":2},{"name":"2022","targets":3},{"name":"2024","targets":4}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-88e9b614e9e265086b0c" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-88e9b614e9e265086b0c">{"x":{"filter":"none","vertical":false,"caption":"<caption>Number of sites sampled by year.<\/caption>","data":[["Outside","Outside","Outside","Outside","Outside","Inside","Inside","Inside","Inside","Inside"],["FK01","FK02","FK03","FK04","FK05","FK01","FK02","FK03","FK04","FK05"],["Inshore reefs, all depths","Mid-channel patch reefs, all depths","Offshore patch, all depths","Forereef, low rugosity, &lt;12m","Forereef, high rugosity, &lt;12m","Inshore reefs, all depths","Mid-channel patch reefs, all depths","Offshore patch, all depths","Forereef, low rugosity, &lt;12m","Forereef, high rugosity, &lt;12m"],[0,101,61,95,88,0,12,7,5,61],[15,100,36,105,87,12,13,8,15,64]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Study Area<\/th>\n      <th>Strata Name<\/th>\n      <th>Strata Description<\/th>\n      <th>2022<\/th>\n      <th>2024<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"PROT","targets":0},{"name":"STRAT","targets":1},{"name":"description","targets":2},{"name":"2022","targets":3},{"name":"2024","targets":4}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -234,8 +231,8 @@ window.Quarto = {
           }
         </script>
       
-<div class="datatables html-widget html-fill-item" id="htmlwidget-b1d8719c937b64c1209b" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-b1d8719c937b64c1209b">{"x":{"filter":"none","vertical":false,"caption":"<caption>Fish species with representative photos. For analysis, both porgy species were combined.<\/caption>","data":[["HAE FLAV","SPA VIRI","SCA GUAC","STE PLAN","CAL CALA","CAL NODO","EPI MORI","EPI ITAJ","THA BIFA","HAL GARN","STE LEUC","SPA AURO","ABU SAXA","HAE SCIU","OCY CHRY","LUT GRIS"],["French Grunt","Stoplight Parrotfish","Rainbow Parrotfish","Threespot Damselfish","Saucereye Porgy","Knobbed Porgy","Red Grouper","Goliath Grouper","Bluehead","Yellowhead Wrasse","Beaugregory","Redband Parrotfish","Sergeant Major","Bluestriped Grunt","Yellowtail Snapper","Gray Snapper"],["Haemulon flavolineatum","Sparisoma viride","Scarus guacamaia","Stegastes planifrons","Calamus calamus","Calamus nodosus","Epinephelus morio","Epinephelus itajara","Thalassoma bifasciatum","Halichoeres garnoti","Stegastes leucostictus","Sparisoma aurofrenatum","Abudefduf saxatilis","Haemulon sciurus","Ocyurus chrysurus","Lutjanus griseus"],["<img src=\"species_photos/HAE_FLAV.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/HAE_FLAV.png')\">","<img src=\"species_photos/SPA_VIRI.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/SPA_VIRI.png')\">","<img src=\"species_photos/SCA_GUAC.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/SCA_GUAC.png')\">","","<img src=\"species_photos/CAL_CALA.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/CAL_CALA.png')\">","","<img src=\"species_photos/EPI_MORI.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/EPI_MORI.png')\">","","","","","","","","",""]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Species Code<\/th>\n      <th>Common Name<\/th>\n      <th>Scientific Name<\/th>\n      <th>Photo<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"SPECIES_CD","targets":0},{"name":"COMNAME","targets":1},{"name":"SCINAME","targets":2},{"name":"Photo","targets":3}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-style':'italic'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-9ac1a853e84485925cf7" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-9ac1a853e84485925cf7">{"x":{"filter":"none","vertical":false,"caption":"<caption>Fish species with representative photos. For analysis, both porgy species were combined.<\/caption>","data":[["ABU SAXA","HAE SCIU","OCY CHRY","LUT GRIS"],["Sergeant Major","Bluestriped Grunt","Yellowtail Snapper","Gray Snapper"],["Abudefduf saxatilis","Haemulon sciurus","Ocyurus chrysurus","Lutjanus griseus"],["","","",""]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Species Code<\/th>\n      <th>Common Name<\/th>\n      <th>Scientific Name<\/th>\n      <th>Photo<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"SPECIES_CD","targets":0},{"name":"COMNAME","targets":1},{"name":"SCINAME","targets":2},{"name":"Photo","targets":3}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-style':'italic'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -269,11 +266,11 @@ window.Quarto = {
 </div>
 <div style="page-break-after: always;"></div>
 </section>
-<section id="length-frequency" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="length-frequency"><span class="header-section-number">5</span> Length Frequency</h2>
+<section id="relative-length-frequency" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="relative-length-frequency"><span class="header-section-number">5</span> Relative Length Frequency</h2>
 <p>Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef (i.e., young of year or from nursery habitat), length classes removed by the local fisheries, and the effectiveness of management actions</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">French Grunt</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Stoplight Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Rainbow Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Threespot Damselfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Porgy</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Red Grouper</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-7-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-7" role="tab" aria-controls="tabset-1-7" aria-selected="false" href="">Goliath Grouper</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-8-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-8" role="tab" aria-controls="tabset-1-8" aria-selected="false" href="">Bluehead</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-9-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-9" role="tab" aria-controls="tabset-1-9" aria-selected="false" href="">Yellowhead Wrasse</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-10-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-10" role="tab" aria-controls="tabset-1-10" aria-selected="false" href="">Beaugregory</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-11-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-11" role="tab" aria-controls="tabset-1-11" aria-selected="false" href="">Redband Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-12-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-12" role="tab" aria-controls="tabset-1-12" aria-selected="false" href="">Sergeant Major</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-13-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-13" role="tab" aria-controls="tabset-1-13" aria-selected="false" href="">Bluestriped Grunt</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-14-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-14" role="tab" aria-controls="tabset-1-14" aria-selected="false" href="">Yellowtail Snapper</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-15-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-15" role="tab" aria-controls="tabset-1-15" aria-selected="false" href="">Gray Snapper</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">Sergeant Major</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Bluestriped Grunt</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Yellowtail Snapper</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Gray Snapper</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
 <p><img src="Index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="1152"></p>
@@ -286,46 +283,13 @@ window.Quarto = {
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
 <p><img src="Index_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-5.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-6.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-7" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-7-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-7.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-8" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-8-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-8.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-9" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-9-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-9.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-10" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-10-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-10.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-11" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-11-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-11.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-12" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-12-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-12.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-13" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-13-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-13.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-14" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-14-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-14.png" class="img-fluid" width="1152"></p>
-</div>
-<div id="tabset-1-15" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-15-tab">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-15.png" class="img-fluid" width="1152"></p>
 <div style="page-break-after: always;"></div>
-<section id="references" class="level2" data-number="6">
-<h2 data-number="6" class="anchored" data-anchor-id="references"><span class="header-section-number">6</span> References</h2>
+</div>
+</div>
+</div>
 </section>
-</div>
-</div>
-</div>
+<section id="bibliography" class="level1 unnumbered">
+
 
 </section>
 
