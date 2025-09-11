@@ -283,18 +283,21 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
   return(p)
 }
 
-# Length Frequency bin size calculation
 compute_bin_size <- function(max_size, target_bins = 10) {
+  # 1. Handle invalid inputs
   if (is.null(max_size) || is.na(max_size) || max_size <= 0) return(5)
 
+  # 2. Generate "pretty" breakpoints between 0 and max_size
   breaks <- pretty(c(0, max_size), n = target_bins)
 
+  # 3. Compute bin size if we have at least two breaks
   if (length(breaks) > 1) {
     bin_size <- breaks[2] - breaks[1]
   } else {
-    bin_size <- 5  # fallback
+    bin_size <- 5  # fallback if breaks failed
   }
 
+  # 4. Return bin size
   return(bin_size)
 }
 
@@ -339,6 +342,7 @@ MIR_LF_yr <- function(df, spp, bin_size, yrs = NULL, spp_name, category, custom_
 
   x <- getDomainLengthFrequency(df, species = spp, merge_protected = FALSE) %>%
     group_by(YEAR, SPECIES_CD, protected_status) %>%
+    filter(YEAR %in% sort(unique(YEAR), decreasing = TRUE)[1:3])%>%
     nest() %>%
     mutate(Lf = map(data, ~ .x %>%
                       data.frame() %>%
@@ -382,23 +386,41 @@ render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(20
   }
 
   # Individual year plots
-  p1 <- MIR_LF(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = yrs[1], spp_name = COMNAME)
-  p2 <- MIR_LF(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = yrs[2], spp_name = COMNAME)
+  panels <- lapply(yrs, function(year) {
+    MIR_LF(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = year, spp_name = COMNAME)
+  })
 
   # Combined category plots
-  p3 <- MIR_LF_yr(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = yrs,
+  p1 <- MIR_LF_yr(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = yrs,
                   spp_name = COMNAME, category = "M:IR",
                   custom_title = paste(COMNAME, "- M:IR"))
 
-  p4 <- MIR_LF_yr(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = yrs,
+  p2 <- MIR_LF_yr(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = yrs,
                   spp_name = COMNAME, category = "open",
                   custom_title = paste(COMNAME, "- Open"))
 
-  return(invisible((p1 | p2) / (p3 | p4)))
+  n_per_row <- 2
+  n_needed <- n_per_row - (length(panels) %% n_per_row)
+  if (n_needed != n_per_row) {
+    panels <- c(panels, replicate(n_needed, patchwork::plot_spacer(), simplify = FALSE))
+  }
+  # Split panels into rows for the top section
+  row_panels <- split(panels, ceiling(seq_along(panels) / n_per_row))
+  combined_rows <- lapply(row_panels, function(row) Reduce(`|`, row))
+  combined_years <- Reduce(`/`, combined_rows)
+
+  # Bottom row stays as is (2 plots)
+  bottom_row <- p1 | p2
+
+  # Combine top and bottom, without padding bottom row
+  final_plot <- combined_years / bottom_row
+
+
+  return(invisible(final_plot))
 }
 
 #Manually adjust the bin size based on species code
-manual_bin <- c("STE PLAN" = 2, "EPI MORI" = 5)
+manual_bin <- c("STE PLAN" = 2, "SCA GUAC" = 10)
 
 
 
