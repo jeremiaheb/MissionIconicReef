@@ -6,10 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Jeremiah Blondeau + Rob Harper">
-<meta name="dcterms.date" content="2025-05-13">
+<meta name="author" content="Jeremiah Blondeau + Jay Grove + Rob Harper (NOAA Fisheries, Southeast Fisheries Science Center)">
+<meta name="dcterms.date" content="2025-09-10">
 
-<title>Mission: Iconic Reef</title>
+<title>Mission: Iconic Reefs and National Coral Reef Monitoring Program Reef Fish Analyses</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -103,7 +103,7 @@ window.Quarto = {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-page-left">
-      <h1 class="title">Mission: Iconic Reef</h1>
+      <h1 class="title">Mission: Iconic Reefs and National Coral Reef Monitoring Program Reef Fish Analyses</h1>
                       </div>
   </div>
     
@@ -113,14 +113,14 @@ window.Quarto = {
       <div>
       <div class="quarto-title-meta-heading">Author</div>
       <div class="quarto-title-meta-contents">
-               <p><a href="https://github.com/jeremiaheb">Jeremiah Blondeau</a> + Rob Harper </p>
+               <p><a href="https://github.com/jeremiaheb">Jeremiah Blondeau</a> + Jay Grove + Rob Harper<br>(NOAA Fisheries, Southeast Fisheries Science Center) </p>
             </div>
     </div>
       
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 13, 2025</p>
+        <p class="date">September 10, 2025</p>
       </div>
     </div>
     
@@ -134,66 +134,150 @@ window.Quarto = {
     <h2 id="toc-title">Table of contents</h2>
    
   <ul>
-  <li><a href="#the-data" id="toc-the-data" class="nav-link active" data-scroll-target="#the-data"><span class="header-section-number">1</span> The Data</a></li>
-  <li><a href="#fish-species" id="toc-fish-species" class="nav-link" data-scroll-target="#fish-species"><span class="header-section-number">2</span> Fish Species</a></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction"><span class="header-section-number">1</span> Introduction</a>
+  <ul class="collapse">
+  <li><a href="#map-of-mir-sites" id="toc-map-of-mir-sites" class="nav-link" data-scroll-target="#map-of-mir-sites"><span class="header-section-number">1.1</span> Map of M:IR Sites</a></li>
+  </ul></li>
+  <li><a href="#data" id="toc-data" class="nav-link" data-scroll-target="#data"><span class="header-section-number">2</span> Data</a>
+  <ul class="collapse">
+  <li><a href="#strata" id="toc-strata" class="nav-link" data-scroll-target="#strata"><span class="header-section-number">2.1</span> Strata</a></li>
+  <li><a href="#fish-species" id="toc-fish-species" class="nav-link" data-scroll-target="#fish-species"><span class="header-section-number">2.2</span> Fish Species</a></li>
+  </ul></li>
   <li><a href="#density" id="toc-density" class="nav-link" data-scroll-target="#density"><span class="header-section-number">3</span> Density</a></li>
   <li><a href="#occurrence" id="toc-occurrence" class="nav-link" data-scroll-target="#occurrence"><span class="header-section-number">4</span> Occurrence</a></li>
-  <li><a href="#length-frequency" id="toc-length-frequency" class="nav-link" data-scroll-target="#length-frequency"><span class="header-section-number">5</span> Length Frequency</a></li>
+  <li><a href="#relative-length-frequency" id="toc-relative-length-frequency" class="nav-link" data-scroll-target="#relative-length-frequency"><span class="header-section-number">5</span> Relative Length Frequency</a></li>
+  <li><a href="#point-of-contact" id="toc-point-of-contact" class="nav-link" data-scroll-target="#point-of-contact"><span class="header-section-number">6</span> Point of Contact</a></li>
+  <li><a href="#bibliography" id="toc-bibliography" class="nav-link" data-scroll-target="#bibliography">References</a></li>
   </ul>
 <div class="quarto-alternate-formats"><h2>Other Formats</h2><ul><li><a href="Index.pdf"><i class="bi bi-file-pdf"></i>PDF</a></li></ul></div></nav>
 </div>
 <main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
 <style>
-  .noaa-logo {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background-color: white;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-    z-index: 10;
-  }
+/* Left-side CRCP logo */
+.left-logo-container {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.left-logo-container img {
+  height: 100px;
+}
+
+/* Right-side stacked logos */
+.logo-container {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  background-color: white;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  z-index: 10;
+}
+
+.logo-container img {
+  height: 50px;
+}
+
+/* Table of contents font size */
+nav#TOC {
+  font-size: 0.85em;
+}
+
+/* Center the Quarto title block */
+.quarto-title .title {
+  margin-left: 180px;
+  text-align: center;
+}
 </style>
 
-<div class="noaa-logo">
-  <img src="noaa_logo.png" alt="NOAA Logo" width="200">
+<div class="left-logo-container">
+  <img src="CRCP.png" alt="CRCP Logo">
 </div>
 
+<div class="logo-container">
+  <img src="MIR.png" alt="Mission Iconic Reef Logo">
+  <img src="noaa_logo.png" alt="NOAA Logo">
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+  // Select all anchor tags
+  document.querySelectorAll('a').forEach(function(link) {
+    // Only set target=_blank for external links (optional)
+    if (
+      link.href &&
+      link.hostname &&
+      link.hostname !== window.location.hostname
+    ) {
+      link.setAttribute('target', '_blank');
+      link.setAttribute('rel', 'noopener');
+    }
+  });
+});
+</script>
 
 
 
 
 
+<section id="introduction" class="level2" data-number="1">
+<h2 data-number="1" class="anchored" data-anchor-id="introduction"><span class="header-section-number">1</span> Introduction</h2>
+<p><a href="https://missioniconicreefs.org/">Mission: Iconic Reefs</a> is a multi-institutional initiative designed to restore ecological function and biodiversity across key reef sites in the Florida Keys. Led by NOAA in collaboration with federal, state, institutional, and non-profit partners, M:IR targets nearly three million square feet of reef at seven key coral reefs in the Florida Keys National Marine Sanctuary (FKNMS): Carysfort (North and South), Cheeca Rocks, Eastern Dry Rocks, Horseshoe Reef, Looe Key, Newfound Harbor, and Sombrero Reef.. The overarching M:IR goal is to restore coral cover and reef function to a self-sustaining state.</p>
+<p>Monitoring the response of reef fish populations to these restoration interventions is essential to quantify the broader ecological impacts of restoration efforts <span class="citation" data-cites="Feeley2025">(<a href="#ref-Feeley2025" role="doc-biblioref">Feeley et al. 2025</a>)</span>. The National Coral Reef Monitoring Program (NCRMP) conducts non-extractive Reef Visual Census (RVC) surveys using a stationary-point-count method modified from Bohnsack and Bannerot (1986) <span class="citation" data-cites="Bohnsack86 Towle2025">(<a href="#ref-Bohnsack86" role="doc-biblioref">Bohnsack and Bannerot 1986</a>; <a href="#ref-Towle2025" role="doc-biblioref">Towle et al. 2025</a>)</span>. Surveys are conducted on shallow (&lt;30 m), hard-bottom reef habitats and employ a stratified-random, one-stage design within 50 m × 50 m grid cells to ensure representative sampling across depth and rugosity strata <span class="citation" data-cites="Towle2025 Ault2021">(<a href="#ref-Towle2025" role="doc-biblioref">Towle et al. 2025</a>; <a href="#ref-Ault2021" role="doc-biblioref">Ault et al. 2021</a>)</span>. For this analysis, the NCRMP dataset was restricted to strata types overlapping M:IR sites to allow direct comparisons of fish communities inside and outside restoration areas.</p>
+<p>Six reef fish species were selected to represent a range of trophic levels and functional roles. NCRMP’s extensive sampling provides population-level insights into density (number of individuals per 177 m<span class="math inline">\(^{2}\)</span> ± SE), occurrence (frequency of detection within and outside M:IR sites ± SE), and relative length frequency distributions. Density and occurrence metrics enable detection of shifts in abundance and distribution patterns in response to environmental disturbances and management interventions <span class="citation" data-cites="Ault2021">(<a href="#ref-Ault2021" role="doc-biblioref">Ault et al. 2021</a>)</span>. Length frequency data provide detailed information on population structure, recruitment, and potential fishing impacts, serving as an indicator of restoration effectiveness and long-term population sustainability <span class="citation" data-cites="Ault2021">(<a href="#ref-Ault2021" role="doc-biblioref">Ault et al. 2021</a>)</span>. Analysis was completed using the Blondeau &amp; Ganz RVC Statistics package in R <span class="citation" data-cites="Ganz2015">(<a href="#ref-Ganz2015" role="doc-biblioref">Ganz and Blondeau 2015</a>)</span></p>
 
-<!-- html-only -->
-<style>
-  nav#TOC {
-    font-size: 0.85em;
-  }
-</style>
+<section id="map-of-mir-sites" class="level3" data-number="1.1">
+<h3 data-number="1.1" class="anchored" data-anchor-id="map-of-mir-sites"><span class="header-section-number">1.1</span> Map of M:IR Sites</h3>
+<div class="cell" data-layout-align="center">
 <p><img src="MIRmap.png" alt="Map of M:IR Sites" width="100%" style="margin-top: 1em;"></p>
+</div>
 <div style="page-break-after: always;"></div>
-<section id="the-data" class="level2" data-number="1">
-<h2 data-number="1" class="anchored" data-anchor-id="the-data"><span class="header-section-number">1</span> The Data</h2>
-<p>NCRMP fish surveys use the Reef Visual Census (RVC), stationary-point-count method modified from Bohnsack and Bannerot <span class="citation" data-cites="Bohnsack86">(<a href="#ref-Bohnsack86" role="doc-biblioref">Bohnsack and Bannerot 1986</a>)</span>. Non-extractive visual surveys are conducted on shallow (&lt;30 m), hard-bottom coral reef habitats. A stratified-random, one-stage survey design was used to select and sample within 50 m x 50 m grid cells <span class="citation" data-cites="smith2011">(<a href="#ref-smith2011" role="doc-biblioref">Smith et al. 2011</a>)</span>. This dataset includes reef fish data collected from sample locations in the Florida Keys. For parity, the larger NCRMP dataset is restricted to strata types (i.e., depth and rugosity combinations) that occur within the M:IR areas (table 1).</p>
-<div class="cell">
-<div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-11c0a620551a19f7722a" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-11c0a620551a19f7722a">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 1. Number of sites sampled.<\/caption>","data":[["Outside","Outside","Outside","Outside","Outside","Inside","Inside","Inside","Inside","Inside"],["FK01","FK02","FK03","FK04","FK05","FK01","FK02","FK03","FK04","FK05"],["inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m","inshore reefs, all depths","mid-channel patch reefs, all depths","offshore patch, all depths","forereef, low rugosity, &lt;12m","forereef, high rugosity, &lt;12m"],[15,170,96,181,167,12,25,15,20,125]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Study Area<\/th>\n      <th>Strata Name<\/th>\n      <th>Strata Description<\/th>\n      <th>Sample Number<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"PROT","targets":0},{"name":"STRAT","targets":1},{"name":"description","targets":2},{"name":"n","targets":3}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
-</div>
-</div>
 </section>
-<section id="fish-species" class="level2" data-number="2">
-<h2 data-number="2" class="anchored" data-anchor-id="fish-species"><span class="header-section-number">2</span> Fish Species</h2>
-<p>Six reef fish species were chosen to represent different trophic levels and functional roles.</p>
+</section>
+<section id="data" class="level2" data-number="2">
+<h2 data-number="2" class="anchored" data-anchor-id="data"><span class="header-section-number">2</span> Data</h2>
+<p>To allow for direct comparisons of fish populations inside the M:IR restoration areas with control, non-restored areas across the Florida Keys reefs, the NCRMP dataset was restricted to strata types and depth zones (0-12 m) found within M:IR sites (table 1). Standard fish metrics, including density, occurrence, and relative length composition, are for selected fish species (table 2). Computational formulas of standard metrics for a single-stage stratified random sampling design are modified from Smith et al.&nbsp;(2011b) and provided in detail in Grove et al.&nbsp;(2021) and Bryan et al.&nbsp;(2016). Statistical comparisons evaluated density and occurrence differences between M:IR and NCRMP estimates for each survey year. This report focuses on coral populations and benthic community metrics; a separate report can be found for fish population assessments <a href="https://nkrampitz.github.io/MIR-Krampitz/#introduction">Krampitz et al., 2025</a>. Fish analysis scripts are open source and available through the <a href="https://github.com/jeremiaheb/rvc">NCRMP Fish R package</a> (Ganz and Blondeau 2015).</p>
+<section id="strata" class="level3" data-number="2.1">
+<h3 data-number="2.1" class="anchored" data-anchor-id="strata"><span class="header-section-number">2.1</span> Strata</h3>
 <div class="cell">
 <div class="cell-output-display">
-<div class="datatables html-widget html-fill-item" id="htmlwidget-e47b8c30f44fe8fd7226" style="width:100%;height:auto;"></div>
-<script type="application/json" data-for="htmlwidget-e47b8c30f44fe8fd7226">{"x":{"filter":"none","vertical":false,"caption":"<caption>Table 2. Fish species. For analysis, both porgy species were combined.<\/caption>","data":[["HAE FLAV","SPA VIRI","SCA GUAC","STE PLAN","CAL CALA","CAL NODO","EPI MORI"],["French Grunt","Stoplight Parrotfish","Rainbow Parrotfish","3-Spot Damselfish","Porgy","Porgy","Red Grouper"],["Haemulon flavolineatum","Sparisoma viride","Scarus guacamaia","Stegastes planifrons","Calamus calamus","Calamus nodosus","Epinephelus morio"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Species Code<\/th>\n      <th>Common Name<\/th>\n      <th>Scientific Name<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"SPECIES_CD","targets":0},{"name":"CommonName","targets":1},{"name":"SciName","targets":2}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-style':'italic'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+<div class="datatables html-widget html-fill-item" id="htmlwidget-55ba305106652ec7a69b" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-55ba305106652ec7a69b">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: top; text-align: left; font-weight: bold;\">Table 1: Number of reef fish survey sites inside and outside M:IR areas in each stratum by year.<\/caption>","data":[["Outside","Outside","Outside","Outside","Outside","Inside","Inside","Inside","Inside","Inside"],["FK01","FK02","FK03","FK04","FK05","FK01","FK02","FK03","FK04","FK05"],["Inshore reefs, all depths","Mid-channel patch reefs, all depths","Offshore patch, all depths","Forereef, low rugosity, &lt;12m","Forereef, high rugosity, &lt;12m","Inshore reefs, all depths","Mid-channel patch reefs, all depths","Offshore patch, all depths","Forereef, low rugosity, &lt;12m","Forereef, high rugosity, &lt;12m"],[0,101,61,95,88,0,12,7,5,61],[15,100,36,105,87,12,13,8,15,64]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Study Area<\/th>\n      <th>Strata Name<\/th>\n      <th>Strata Description<\/th>\n      <th>2022<\/th>\n      <th>2024<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"PROT","targets":0},{"name":"STRAT","targets":1},{"name":"description","targets":2},{"name":"2022","targets":3},{"name":"2024","targets":4}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false}},"evals":[],"jsHooks":[]}</script>
 </div>
 </div>
 <div style="page-break-after: always;"></div>
+</section>
+<section id="fish-species" class="level3" data-number="2.2">
+<h3 data-number="2.2" class="anchored" data-anchor-id="fish-species"><span class="header-section-number">2.2</span> Fish Species</h3>
+<div class="cell">
+<div class="cell-output-display">
+
+        <div id="lightbox" style="display:none;position:fixed;z-index:9999;left:0;top:0;width:100%;height:100%;background:rgba(0,0,0,0.8);justify-content:center;align-items:center;" onclick="this.style.display='none'">
+          <img id="lightbox-img" style="max-width:90%;max-height:90%;">
+        </div>
+        <script>
+          function showLightbox(src){
+            document.getElementById("lightbox-img").src = src;
+            document.getElementById("lightbox").style.display = "flex";
+          }
+        </script>
+      
+<div class="datatables html-widget html-fill-item" id="htmlwidget-04ea8fc6fbc3ecc3dd23" style="width:100%;height:auto;"></div>
+<script type="application/json" data-for="htmlwidget-04ea8fc6fbc3ecc3dd23">{"x":{"filter":"none","vertical":false,"caption":"<caption style=\"caption-side: top; text-align: left; font-weight: bold;\">Table 2: Fish species with representative photos. For analysis, both porgy species were combined.<\/caption>","data":[["HAE FLAV","SPA VIRI","SCA GUAC","STE PLAN","CAL CALA","CAL NODO","EPI MORI"],["French Grunt","Stoplight Parrotfish","Rainbow Parrotfish","Threespot Damselfish","Saucereye Porgy","Knobbed Porgy","Red Grouper"],["Haemulon flavolineatum","Sparisoma viride","Scarus guacamaia","Stegastes planifrons","Calamus calamus","Calamus nodosus","Epinephelus morio"],["<img src=\"species_photos/HAE_FLAV.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/HAE_FLAV.png')\">","<img src=\"species_photos/SPA_VIRI.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/SPA_VIRI.png')\">","<img src=\"species_photos/SCA_GUAC.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/SCA_GUAC.png')\">","<img src=\"species_photos/STE_PLAN.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/STE_PLAN.png')\">","<img src=\"species_photos/CAL_CALA.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/CAL_CALA.png')\">","","<img src=\"species_photos/EPI_MORI.png\" height=\"60\" style=\"cursor:pointer;\" onclick=\"showLightbox('species_photos/EPI_MORI.png')\">"]],"container":"<table class=\"cell-border stripe\">\n  <thead>\n    <tr>\n      <th>Species Code<\/th>\n      <th>Common Name<\/th>\n      <th>Scientific Name<\/th>\n      <th>Photo<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"columnDefs":[{"className":"dt-center","targets":"_all"},{"name":"SPECIES_CD","targets":0},{"name":"COMNAME","targets":1},{"name":"SCINAME","targets":2},{"name":"Photo","targets":3}],"info":false,"paging":false,"searching":false,"order":[],"autoWidth":false,"orderClasses":false,"rowCallback":"function(row, data, displayNum, displayIndex, dataIndex) {\nvar value=data[2]; $(this.api().cell(row, 2).node()).css({'font-style':'italic'});\n}"}},"evals":["options.rowCallback"],"jsHooks":[]}</script>
+</div>
+</div>
+<div style="page-break-after: always;"></div>
+</section>
 </section>
 <section id="density" class="level2" data-number="3">
 <h2 data-number="3" class="anchored" data-anchor-id="density"><span class="header-section-number">3</span> Density</h2>
@@ -202,7 +286,7 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Index_files/figure-html/unnamed-chunk-4-1.png" class="img-fluid figure-img" width="1152"></p>
+<p><img src="Index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="1152"></p>
 </figure>
 </div>
 </div>
@@ -216,96 +300,64 @@ window.Quarto = {
 <div class="cell-output-display">
 <div>
 <figure class="figure">
-<p><img src="Index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="1152"></p>
+<p><img src="Index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="1152"></p>
 </figure>
 </div>
 </div>
 </div>
 <div style="page-break-after: always;"></div>
 </section>
-<section id="length-frequency" class="level2" data-number="5">
-<h2 data-number="5" class="anchored" data-anchor-id="length-frequency"><span class="header-section-number">5</span> Length Frequency</h2>
+<section id="relative-length-frequency" class="level2" data-number="5">
+<h2 data-number="5" class="anchored" data-anchor-id="relative-length-frequency"><span class="header-section-number">5</span> Relative Length Frequency</h2>
 <p>Length compositions provide a detailed description of a selected fish’s population structure. These highly informative figures can show the length at which a fish species recruits to the coral reef (i.e., young of year or from nursery habitat), length classes removed by the local fisheries, and the effectiveness of management actions</p>
 <div class="tabset-margin-container"></div><div class="panel-tabset">
-<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">French Grunt</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Stoplight Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Rainbow Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">3-Spot Damselfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Porgy</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Red Grouper</a></li></ul>
+<ul class="nav nav-tabs" role="tablist"><li class="nav-item" role="presentation"><a class="nav-link active" id="tabset-1-1-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-1" role="tab" aria-controls="tabset-1-1" aria-selected="true" href="">French Grunt</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-2-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-2" role="tab" aria-controls="tabset-1-2" aria-selected="false" href="">Stoplight Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-3-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-3" role="tab" aria-controls="tabset-1-3" aria-selected="false" href="">Rainbow Parrotfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-4-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-4" role="tab" aria-controls="tabset-1-4" aria-selected="false" href="">Threespot Damselfish</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-5-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-5" role="tab" aria-controls="tabset-1-5" aria-selected="false" href="">Porgy</a></li><li class="nav-item" role="presentation"><a class="nav-link" id="tabset-1-6-tab" data-bs-toggle="tab" data-bs-target="#tabset-1-6" role="tab" aria-controls="tabset-1-6" aria-selected="false" href="">Red Grouper</a></li></ul>
 <div class="tab-content">
 <div id="tabset-1-1" class="tab-pane active" role="tabpanel" aria-labelledby="tabset-1-1-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Index_files/figure-html/unnamed-chunk-6-1.png" class="img-fluid figure-img" width="1152"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><img src="Index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid" width="1152"></p>
 </div>
 <div id="tabset-1-2" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-2-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="1152"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><img src="Index_files/figure-html/unnamed-chunk-7-2.png" class="img-fluid" width="1152"></p>
 </div>
 <div id="tabset-1-3" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-3-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Index_files/figure-html/unnamed-chunk-8-1.png" class="img-fluid figure-img" width="1152"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><img src="Index_files/figure-html/unnamed-chunk-7-3.png" class="img-fluid" width="1152"></p>
 </div>
 <div id="tabset-1-4" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-4-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Index_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="1152"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><img src="Index_files/figure-html/unnamed-chunk-7-4.png" class="img-fluid" width="1152"></p>
 </div>
 <div id="tabset-1-5" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-5-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Index_files/figure-html/unnamed-chunk-10-1.png" class="img-fluid figure-img" width="1152"></p>
-</figure>
-</div>
-</div>
-</div>
+<p><img src="Index_files/figure-html/unnamed-chunk-7-5.png" class="img-fluid" width="1152"></p>
 </div>
 <div id="tabset-1-6" class="tab-pane" role="tabpanel" aria-labelledby="tabset-1-6-tab">
-<div class="cell">
-<div class="cell-output-display">
-<div>
-<figure class="figure">
-<p><img src="Index_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid figure-img" width="1152"></p>
-</figure>
+<p><img src="Index_files/figure-html/unnamed-chunk-7-6.png" class="img-fluid" width="1152"></p>
 </div>
 </div>
 </div>
-</div>
-</div>
-</div>
+</section>
+<section id="point-of-contact" class="level2" data-number="6">
+<h2 data-number="6" class="anchored" data-anchor-id="point-of-contact"><span class="header-section-number">6</span> Point of Contact</h2>
+<p>NCRMP Atlantic Fish Team Lead: <strong>Jay Grove</strong> (<a href="mailto:jay.grove@noaa.gov">jay.grove@noaa.gov</a>)</p>
+</section>
+<section id="bibliography" class="level1 unnumbered">
+
 
 </section>
 
 <div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-Ault2021" class="csl-entry" role="listitem">
+Ault, S. Jerald, G. Steven Smith, Jiangang Luo, J. Laura Grove, W. Matthew Johnson, and Jeremiah Blondeau. 2021. <span>“Refinement of the Southern Florida Reef Tract Benthic Habitat Map with Habitat Use Patterns of Reef Fish Species.”</span> NOAA National Centers for Environmental Information. <a href="https://www.ncei.noaa.gov/archive/accession/0224176">https://www.ncei.noaa.gov/archive/accession/0224176</a>.
+</div>
 <div id="ref-Bohnsack86" class="csl-entry" role="listitem">
 Bohnsack, James A., and Scott P. Bannerot. 1986. <span>“A Stationary Visual Census Technique for Quantitatively Assessing Community Structure of Coral Reef Fishes.”</span> <em>NOAA Technical Report</em> NMFS (41).
 </div>
-<div id="ref-smith2011" class="csl-entry" role="listitem">
-Smith, S. G., J. S. Ault, J. A. Bohnsack, D. E. Harper, J. Luo, and D. B. McClellan. 2011. <span>“Multispecies Survey Design for Assessing Reef-Fish Stocks, Spatially Explicit Management Performance, and Ecosystem Condition.”</span> <em>Fisheries Research</em> 109 (1): 25–41. <a href="https://doi.org/10.1016/j.fishres.2011.01.012">https://doi.org/10.1016/j.fishres.2011.01.012</a>.
+<div id="ref-Feeley2025" class="csl-entry" role="listitem">
+Feeley, M. W., M. E. Brandt, D. R. Bryan, N. Zurcher, A. Acosta, J. S. Ault, J. Blondeau, et al. 2025. <span>“A Cooperative Multiagency Reef Fish Monitoring Protocol for the Florida and US Virgin Islands Coral Reef Ecosystems: Protocol Narrative Version—2.0.”</span> Science Report NPS/SR—2025/327. Fort Collins, Colorado: National Park Service. <a href="https://doi.org/10.36967/2310167">https://doi.org/10.36967/2310167</a>.
+</div>
+<div id="ref-Ganz2015" class="csl-entry" role="listitem">
+Ganz, H., and J. Blondeau. 2015. <span>“Reef Visual Census Statistical Package in r.”</span> R package. <a href="https://github.com/jeremiaheb/rvc">https://github.com/jeremiaheb/rvc</a>.
+</div>
+<div id="ref-Towle2025" class="csl-entry" role="listitem">
+Towle, Erica, Alexis Sturm, Shay Viehman, Jay Grove, Nicole Krampitz, Chris Jeffrey, Jeremiah Blondeau, Caitlin Langwiser, Erin Cain, and Dione Swanson. 2025. <span>“National Coral Reef Monitoring Program (NCRMP) Reef Visual Census (RVC) Fish Survey Protocols for the u.s. Atlantic: Florida, Flower Garden Banks, Puerto Rico, and u.s. Virgin Islands 2025.”</span> <a href="https://doi.org/10.25923/0YR2-5G02">https://doi.org/10.25923/0YR2-5G02</a>.
 </div>
 </div></section></div></main>
 <!-- /main column -->

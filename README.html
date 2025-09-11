@@ -362,18 +362,67 @@ of the Florida Keys. Since MIR sites only comprised of stratum
 FK01-FK05, FK06-FK09 were removed from the “outside” data set. (Files
 containing the data used are inside of the “data” folder)</p>
 </div>
-<div id="documents" class="section level2">
-<h2>Documents</h2>
+<div id="documents" class="section level3">
+<h3>Documents</h3>
 <p>The folder labeled “docs” contains “Index.qmd”, a quarto document,
 which is used to generate both the HTML and the PDF outputs. The
 sub-folder “code” contains .R files for functions used in the
 analysis.</p>
 </div>
-<div id="editing-the-.qmd" class="section level2">
-<h2>Editing the .qmd</h2>
+<div id="editing-the-.qmd" class="section level3">
+<h3>Editing the .qmd</h3>
 <p>After making edits to the .qmd, be sure to render the PDF before
 rendering the HTML so that the PDF button on the HTML page contains any
 updates made to the file.</p>
+</div>
+<div id="change-species-displayed-in-the-document" class="section level3">
+<h3>Change species displayed in the document</h3>
+<p>To add more species to the document, insert the species code as seen
+in line 128 of index.qmd. Ensure that the species code is capitalized
+and in quotation marks and propper syntax of commas is used. After
+adding the species code here, all plots and table will be reproduced on
+render with the new species.</p>
+<pre><code>target_species &lt;- c(
+  &quot;HAE FLAV&quot;, &quot;SPA VIRI&quot;, &quot;SCA GUAC&quot;, &quot;STE PLAN&quot;,
+  &quot;CAL CALA&quot;, &quot;CAL NODO&quot;, &quot;EPI MORI&quot;)</code></pre>
+</div>
+<div id="customizing-length-frequency-bins" class="section level3">
+<h3>Customizing length frequency bins</h3>
+<p>Length frequency plot bins are automatically created using a function
+that determines the ideal bin size based on a species hypothetical max
+size. For select species, the automatic bin size may not be suitible. To
+manually adjust the bin size, open MIR_Plot_functions.R and look to line
+328.</p>
+<pre><code>manual_bin &lt;- c(&quot;STE PLAN&quot; = 2, &quot;EPI MORI&quot; = 5)</code></pre>
+<p>Customize the bin size following the above logic.</p>
+</div>
+<div id="merging-species" class="section level3">
+<h3>Merging Species</h3>
+<p>In some cases, it may be desirable to view the density, occurrence,
+and relative length frequency of multiple species merged together. In
+this case, instead of using MIR_data and spp_list when calling functions
+in index.qmd, MIR_data_merged and spp_list_merged are used. Merged
+species and spp_list_merged are created in line 152 of index.qmd using
+the following syntax.</p>
+<pre><code>MIR_data_merged &lt;- MIR_data
+MIR_data_merged$sample_data &lt;- MIR_data$sample_data %&gt;%
+  mutate(SPECIES_CD = ifelse(SPECIES_CD %in% c(&quot;CAL CALA&quot;, &quot;CAL NODO&quot;), &quot;CAL CALA&quot;, SPECIES_CD))
+spp_list_merged &lt;- spp_list %&gt;%
+  mutate(
+    COMNAME = ifelse(SPECIES_CD %in% c(&quot;CAL CALA&quot;, &quot;CAL NODO&quot;), &quot;Porgy&quot;, COMNAME),
+    SPECIES_CD = ifelse(SPECIES_CD %in% c(&quot;CAL CALA&quot;, &quot;CAL NODO&quot;), &quot;CAL CALA&quot;, SPECIES_CD),
+    SCINAME = ifelse(SPECIES_CD == &quot;CAL CALA&quot;, &quot;Calamus spp.&quot;, SCINAME) 
+  ) %&gt;%
+  distinct(SPECIES_CD, COMNAME, SCINAME, .keep_all = TRUE)</code></pre>
+<p>Repeat above with respective SPECIES_CD for merging species data.</p>
+</div>
+<div id="adding-species-photos" class="section level3">
+<h3>Adding Species Photos</h3>
+<p>Species photos are added to the species table from the folder
+“species_photos” in the “docs” folder. To add a species photo, place it
+in the folder with the following syntax “SPECIES_CD.png”. If the species
+was imputed into target_species, the photo will appear automatically in
+the table.</p>
 <hr />
 </div>
 </div>
