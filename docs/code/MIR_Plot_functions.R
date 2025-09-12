@@ -284,22 +284,23 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
 }
 
 compute_bin_size <- function(max_size, target_bins = 10) {
-  # 1. Handle invalid inputs
   if (is.null(max_size) || is.na(max_size) || max_size <= 0) return(5)
 
-  # 2. Generate "pretty" breakpoints between 0 and max_size
-  breaks <- pretty(c(0, max_size), n = target_bins)
+  raw_bin <- max_size / target_bins
 
-  # 3. Compute bin size if we have at least two breaks
-  if (length(breaks) > 1) {
-    bin_size <- breaks[2] - breaks[1]
-  } else {
-    bin_size <- 5  # fallback if breaks failed
-  }
+  # find scale (10s, 100s, etc.)
+  magnitude <- 10^floor(log10(raw_bin))
+  candidates <- c(2, 5, 10) * magnitude  # include 10 to handle edge cases
 
-  # 4. Return bin size
+  # pick the largest "nice" number that is <= raw_bin
+  bin_size <- max(candidates[candidates <= raw_bin])
+
+  # fallback: if everything is > raw_bin (tiny bins), just use raw_bin
+  if (is.infinite(bin_size) || length(bin_size) == 0) bin_size <- raw_bin
+
   return(bin_size)
 }
+
 
 
 # Length frequency for comparing inside to outside
@@ -373,9 +374,8 @@ MIR_LF_yr <- function(df, spp, bin_size, yrs = NULL, spp_name, category, custom_
   plot_bins_yr(x = y, ttle = custom_title, bin_size = bin_size, category = category, spp_name = spp_name)
 }
 
-#Function that outputs plots for showing all relevant LF plots for comparing 2 years
-#Defaults to 2022/2024 if not specified in .qmd.
-#To compare more than 2 years, add extra panels for each plot type
+#Function that outputs plots for showing all relevant LF plots
+#Defaults to 2022/2024
 render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(2022, 2024), target_bins = 10) {
 
   # ---- Compute  bin size ----
@@ -385,7 +385,7 @@ render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(20
     compute_bin_size(max_size, target_bins)  # dynamic default
   }
 
-  # Individual year plots
+  # Individual year plots. Auto-generates more plots if more years are added
   panels <- lapply(yrs, function(year) {
     MIR_LF(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = year, spp_name = COMNAME)
   })
@@ -399,6 +399,7 @@ render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(20
                   spp_name = COMNAME, category = "open",
                   custom_title = paste(COMNAME, "- Open"))
 
+  #panel of combined plots
   n_per_row <- 2
   n_needed <- n_per_row - (length(panels) %% n_per_row)
   if (n_needed != n_per_row) {
@@ -420,7 +421,7 @@ render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(20
 }
 
 #Manually adjust the bin size based on species code
-manual_bin <- c("STE PLAN" = 2, "SCA GUAC" = 10)
+manual_bin <- c("HAE FLAV" = 5, "CEP CRUE" = 5, "CAL CALA" = 5, "CAL NODO" = 5)
 
 
 

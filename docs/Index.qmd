@@ -108,9 +108,7 @@ render_strata_table(MIR_data$sample_data, caption = "Table 1: Number of reef fis
 target_species <- c(
   "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
   "CAL CALA", "CAL NODO", "EPI MORI"
-  # , "EPI ITAJ"
-  # # "THA BIFA", "HAL GARN", "STE LEUC", "SPA AURO",
-  # "ABU SAXA", "HAE SCIU", "OCY CHRY", "LUT GRIS"
+   , "EPI ITAJ", "LAC MAXI", "OCY CHRY", "CEP CRUE"
 )
 
 # Build spp_list dynamically with image paths for later use in tables/plots
