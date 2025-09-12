@@ -1,6 +1,7 @@
 ---
 title: "Mission: Iconic Reefs and National Coral Reef Monitoring Program Reef Fish Analyses"
-author: "[Jeremiah Blondeau](https://github.com/jeremiaheb) + Jay Grove + Rob Harper<br>(NOAA Fisheries,           Southeast Fisheries Science Center)"
+author: "[Jeremiah Blondeau](https://github.com/jeremiaheb) + Jay Grove + Rob Harper<br>
+          (NOAA Fisheries, Southeast Fisheries Science Center)"
 date: "`r format(Sys.time(), '%d %B %Y')`"
 mail: "jeremiah.blondeau@noaa.gov"
 github: "jeremiahheb/MissionIconicReef"
@@ -70,7 +71,7 @@ community_data <- readRDS("../data/community_data.rds")
 
 [Mission: Iconic Reefs](https://missioniconicreefs.org/) is a multi-institutional initiative designed to restore ecological function and biodiversity across key reef sites in the Florida Keys. Led by NOAA in collaboration with federal, state, institutional, and non-profit partners, M:IR targets nearly three million square feet of reef at seven key coral reefs in the Florida Keys National Marine Sanctuary (FKNMS): Carysfort (North and South), Cheeca Rocks, Eastern Dry Rocks, Horseshoe Reef, Looe Key, Newfound Harbor, and Sombrero Reef.. The overarching M:IR goal is to restore coral cover and reef function to a self-sustaining state.
 
-Monitoring the response of reef fish populations to these restoration interventions is essential to quantify the broader ecological impacts of restoration efforts [@Feeley2025]. The National Coral Reef Monitoring Program (NCRMP) conducts non-extractive Reef Visual Census (RVC) surveys using a stationary-point-count method modified from Bohnsack and Bannerot (1986) [@Bohnsack86; @Towle2025]. Surveys are conducted on shallow (\<30 m), hard-bottom reef habitats and employ a stratified-random, one-stage design within 50 m × 50 m grid cells to ensure representative sampling across depth and rugosity strata [@Towle2025; @Ault2021]. For this analysis, the NCRMP dataset was restricted to strata types overlapping M:IR sites to allow direct comparisons of fish communities inside and outside restoration areas.
+Monitoring the response of reef fish populations to these restoration interventions is essential to quantify the broader ecological impacts of restoration efforts [@Feeley2025]. The National Coral Reef Monitoring Program (NCRMP) conducts non-extractive Reef Visual Census (RVC) surveys using a stationary-point-count method modified from Bohnsack and Bannerot (1986) [@Bohnsack86; @CRCP2024]. Surveys are conducted on shallow (\<30 m), hard-bottom reef habitats and employ a stratified-random, one-stage design within 50 m × 50 m grid cells to ensure representative sampling across depth and rugosity strata [@CRCP2024; @Ault2021]. For this analysis, the NCRMP dataset was restricted to strata types overlapping M:IR sites to allow direct comparisons of fish communities inside and outside restoration areas.
 
 Six reef fish species were selected to represent a range of trophic levels and functional roles. NCRMP’s extensive sampling provides population-level insights into density (number of individuals per 177 m$^{2}$ ± SE), occurrence (frequency of detection within and outside M:IR sites ± SE), and relative length frequency distributions. Density and occurrence metrics enable detection of shifts in abundance and distribution patterns in response to environmental disturbances and management interventions [@Ault2021]. Length frequency data provide detailed information on population structure, recruitment, and potential fishing impacts, serving as an indicator of restoration effectiveness and long-term population sustainability [@Ault2021]. Analysis was completed using the Blondeau & Ganz RVC Statistics package in R [@Ganz2015]
 
@@ -184,7 +185,7 @@ pwalk(
       SPECIES_CD = SPECIES_CD,
       COMNAME    = COMNAME,
       max_size   = max_size,
-      yrs        = c(2022, 2024),
+      yrs        = unique(MIR_data_merged$sample_data$YEAR),
       target_bins = 10
     )
     print(p)
@@ -194,8 +195,12 @@ pwalk(
 ```
 :::
 
-## Point of Contact
+## Points of Contact
 
-NCRMP Atlantic Fish Team Lead: **Jay Grove** ([jay.grove@noaa.gov](mailto:jay.grove@noaa.gov))
+NCRMP Atlantic Fish Team Lead: 
+**Jay Grove** ([jay.grove@noaa.gov](mailto:jay.grove@noaa.gov))
+
+NCRMP Atlantic and Caribbean Fish Data Manager: 
+**Jeremiah Blondeau** ([jeremiah.blondeau@noaa.gov](mailto:jeremiah.blondeau@noaa.gov)) 
 
 
