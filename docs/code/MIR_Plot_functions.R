@@ -111,16 +111,7 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
   } else {
     # PDF table with images (blank if missing)
     spp_table_pdf <- spp_list %>%
-      mutate(Photo = purrr::map_chr(img_path, ~{
-        if (file.exists(.x)) {
-          kableExtra::cell_spec(
-            paste0("\\includegraphics[width=3cm]{", .x, "}"),
-            escape = FALSE
-          )
-        } else {
-          ""
-        }
-      })) %>%
+      mutate(Photo = paste0("\\includegraphics[width=3cm]{", img_path, "}")) %>%
       select(SPECIES_CD, COMNAME, SCINAME, Photo)
 
     knitr::kable(
@@ -130,6 +121,7 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
       col.names = c("Species Code", "Common Name", "Scientific Name", "Photo"),
       booktabs = TRUE,
       escape = FALSE,
+      sanitize.text.function = identity
     ) %>%
       kableExtra::kable_styling(
         latex_options = c("striped", "hold_position"),
@@ -140,7 +132,7 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
 }
 #Density function
 
-MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
+MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL, caption = NULL) {
 
   strat_number = dataset$stratum_data %>%
     reframe(strat_num = n_distinct(STRAT), .by = c(YEAR, PROT)) %>%
@@ -197,7 +189,11 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
     geom_errorbar(aes(ymin = density - SE, ymax = density + SE),
                   width = 0.25, size = 0.5) +
     ggtitle(title) +
+    labs(
+        title = title,
+        caption = caption)+
     theme_Publication(base_size = 15) +
+    theme(plot.caption = element_text(hjust = 0.5))+
     scale_color_manual(name = "Protection Status",
                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
     theme(legend.text = element_text(size = 12)) +
@@ -213,7 +209,7 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
 
 }
 #Occurrence function
-MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL) {
+MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year = NULL, title = NULL, caption = NULL) {
 
   strat_number = dataset$stratum_data %>%
     reframe(strat_num = n_distinct(STRAT), .by = c(YEAR, PROT)) %>%
@@ -267,7 +263,11 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
     geom_errorbar(aes(ymin = occurrence - SE, ymax = occurrence + SE),
                   width = 0.25, size = 0.5) +
     ggtitle(title) +
+    labs(
+        title = title,
+        caption = caption)+
     theme_Publication(base_size = 15) +
+    theme(plot.caption = element_text(hjust = 0.5))+
     scale_color_manual(name = "Protection Status",
                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
     theme(legend.text = element_text(size = 12)) +
