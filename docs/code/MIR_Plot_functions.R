@@ -288,15 +288,17 @@ compute_bin_size <- function(max_size, target_bins = 10) {
 
   raw_bin <- max_size / target_bins
 
-  # find scale (10s, 100s, etc.)
+  # find scale (powers of 10)
   magnitude <- 10^floor(log10(raw_bin))
-  candidates <- c(2, 5, 10) * magnitude  # include 10 to handle edge cases
 
-  # pick the largest "nice" number that is <= raw_bin
-  bin_size <- max(candidates[candidates <= raw_bin])
+  # generate "nice" candidates
+  candidates <- c(2, 5, 10) * magnitude  # include 1 to catch small numbers
 
-  # fallback: if everything is > raw_bin (tiny bins), just use raw_bin
-  if (is.infinite(bin_size) || length(bin_size) == 0) bin_size <- raw_bin
+  # pick largest candidate <= raw_bin
+  bin_size <- max(candidates[candidates <= raw_bin], na.rm = TRUE)
+
+  # fallback: round up to nearest integer if needed
+  if (is.infinite(bin_size) || length(bin_size) == 0) bin_size <- ceiling(raw_bin)
 
   return(bin_size)
 }
