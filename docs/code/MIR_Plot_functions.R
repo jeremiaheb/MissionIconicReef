@@ -198,7 +198,7 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
-    ylab(expression("Density (ind/m"^2*")")) +
+    ylab(expression("Relative Density (ind/m"^2*")")) +
     facet_wrap(~ GROUP, scales = "free_y") +
     geom_text(data = signif_df,
                aes(x = YEAR, y = y_pos, label = "*"),

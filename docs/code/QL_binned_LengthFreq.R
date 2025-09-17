@@ -51,7 +51,7 @@ QL_plot_comparison = function(x, ttle, bin_size, vline_at_lc = NULL){
           axis.text = element_text(size = 12)) +
     scale_fill_manual(values=c('springgreen3','deepskyblue4','gold1')) +
     # scale_fill_manual(values=c('deepskyblue4','gold1')) +
-    labs(title = ttle, fill = "Sampling Year") + ylab("Frequency") + xlab("Fork Length (cm)") +
+    labs(title = ttle, fill = "Sampling Year") + ylab("Relative Frequency") + xlab("Fork Length (cm)") +
     facet_wrap(~Spp_Name, ncol=2, scales = "free") +
     geom_vline(xintercept = (vline_at_lc/bin_size), linetype = "longdash", size = 1)
 
@@ -75,7 +75,7 @@ plot_bins = function(x, ttle, bin_size, vline_at_lc = NULL){
           axis.text.x = element_text(angle=45, vjust = 1, hjust = 1),
           axis.text = element_text(size = 12)) +
     scale_fill_manual(values=c('springgreen3','deepskyblue4','gold1')) +
-    labs(title = ttle, fill = "Sampling Year") + ylab("Frequency") + xlab("Fork Length (cm)") +
+    labs(title = ttle, fill = "Sampling Year") + ylab("Relative Frequency") + xlab("Fork Length (cm)") +
     geom_vline(xintercept = (vline_at_lc/bin_size), linetype = "longdash", size = 1)
 
   return(e)
@@ -96,7 +96,7 @@ plot_bins_yr <- function(x, ttle, bin_size, vline_at_lc = NULL, category, spp_na
           axis.text = element_text(size = 12)) +
     scale_fill_manual(values = c('springgreen3', 'deepskyblue4', 'gold1')) +
     labs(title = ttle, fill = "Sampling Year") +  # Title with spp_name and category
-    ylab("Frequency") +
+    ylab("Relative Frequency") +
     xlab("Fork Length (cm)") +
     geom_vline(xintercept = (vline_at_lc / bin_size), linetype = "longdash", size = 1)
 
