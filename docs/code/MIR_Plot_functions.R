@@ -198,7 +198,7 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
-    ylab(expression("Relative Density (ind/m"^2*")")) +
+    ylab("Relative Density (ind/m²)") +
     facet_wrap(~ GROUP, scales = "free_y") +
     geom_text(data = signif_df,
                aes(x = YEAR, y = y_pos, label = "*"),
@@ -284,25 +284,23 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
 }
 
 compute_bin_size <- function(max_size, target_bins = 10) {
-  if (is.null(max_size) || is.na(max_size) || max_size <= 0) return(5)
+  # Handle invalid input
+  if (is.null(max_size) || is.na(max_size) || max_size <= 0) {
+    return(5)
+  }
 
-  raw_bin <- max_size / target_bins
+  # Define the only valid bin sizes
+  possible_bin_sizes <- c(2, 5, 10)
 
-  # find scale (powers of 10)
-  magnitude <- 10^floor(log10(raw_bin))
+  # Calculate how many bins each possible size would create
+  num_bins <- max_size / possible_bin_sizes
 
-  # generate "nice" candidates
-  candidates <- c(2, 5, 10) * magnitude  # include 1 to catch small numbers
+  # Find which bin size gets us closest to the target number of bins
+  closest_match_index <- which.min(abs(num_bins - target_bins))
 
-  # pick largest candidate <= raw_bin
-  bin_size <- max(candidates[candidates <= raw_bin], na.rm = TRUE)
-
-  # fallback: round up to nearest integer if needed
-  if (is.infinite(bin_size) || length(bin_size) == 0) bin_size <- ceiling(raw_bin)
-
-  return(bin_size)
+  # Return the bin size that corresponds to the best match
+  return(possible_bin_sizes[closest_match_index])
 }
-
 
 
 # Length frequency for comparing inside to outside
@@ -378,7 +376,7 @@ MIR_LF_yr <- function(df, spp, bin_size, yrs = NULL, spp_name, category, custom_
 
 #Function that outputs plots for showing all relevant LF plots
 #Defaults to 2022/2024
-render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(2022, 2024), target_bins = 10) {
+render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(2022, 2024), target_bins = 8) {
 
   # ---- Compute  bin size ----
   bin_size <- if (!is.null(manual_bin) && SPECIES_CD %in% names(manual_bin)) {
