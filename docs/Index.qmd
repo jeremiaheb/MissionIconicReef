@@ -10,6 +10,8 @@ csl: apa.csl
 citeproc: true
 link-citations: true
 et-al-min: 2
+code-fold: true
+code-tools: true
 format: 
   html:
     page-layout: full
@@ -42,6 +44,8 @@ format:
         \includegraphics[width=4cm]{CRCP.png}\\[1em]
         \LARGE
         }
+        \usepackage{caption}
+        \captionsetup[table]{labelformat=empty}
 ---
 
 
@@ -104,7 +108,7 @@ if (knitr::is_html_output()) {
 
 ## Data Analyses
 
-To allow for direct comparisons of fish populations inside the M:IR restoration areas with control, non-restored areas across the Florida Keys reefs, the NCRMP dataset was restricted to strata types and depth zones (0–12 m) found within M:IR sites (table 1). Data collected by the diver pair were averaged at the site level. Standard fish metrics, including relative density, occurrence, and length composition, were evaluated for the selected fish species (table 2). Computational formulas of standard metrics for a single-stage stratified random sampling design are modified from [@Smith2011] and provided in detail in [@Grove2021] and [@Bryan2016]. Statistical comparisons evaluated differences in density and occurrence estimates inside M:IR areas and outside of M:IR areas (i.e., NCRMP) for each survey year. Statistical significance was accepted at p=0.05. Fish analysis scripts are open source and available through the [NCRMP Fish R package](https://github.com/jeremiaheb/rvc) [@Ganz2015].
+To allow for direct comparisons of fish populations inside the M:IR restoration areas with control, non-restored areas across the Florida Keys reefs, the NCRMP dataset was restricted to strata types and depth zones (0–12 m) found within M:IR sites (Table 1). Data collected by the diver pair were averaged at the site level. Standard fish metrics, including relative density, occurrence, and length composition, were evaluated for the selected fish species (Table 2). Computational formulas of standard metrics for a single-stage stratified random sampling design are modified from [@Smith2011] and provided in detail in [@Grove2021] and [@Bryan2016]. Statistical comparisons evaluated differences in density and occurrence estimates inside M:IR areas and outside of M:IR areas (i.e., NCRMP) for each survey year. Statistical significance was accepted at p=0.05. Fish analysis scripts are open source and available through the [NCRMP Fish R package](https://github.com/jeremiaheb/rvc) [@Ganz2015].
 
 ### Strata
 
