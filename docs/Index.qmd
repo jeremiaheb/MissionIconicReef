@@ -6,6 +6,10 @@ github: "jeremiahheb/MissionIconicReef"
 bibliography: references.bib
 reference-location: section
 reference-section-title: References
+csl: apa.csl
+citeproc: true
+link-citations: true
+et-al-min: 2
 format: 
   html:
     page-layout: full
@@ -20,6 +24,9 @@ format:
   pdf:
     mainfont: ArialMT
     toc: true
+    toc-title: |
+      \clearpage
+      Table of Contents
     author: "Jeremiah Blondeau, Jay Grove, and Rob Harper"
     number-sections: true
     fig-cap-location: bottom
@@ -68,6 +75,8 @@ community_data <- readRDS("../data/community_data.rds")
 
 ```
 
+\newpage
+
 ## Introduction
 
 [Mission: Iconic Reefs](https://missioniconicreefs.org/) is a multi-institutional initiative designed to restore ecological function and biodiversity across ‘iconic’ reef sites in the Florida Keys. Led by NOAA in collaboration with federal, state, institutional, and non-profit partners, M:IR targets nearly three million square feet of reef at seven coral reefs in the Florida Keys National Marine Sanctuary (FKNMS): Carysfort (North and South), Cheeca Rocks, Eastern Dry Rocks, Horseshoe Reef, Looe Key, Newfound Harbor, and Sombrero Reef. The overarching M:IR goal is to restore coral cover and reef function to a self-sustaining state.
@@ -80,6 +89,7 @@ This report shows population-level results of relative density, occurrence, and 
 
 </details>
 
+\newpage
 ### Map of M:IR Sites
 
 ```{r, echo=FALSE, results='asis', out.width='80%', fig.align='center'}
@@ -94,7 +104,7 @@ if (knitr::is_html_output()) {
 
 ## Data Analyses
 
-To allow for direct comparisons of fish populations inside the M:IR restoration areas with control, non-restored areas across the Florida Keys reefs, the NCRMP dataset was restricted to strata types and depth zones (0–12 m) found within M:IR sites (table 1). Data collected by the diver pair were averaged at the site level. Standard fish metrics, including relative density, occurrence, and length composition, were evaluated for the selected fish species (table 2). Computational formulas of standard metrics for a single-stage stratified random sampling design are modified from [@Smith2011] and provided in detail in [(Grove et al., 2021)]([@Grove2021]) and [@Bryan2016]. Statistical comparisons evaluated differences in density and occurrence estimates inside M:IR areas and outside of M:IR areas (i.e., NCRMP) for each survey year. Statistical significance was accepted at p=0.05. Fish analysis scripts are open source and available through the [NCRMP Fish R package](https://github.com/jeremiaheb/rvc) [@Ganz2015].
+To allow for direct comparisons of fish populations inside the M:IR restoration areas with control, non-restored areas across the Florida Keys reefs, the NCRMP dataset was restricted to strata types and depth zones (0–12 m) found within M:IR sites (table 1). Data collected by the diver pair were averaged at the site level. Standard fish metrics, including relative density, occurrence, and length composition, were evaluated for the selected fish species (table 2). Computational formulas of standard metrics for a single-stage stratified random sampling design are modified from [@Smith2011] and provided in detail in [@Grove2021] and [@Bryan2016]. Statistical comparisons evaluated differences in density and occurrence estimates inside M:IR areas and outside of M:IR areas (i.e., NCRMP) for each survey year. Statistical significance was accepted at p=0.05. Fish analysis scripts are open source and available through the [NCRMP Fish R package](https://github.com/jeremiaheb/rvc) [@Ganz2015].
 
 ### Strata
 
