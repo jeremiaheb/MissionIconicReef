@@ -26,7 +26,7 @@ HTML so that the PDF button on the HTML page contains any updates made to the fi
 
 ### Change species displayed in the document
 
-To add more species to the document, insert the species code as seen in line 128 of index.qmd. 
+To add more species to the document, insert the species code as seen in line 126 of index.qmd. 
 Ensure that the species code is capitalized and in quotation marks and propper syntax of 
 commas is used. After adding the species code here, all plots and table will be 
 reproduced on render with the new species.
@@ -42,7 +42,7 @@ target_species <- c(
 Length frequency plot bins are automatically created using a function that determines 
 the ideal bin size based on a species hypothetical max size. For select species, 
 the automatic bin size may not be suitible. 
-To manually adjust the bin size, open MIR_Plot_functions.R and look to line 328. 
+To manually adjust the bin size, open MIR_Plot_functions.R and look to line 424. 
 ```
 manual_bin <- c("STE PLAN" = 2, "EPI MORI" = 5)
 ```
@@ -53,7 +53,7 @@ In some cases, it may be desirable to view the density, occurrence, and relative
 length frequency of multiple species merged together. In this case, instead of using 
 MIR_data and spp_list when calling functions in index.qmd, MIR_data_merged and 
 spp_list_merged are used. Merged species and spp_list_merged are created in line 
-152 of index.qmd using the following syntax.
+150 of index.qmd using the following syntax.
 
 ```
 MIR_data_merged <- MIR_data

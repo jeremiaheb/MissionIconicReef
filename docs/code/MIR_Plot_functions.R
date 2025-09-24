@@ -194,7 +194,7 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
         caption = caption)+
     theme_Publication(base_size = 15) +
     theme(plot.caption = element_text(hjust = 0.5))+
-    scale_color_manual(name = "Protection Status",
+    scale_color_manual(name = "Survey Location",
                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
@@ -268,7 +268,7 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
         caption = caption)+
     theme_Publication(base_size = 15) +
     theme(plot.caption = element_text(hjust = 0.5))+
-    scale_color_manual(name = "Protection Status",
+    scale_color_manual(name = "Survey Location",
                        values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +

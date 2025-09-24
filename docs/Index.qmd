@@ -126,7 +126,7 @@ render_strata_table(MIR_data$sample_data,
 target_species <- c(
   "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
   "CAL CALA", "CAL NODO", "EPI MORI"
-  # , "EPI ITAJ", "LAC MAXI", "OCY CHRY", "CEP CRUE"
+  #, "EPI ITAJ", "LAC MAXI", "OCY CHRY", "CEP CRUE"
 )
 
 # Build spp_list dynamically with image paths for later use in tables/plots
@@ -214,6 +214,7 @@ pwalk(
   }
 )
 ```
+\newpage
 :::
 
 ## Points of Contact
