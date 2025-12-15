@@ -49,7 +49,7 @@ QL_plot_comparison = function(x, ttle, bin_size, vline_at_lc = NULL){
     theme_Publication(base_size = 20)+
     theme(axis.text.x = element_text(angle=45, vjust = 1, hjust = 1),
           axis.text = element_text(size = 12)) +
-    scale_fill_manual(values=c('springgreen3','deepskyblue4','gold1')) +
+    scale_fill_manual(values=c('deepskyblue4','springgreen3','gold1')) +
     # scale_fill_manual(values=c('deepskyblue4','gold1')) +
     labs(title = ttle, fill = "Sampling Year") + ylab("Relative Frequency") + xlab("Fork Length (cm)") +
     facet_wrap(~Spp_Name, ncol=2, scales = "free") +
@@ -59,13 +59,13 @@ QL_plot_comparison = function(x, ttle, bin_size, vline_at_lc = NULL){
     return(e)
 }
 
-plot_bins = function(x, ttle, bin_size, vline_at_lc = NULL){
+plot_bins = function(x, ttle, bin_size, vline_at_lc = NULL,legend_mode = "category"){
 
   br <- c(seq(1:max(x$bin)))
   la <- labeler(bin_num = max(x$bin), bin_size = bin_size)
 
 
-  e <- ggplot(x, aes(x=bin, y=value, fill=variable)) +
+  e <- ggplot(x, aes(x=bin, y=value, fill= fill_key)) +
     geom_bar(stat="identity", position = "dodge2", width = .9, color="black", size=.5) +
     scale_x_discrete(breaks = br,
                      labels = la[1:(max(x$bin))],
@@ -74,18 +74,21 @@ plot_bins = function(x, ttle, bin_size, vline_at_lc = NULL){
     theme(legend.title = element_blank(),
           axis.text.x = element_text(angle=45, vjust = 1, hjust = 1),
           axis.text = element_text(size = 12)) +
-    scale_fill_manual(values=c('springgreen3','deepskyblue4','gold1')) +
+    scale_fill_manual(
+      values = lf_fill_palette,
+      labels = make_lf_legend_labels(mode = legend_mode)
+    ) +
     labs(title = ttle, fill = "Sampling Year") + ylab("Relative Frequency") + xlab("Fork Length (cm)") +
     geom_vline(xintercept = (vline_at_lc/bin_size), linetype = "longdash", size = 1)
 
   return(e)
 }
 
-plot_bins_yr <- function(x, ttle, bin_size, vline_at_lc = NULL, category, spp_name) {
+plot_bins_yr <- function(x, ttle, bin_size, vline_at_lc = NULL, category, spp_name, legend_mode = "year") {
   br <- c(seq(1:max(x$bin)))
   la <- labeler(bin_num = max(x$bin), bin_size = bin_size)
 
-  e <- ggplot(x, aes(x = bin, y = value, fill = factor(YEAR))) +
+  e <- ggplot(x, aes(x = bin, y = value, fill = fill_key)) +
     geom_bar(stat = "identity", position = "dodge2", width = 0.9, color = "black", size = 0.5) +
     scale_x_discrete(breaks = br,
                      labels = la[1:(max(x$bin))],
@@ -94,7 +97,9 @@ plot_bins_yr <- function(x, ttle, bin_size, vline_at_lc = NULL, category, spp_na
     theme(legend.title = element_blank(),
           axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1),
           axis.text = element_text(size = 12)) +
-    scale_fill_manual(values = c('springgreen3', 'deepskyblue4', 'gold1')) +
+    scale_fill_manual(
+      values = lf_fill_palette,
+      labels = make_lf_legend_labels(mode = legend_mode)) +
     labs(title = ttle, fill = "Sampling Year") +  # Title with spp_name and category
     ylab("Relative Frequency") +
     xlab("Fork Length (cm)") +
