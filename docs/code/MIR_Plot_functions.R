@@ -296,13 +296,13 @@ compute_bin_size <- function(max_size, target_bins = 10) {
 
 ### LF colors. Update with new years
 lf_fill_palette <- c(
-  # MIR (Inside) – blues
-  "M:IR_2022" = "#08306B",
-  "M:IR_2024" = "#6BAED6",
+  # MIR (Inside) – blue
+  "M:IR_2022" = "#66a4b9",
+  "M:IR_2024" = "#003e53",
 
-  # Open / Outside – greens
-  "open_2022" = "#00441B",
-  "open_2024" = "#74C476"
+  # Outside – green
+  "open_2022" = "#66e1a3",
+  "open_2024" = "#007b3d"
 )
 # Length frequency for comparing inside to outside
 MIR_LF <- function(df, spp, bin_size, yrs = NULL, spp_name) {
@@ -334,7 +334,6 @@ MIR_LF <- function(df, spp, bin_size, yrs = NULL, spp_name) {
     pivot_longer(!c(YEAR, SPECIES_CD, variable), names_to = "bin", values_to = "value") %>%
     mutate(
       bin = as.numeric(bin),
-      fill_key = paste(variable, YEAR, sep = "_")
     )
 
   if (all(is.na(y$bin)) || nrow(y) == 0) y$bin <- 0

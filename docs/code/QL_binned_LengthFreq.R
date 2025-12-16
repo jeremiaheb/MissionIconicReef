@@ -65,7 +65,7 @@ plot_bins = function(x, ttle, bin_size, vline_at_lc = NULL,legend_mode = "catego
   la <- labeler(bin_num = max(x$bin), bin_size = bin_size)
 
 
-  e <- ggplot(x, aes(x=bin, y=value, fill= fill_key)) +
+  e <- ggplot(x, aes(x=bin, y=value, fill= variable)) +
     geom_bar(stat="identity", position = "dodge2", width = .9, color="black", size=.5) +
     scale_x_discrete(breaks = br,
                      labels = la[1:(max(x$bin))],
@@ -75,9 +75,13 @@ plot_bins = function(x, ttle, bin_size, vline_at_lc = NULL,legend_mode = "catego
           axis.text.x = element_text(angle=45, vjust = 1, hjust = 1),
           axis.text = element_text(size = 12)) +
     scale_fill_manual(
-      values = lf_fill_palette,
-      labels = make_lf_legend_labels(mode = legend_mode)
-    ) +
+      values = c(
+        "M:IR" = "deepskyblue4",
+        "open" = "springgreen3"
+      ),
+      labels = c(
+        "M:IR" = "MIR",
+        "open" = "Outside")) +
     labs(title = ttle, fill = "Sampling Year") + ylab("Relative Frequency") + xlab("Fork Length (cm)") +
     geom_vline(xintercept = (vline_at_lc/bin_size), linetype = "longdash", size = 1)
 

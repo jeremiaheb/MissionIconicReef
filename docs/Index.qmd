@@ -108,7 +108,7 @@ if (knitr::is_html_output()) {
 
 ## Data Analyses
 
-To allow for direct comparisons of fish populations inside the M:IR restoration areas with control, non-restored areas across the Florida Keys reefs, the NCRMP dataset was restricted to strata types and depth zones (0–12 m) found within M:IR sites (Table 1). Data collected by the diver pair were averaged at the site level. Standard fish metrics, including relative density, occurrence, and length composition, were evaluated for the selected fish species (Table 2). Computational formulas of standard metrics for a single-stage stratified random sampling design are modified from [@Smith2011] and provided in detail in [@Grove2021] and [@Bryan2016]. Statistical comparisons evaluated differences in density and occurrence estimates inside M:IR areas and outside of M:IR areas (i.e., NCRMP) for each survey year. Statistical significance was accepted at p=0.05. Fish analysis scripts are open source and available through the [NCRMP Fish R package](https://github.com/jeremiaheb/rvc) [@Ganz2015].
+To allow for direct comparisons of fish populations inside the M:IR restoration areas with control, non-restored areas across the Florida Keys reefs, the NCRMP dataset was restricted to strata types and depth zones (0–12 m) found within M:IR sites (Table 1). Data collected by the diver pair were averaged at the site level. Standard fish metrics, including relative density, occurrence, and length composition, were evaluated for a suite of selected individual fish species and for a group of species; difficult to distinguish porgy species were combined for analyses (Table 2). Computational formulas of standard metrics for a single-stage stratified random sampling design are modified from [@Smith2011] and provided in detail in [@Grove2021] and [@Bryan2016]. Statistical comparisons evaluated differences in density and occurrence estimates inside M:IR areas and outside of M:IR areas (i.e., NCRMP) for each survey year. Statistical significance was accepted at p=0.05. Fish analysis scripts are open source and available through the [NCRMP Fish R package](https://github.com/jeremiaheb/rvc) [@Ganz2015].
 
 ### Strata
 
@@ -125,8 +125,7 @@ render_strata_table(MIR_data$sample_data,
 # To add species to the document, add species code here
 target_species <- c(
   "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
-  "CAL CALA", "CAL NODO", "EPI MORI"
-  #, "EPI ITAJ", "LAC MAXI", "OCY CHRY", "CEP CRUE"
+  "CAL CALA", "CAL NODO", "OCY CHRY"
 )
 
 # Build spp_list dynamically with image paths for later use in tables/plots
@@ -143,7 +142,7 @@ spp_list <- MIR_data$taxonomic_data %>%
   )
 
 render_species_table(spp_list, caption = 
-                       "Table 2: Standard fish metrics, including relative density, occurrence, and length composition, were evaluated for a suite of selected individual fish species and for a group of species; difficult to distinguish porgy species were combined for analyses (Table 2).")
+                       "Table 2:  Fish species with representative photos. Difficult to distinguish species were combined for analyses (e.g., saurcereye and knobbed porgies)")
 ```
 
 ```{r, echo = FALSE}
@@ -168,7 +167,9 @@ spp_list_merged <- spp_list %>%
 
 ## Density
 
-Relative density is an index or relative measure of population density that is commonly used in fisheries surveys. Relative density is a comparative measure of density across locations or years, rather than an absolute count, that is impractical due to the scale and complexity of the marine environment. Each survey year, M:IR and NCRMP surveys capture a snapshot of coral reef fish populations. It is common for fish populations to fluctuate annually due to a number of factors including, but not limited to, recruitment success, predator-prey dynamics, fishing pressure, and natural events (e.g., hurricanes, marine heat waves). Whenever possible, resource managers should evaluate multiple years of fish density data to inform and assess management efforts, including the success of habitat restoration. Consistently higher or increasing densities over time within restored areas suggests these areas are providing high-quality habitat for reef fishes.
+Relative density is an index or relative measure of population density that is commonly used in fisheries surveys. Relative density is a comparative measure of density across locations or years, rather than an absolute count, that is impractical due to the scale and complexity of the marine environment. Densities shown here represent NCRMP’s fish survey area (177m2; [@CRCP2024]).
+
+Each survey year, M:IR and NCRMP surveys capture a snapshot of coral reef fish populations. It is common for fish populations to fluctuate annually due to a number of factors including, but not limited to, recruitment success, predator-prey dynamics, fishing pressure, and natural events (e.g., hurricanes, marine heat waves). Whenever possible, resource managers should evaluate multiple years of fish density data to inform and assess management efforts, including the success of habitat restoration. Consistently higher or increasing densities over time within restored areas suggests these areas are providing high-quality habitat for reef fishes.
 
 ```{r, fig.width=12, fig.height=8, echo=FALSE}
 MIR_domain_dens_by_year(MIR_data_merged, spp_list_merged, caption = str_wrap( 
