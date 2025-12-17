@@ -96,9 +96,16 @@ This report shows population-level results of relative density, occurrence, and 
 \newpage
 ### Map of M:IR Sites
 
-```{r, echo=FALSE, results='asis', out.width='80%', fig.align='center'}
+```{r, echo=FALSE, results='asis', out.width='80%', fig.align='center', fig.cap="Map of the Florida Keys showing the sites of Mission: Iconic Reefs"}
 if (knitr::is_html_output()) {
-  cat('<img src="MIRmap.png" alt="Map of M:IR Sites" width="100%" style="margin-top: 1em;">')
+  cat('
+  <figure style="text-align: center;">
+    <img src="MIRmap.png" alt="Map of the Florida Keys showing the sites of Mission: Iconic Reefs" width="100%" style="margin-top: 1em;">
+    <figcaption style="margin-top: 0.5em; font-style: italic;">
+      Map of the Florida Keys showing the sites of Mission: Iconic Reefs
+    </figcaption>
+  </figure>
+  ')
 } else {
   knitr::include_graphics("MIRmap.png")
 }
