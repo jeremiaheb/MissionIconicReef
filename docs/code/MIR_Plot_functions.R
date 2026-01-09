@@ -193,7 +193,7 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
         title = title,
         caption = caption)+
     theme_Publication(base_size = 15) +
-    theme(plot.caption = element_text(hjust = 0.5))+
+    theme(plot.caption = element_text(hjust = 0.5, size = 14))+
     scale_color_manual(name = "Survey Location",
                        values = c("M:IR" = "deepskyblue4", "Outside" = "springgreen3")) +
     theme(legend.text = element_text(size = 12)) +
@@ -267,7 +267,7 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
         title = title,
         caption = caption)+
     theme_Publication(base_size = 15) +
-    theme(plot.caption = element_text(hjust = 0.5))+
+    theme(plot.caption = element_text(hjust = 0.5, size = 14))+
     scale_color_manual(name = "Survey Location",
                        values = c("M:IR" = "deepskyblue4", "Outside" = "springgreen3")) +
     theme(legend.text = element_text(size = 12)) +
@@ -448,7 +448,7 @@ make_lf_legend_labels <- function(mode = c("category", "year", "category_year"))
     ),
     category_year = setNames(
       paste(
-        ifelse(grepl("^M:IR", keys), "MIR", "Outside"),
+        ifelse(grepl("^M:IR", keys), "M:IR", "Outside"),
         sub(".*_", "", keys)
       ),
       keys

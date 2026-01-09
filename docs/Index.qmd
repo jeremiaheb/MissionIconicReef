@@ -174,13 +174,13 @@ spp_list_merged <- spp_list %>%
 
 ## Density
 
-Relative density is an index or relative measure of population density that is commonly used in fisheries surveys. Relative density is a comparative measure of density across locations or years, rather than an absolute count, that is impractical due to the scale and complexity of the marine environment. Densities shown here represent NCRMP’s fish survey area (177m2; [@CRCP2024]).
+Relative density is an index or relative measure of population density that is commonly used in fisheries surveys. Relative density is a comparative measure of density across locations or years, rather than an absolute count that is impractical due to the scale and complexity of the marine environment. Densities shown here represent NCRMP’s fish survey area (177m2; [@CRCP2024]).
 
 Each survey year, M:IR and NCRMP surveys capture a snapshot of coral reef fish populations. It is common for fish populations to fluctuate annually due to a number of factors including, but not limited to, recruitment success, predator-prey dynamics, fishing pressure, and natural events (e.g., hurricanes, marine heat waves). Whenever possible, resource managers should evaluate multiple years of fish density data to inform and assess management efforts, including the success of habitat restoration. Consistently higher or increasing densities over time within restored areas suggests these areas are providing high-quality habitat for reef fishes.
 
 ```{r, fig.width=12, fig.height=8, echo=FALSE}
 MIR_domain_dens_by_year(MIR_data_merged, spp_list_merged, caption = str_wrap( 
-                        "Relative density results are shown as the number of individuals per survey area 177 m² ± standard error\n within the M:IR reef sites (M:IR, green) and outside the restoration areas in the Florida Keys (outside, blue). Significant differences between M:IR and outside densities are denoted with an asterick (*) within each survey year.", width = 100))
+                        "Relative density results are shown as the number of individuals per survey area 177 m² ± standard error\n within the M:IR reef sites (M:IR, green) and outside the restoration areas in the Florida Keys (outside, blue). Significant differences between M:IR and outside densities are denoted with an asterisk (*) within each survey year.", width = 100))
 ```
 
 \newpage
@@ -191,7 +191,7 @@ Monitoring species occurrence, or how often a species is detected in surveys, of
 
 ```{r, fig.width=12, fig.height=8, echo=FALSE}
 MIR_domain_occ_by_year(MIR_data_merged, spp_list_merged, caption = str_wrap(
-                        "Relative occurrence ± standard error is shown within the M:IR reef sites (M:IR, green) and outside the restoration areas in the Florida Keys (outside, blue). Significant differences between M:IR and outside densities are denoted with an asterick (*) within each survey year.", width = 100))
+                        "Relative occurrence ± standard error is shown within the M:IR reef sites (M:IR, green) and outside the restoration areas in the Florida Keys (outside, blue). Significant differences between M:IR and outside densities are denoted with an asterisk (*) within each survey year.", width = 100))
 ```
 
 \newpage
