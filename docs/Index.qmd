@@ -132,7 +132,7 @@ render_strata_table(MIR_data$sample_data,
 # To add species to the document, add species code here
 target_species <- c(
   "HAE FLAV", "SPA VIRI", "SCA GUAC", "STE PLAN",
-  "CAL CALA", "CAL NODO", "OCY CHRY"
+  "CAL CALA", "CAL NODO", "OCY CHRY", "LAC MAXI"
 )
 
 # Build spp_list dynamically with image paths for later use in tables/plots
