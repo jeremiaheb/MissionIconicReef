@@ -121,10 +121,10 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
       col.names = c("Species Code", "Common Name", "Scientific Name", "Photo"),
       booktabs = TRUE,
       escape = FALSE,
-      sanitize.text.function = identity
+      longtable = TRUE
     ) %>%
       kableExtra::kable_styling(
-        latex_options = c("striped", "hold_position"),
+        latex_options = c("striped", "repeat_header"),
         font_size = 9
       ) %>%
       kableExtra::column_spec(3, italic = TRUE)
