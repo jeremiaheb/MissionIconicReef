@@ -121,10 +121,10 @@ render_species_table <- function(spp_list, caption = "Table 2: Fish Species") {
       col.names = c("Species Code", "Common Name", "Scientific Name", "Photo"),
       booktabs = TRUE,
       escape = FALSE,
-      sanitize.text.function = identity
+      longtable = TRUE
     ) %>%
       kableExtra::kable_styling(
-        latex_options = c("striped", "hold_position"),
+        latex_options = c("striped", "repeat_header"),
         font_size = 9
       ) %>%
       kableExtra::column_spec(3, italic = TRUE)
@@ -193,9 +193,9 @@ MIR_domain_dens_by_year <- function(dataset, species = NULL, length = NULL, year
         title = title,
         caption = caption)+
     theme_Publication(base_size = 15) +
-    theme(plot.caption = element_text(hjust = 0.5))+
+    theme(plot.caption = element_text(hjust = 0.5, size = 14))+
     scale_color_manual(name = "Survey Location",
-                       values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
+                       values = c("M:IR" = "deepskyblue4", "Outside" = "springgreen3")) +
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
     ylab("Relative Density (177 ind/m²)") +
@@ -267,9 +267,9 @@ MIR_domain_occ_by_year <- function(dataset, species = NULL, length = NULL, year 
         title = title,
         caption = caption)+
     theme_Publication(base_size = 15) +
-    theme(plot.caption = element_text(hjust = 0.5))+
+    theme(plot.caption = element_text(hjust = 0.5, size = 14))+
     scale_color_manual(name = "Survey Location",
-                       values = c("M:IR" = "springgreen3", "Outside" = "deepskyblue4")) +
+                       values = c("M:IR" = "deepskyblue4", "Outside" = "springgreen3")) +
     theme(legend.text = element_text(size = 12)) +
     xlab("Year") +
     ylab("Relative Occurrence") +
@@ -288,21 +288,22 @@ compute_bin_size <- function(max_size, target_bins = 10) {
   if (is.null(max_size) || is.na(max_size) || max_size <= 0) {
     return(5)
   }
-
-  # Define the only valid bin sizes
   possible_bin_sizes <- c(2, 5, 10)
-
-  # Calculate how many bins each possible size would create
   num_bins <- max_size / possible_bin_sizes
-
-  # Find which bin size gets us closest to the target number of bins
   closest_match_index <- which.min(abs(num_bins - target_bins))
-
-  # Return the bin size that corresponds to the best match
   return(possible_bin_sizes[closest_match_index])
 }
 
+### LF colors. Update with new years
+lf_fill_palette <- c(
+  # MIR (Inside) – blue
+  "M:IR_2022" = "#66a4b9",
+  "M:IR_2024" = "#003e53",
 
+  # Outside – green
+  "open_2022" = "#66e1a3",
+  "open_2024" = "#007b3d"
+)
 # Length frequency for comparing inside to outside
 MIR_LF <- function(df, spp, bin_size, yrs = NULL, spp_name) {
 
@@ -331,12 +332,16 @@ MIR_LF <- function(df, spp, bin_size, yrs = NULL, spp_name) {
     select(YEAR, SPECIES_CD, variable, bin, value) %>%
     pivot_wider(names_from = bin, values_from = value, values_fill = 0) %>%
     pivot_longer(!c(YEAR, SPECIES_CD, variable), names_to = "bin", values_to = "value") %>%
-    mutate(bin = as.numeric(bin))
+    mutate(
+      bin = as.numeric(bin),
+    )
 
   if (all(is.na(y$bin)) || nrow(y) == 0) y$bin <- 0
 
-  plot_bins(x = y, ttle = paste0(spp_name, " ", yrs), bin_size = bin_size)
+  plot_bins(x = y, ttle = paste0(spp_name, " ", yrs), bin_size = bin_size, legend_mode = "category")
 }
+
+
 
 # Length frequency for comparing inside and outside in one year
 MIR_LF_yr <- function(df, spp, bin_size, yrs = NULL, spp_name, category, custom_title = NULL) {
@@ -366,12 +371,15 @@ MIR_LF_yr <- function(df, spp, bin_size, yrs = NULL, spp_name, category, custom_
     select(YEAR, SPECIES_CD, variable, bin, value) %>%
     pivot_wider(names_from = bin, values_from = value, values_fill = 0) %>%
     pivot_longer(!c(YEAR, SPECIES_CD, variable), names_to = "bin", values_to = "value") %>%
-    mutate(bin = as.numeric(bin))
+    mutate(
+      bin = as.numeric(bin),
+      fill_key = paste(variable, YEAR, sep = "_")
+    )
 
   if (all(is.na(y$bin)) || nrow(y) == 0) y$bin <- 0
   if (is.null(custom_title)) custom_title <- paste0(spp_name, " - ", category)
 
-  plot_bins_yr(x = y, ttle = custom_title, bin_size = bin_size, category = category, spp_name = spp_name)
+  plot_bins_yr(x = y, ttle = custom_title, bin_size = bin_size, category = category, spp_name = spp_name, legend_mode = "year")
 }
 
 #Function that outputs plots for showing all relevant LF plots
@@ -397,7 +405,7 @@ render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(20
 
   p2 <- MIR_LF_yr(df = df, spp = SPECIES_CD, bin_size = bin_size, yrs = yrs,
                   spp_name = COMNAME, category = "open",
-                  custom_title = paste(COMNAME, "- Open"))
+                  custom_title = paste(COMNAME, "- Outside"))
 
   #panel of combined plots
   n_per_row <- 2
@@ -422,6 +430,32 @@ render_LF_plots <- function(df, SPECIES_CD, COMNAME, max_size = NULL, yrs = c(20
 
 #Manually adjust the bin size based on species code
 manual_bin <- c("HAE FLAV" = 5, "CEP CRUE" = 5, "CAL CALA" = 5, "CAL NODO" = 5)
+
+## Legend label helper function
+
+make_lf_legend_labels <- function(mode = c("category", "year", "category_year")) {
+  mode <- match.arg(mode)
+  keys <- names(lf_fill_palette)
+  out <- switch(
+    mode,
+    category = setNames(
+      ifelse(grepl("^M:IR", keys), "MIR", "Outside"),
+      keys
+    ),
+    year = setNames(
+      sub(".*_", "", keys),
+      keys
+    ),
+    category_year = setNames(
+      paste(
+        ifelse(grepl("^M:IR", keys), "M:IR", "Outside"),
+        sub(".*_", "", keys)
+      ),
+      keys
+    )
+  )
+  out
+}
 
 
 
